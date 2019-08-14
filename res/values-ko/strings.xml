@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">샘플 소프트웨어</string>
+    <string name="hello_world">Hello World</string>
+    <!-- description -->
+    <string name="app_desc">Hello World Plugin</string>
+    <!-- Button Descriptions-->
+    <string name="largerButton">Enlarge and move the dropdown</string>
+    <string name="smallerButton">Enlarge and move the dropdown</string>
+    <string name="showSeachIcon">Show a custom map widget</string>
+    <string name="fly">Pan to a location on the map</string>
+    <string name="specialWheelMarker">Create a marker with an special radial menu</string>
+    <string name="addAnAircraft">Create an aircraft marker</string>
+    <string name="staleoutMarker">Create a marker that will stale out</string>
+    <string name="addStream">Connect to a content stream</string>
+    <string name="removeStream">Remove the content stream</string>
+    <string name="itemInspect">Inspect the CoT of a map item</string>
+    <string name="customType">Create a custom type of marker</string>
+    <string name="listRoutes">List all of the routes on the map</string>
+    <string name="addXRoute">Add a route to the map</string>
+    <string name="reXRoute">Reroute the route on the map</string>
+    <string name="emergency">Create an emergency 911 alert</string>
+    <string name="no_emergency">Remove the emergency 911 alert</string>
+    <string name="addRectangle">Draw a rectangle on the map</string>
+    <string name="rbcircle">Draw a Range and Bearing circle on the map</string>
+    <string name="externalGps">Simulate an attached GPS</string>
+    <string name="surfaceAtCenter">Display the surface height at the center of the screen</string>
+    <string name="fakeContentProvider">Connect to a fake content provider</string>
+    <string name="pluginNotification">Display an android notification</string>
+    <string name="notificationSpammer">Spam android notifications</string>
+    <string name="cameraLauncher">Launch the camera</string>
+    <string name="imageAttach">Create a marker with an attached image</string>
+    <string name="webView">Demonstrate how to launch a plugin with a web view.</string>
+    <string name="addLayer">Demonstrate how to add a layer.</string>
+    <string name="speechToText">Display a Speech to Text example</string>
+    <string name="hookNavigation">A simple example that hooks into navigation events and toasts events pertaining to navigation.</string>
+    <!-- Text to speech-->
+    <string name="action_settings">Settings</string>
+    <string name="speech_prompt_numeric_grid_zone">Please say the 2 digits of the Grid Zone&#8230;</string>
+    <string name="speech_prompt_alpha_grid_zone">Please say the 1 letter of the Grid Zone&#8230;</string>
+    <string name="speech_prompt_square_id">"Please say the two letter Square Identifier&#8230;</string>
+    <string name="speech_prompt_easting">Please say the five digit easting&#8230;</string>
+    <string name="speech_prompt_northing">Please say the five digit northing&#8230;</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+    <string name="tap_on_mic">Tap on mic to speak</string>
+    <string name="tap_to_speak_mgrs_loc">Tap to state the Coordinates and Marker Type</string>
+    <string name="tap_to_speak_mgrs">Tap to state the MGRS Coordinates</string>
+    <string name="tap_to_speak_marker_type">Tap to state the Marker Type</string>
+    <string name="marker_type">Marker Type</string>
+    <string name="drop_marker">Drop Marker</string>
+    <string name="mgrs">MGRS Coordinates</string>
+    <string name="speech_hint_12345">12345</string>
+    <string name="speech_hint_hostile">Hostile</string>
+    <string name="speech_hint_u">U</string>
+    <string name="speech_hint_47">47</string>
+    <string name="speech_hint_AA">AA</string>
+
+    <string name="example_header">Header Example</string>
+    <string name="example_footer">Footer Example</string>
+    <string name="example_layer_description">This is an example layer.</string>
+
+</resources>

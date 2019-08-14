@@ -1,0 +1,577 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:orientation="vertical" >
+
+   <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:fadeScrollbars="false"
+       android:layout_marginLeft="3dp"
+       android:layout_marginRight="3dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Hello, World"
+             android:id="@+id/textView"
+             android:textSize="20sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Long press a button for a brief descripton"
+             android:id="@+id/longPressTextView"
+             android:textSize="15sp"
+             android:textColor="@android:color/white"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Tap a button for a demonstration"
+             android:id="@+id/clickTextView"
+             android:textSize="15sp"
+             android:textColor="@android:color/white"/>
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:background="@android:color/white"
+             android:layout_margin="3dp">
+
+         </RelativeLayout>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Layout Examples"
+             android:id="@+id/layoutExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+         <Button
+                android:id="@+id/largerButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/darkButton"
+                android:padding="6dp"
+                android:text="Larger"/>
+
+
+         <Button
+             android:id="@+id/smallerButton"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Smaller"/>
+
+         <Button
+             android:id="@+id/showSeachIcon"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Show Search Icon"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Map Movement"
+             android:id="@+id/mapMovement"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/fly"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Fly"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Marker Manipulation"
+             android:id="@+id/markerManipulation"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/specialWheelMarker"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Special Marker"/>
+
+         <Button
+             android:id="@+id/addAnAircraft"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add an Aircraft"/>
+
+         <Button
+             android:id="@+id/addLayer"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add a Layer"/>
+
+         <Button
+             android:id="@+id/staleoutMarker"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Stale out Marker"/>
+
+         <Button
+             android:id="@+id/addStream"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add Streams"/>
+
+         <Button
+             android:id="@+id/removeStream"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Remove Streams"/>
+
+         <Button
+             android:id="@+id/coordinateEntry"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Coordinate Entry"/>
+
+         <Button
+             android:id="@+id/itemInspect"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Map Item (CoT) Inspect"/>
+
+         <Button
+             android:id="@+id/customType"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Custom Type"/>
+
+         <Button
+             android:id="@+id/customMenuDefault"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Custom Menu Default"/>
+
+
+         <Button
+             android:id="@+id/issLocation"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="ISS Location"/>
+
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Route Examples"
+             android:id="@+id/routeExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/listRoutes"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="List Routes"/>
+
+         <Button
+             android:id="@+id/addXRoute"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add Route"/>
+
+         <Button
+             android:id="@+id/reXRoute"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Reroute"/>
+
+         <Button
+             android:id="@+id/dropRoute"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Drop Route Example"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Emergency Examples"
+             android:id="@+id/emergencyExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/emergency"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Emergency"/>
+
+         <Button
+             android:id="@+id/no_emergency"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="No Emergency"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Drawing Examples"
+             android:id="@+id/drawingExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/rbcircle"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Range/Bearing Circle"/>
+
+         <Button
+             android:id="@+id/addRectangle"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add Rectangle"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="GPS Examples"
+             android:id="@+id/gpsExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/externalGps"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Simulate External GPS"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Elevation Examples"
+             android:id="@+id/elevationExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/surfaceAtCenter"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Query surface data"/>
+
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:text="Notification Examples"
+             android:id="@+id/notificationExamples"
+             android:textSize="18sp"
+             android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/fakeContentProvider"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Fake Content Provider"/>
+
+         <Button
+             android:id="@+id/pluginNotification"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Notification with Plugin Icon"/>
+
+         <Button
+             android:id="@+id/notificationSpammer"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Notification Spammer"/>
+
+
+         <Button
+             android:id="@+id/addToolbarItem"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Add Toolbar Item"/>
+
+
+          <Button
+              android:id="@+id/addCountToIcon"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/darkButton"
+              android:padding="6dp"
+              android:text="Add Count to Icon"/>
+
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/imageAndCamera2"
+              android:text="Images and Camera"
+              android:textSize="18sp"
+              android:textColor="@android:color/white"/>
+
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+             android:id="@+id/cameraLauncher"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Launch Camera"/>
+
+         <Button
+             android:id="@+id/imageAttach"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Image Attach"/>
+
+         <Button
+             android:id="@+id/webView"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             style="@style/darkButton"
+             android:padding="6dp"
+             android:text="Web View"/>
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:id="@+id/speechToText_TV"
+              android:text="Speech To Text"
+              android:textSize="18sp"
+              android:textColor="@android:color/white"/>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@android:color/white"
+              android:layout_margin="3dp">
+
+          </RelativeLayout>
+
+          <Button
+              android:id="@+id/speechToText"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/darkButton"
+              android:padding="6dp"
+              android:text="Speech To Text"/>
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Sensors"
+              android:textSize="18sp"
+              android:textColor="@android:color/white"/>
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white"/>
+
+          <Button
+              android:id="@+id/bumpControl"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/darkButton"
+              android:padding="6dp"
+              android:text="Accelerometer Control Test"/>
+
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Navigation"
+              android:textSize="18sp"
+              android:textColor="@android:color/white"/>
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white"/>
+
+          <Button
+              android:id="@+id/btnHookNavigationEvents"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/darkButton"
+              android:padding="6dp"
+              android:text="Hook into navigation events"/>
+
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Lower Level Examples"
+              android:textSize="18sp"
+              android:textColor="@android:color/white"/>
+
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:background="@color/white"/>
+
+          
+          <Button
+              android:id="@+id/getImage"
+              style="@style/darkButton"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:padding="6dp"
+              android:text="Get Image" />
+
+           <LinearLayout
+              android:id="@+id/secondRender"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"/>
+
+
+      </LinearLayout>
+   </ScrollView>
+</LinearLayout>
