@@ -93,7 +93,7 @@ def getVersionCode() {
             if (gitFile.exists()) {
                 def result = exec {
                     executable = 'git'
-                    args = ['rev-list', '--count', 'HEAD']
+                    args = ['show', '-s', '--format=%ct']
                     standardOutput = os
                     ignoreExitValue = true
                 }
