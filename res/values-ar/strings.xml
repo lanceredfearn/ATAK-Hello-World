@@ -59,5 +59,9 @@
     <string name="example_header">Header Example</string>
     <string name="example_footer">Footer Example</string>
     <string name="example_layer_description">This is an example layer.</string>
+    <!-- Speech to Activity-->
+    <string name="speech_prompt_Activity">Say what you want to do</string>
+    <string name="speechToActivity">Tell ATAK what you want to do</string>
+    <string name="activity_not_found">Activity not found</string>
 
 </resources>

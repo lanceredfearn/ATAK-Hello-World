@@ -69,5 +69,9 @@
 
     <string name="full_example_title">Full String Example</string>
     <string name="full_example_summary">Shows a quick example of how to reference both a title and a summary as a String resource</string>
-
+    <!-- Speech to Activity-->
+    <string name="speech_prompt_Activity">Say what you want to do</string>
+    <string name="speechToActivity">Tell ATAK what you want to do</string>
+    <string name="activity_not_found">Activity not found</string>
+    <string name="activity_found">Activity Found</string>
 </resources>

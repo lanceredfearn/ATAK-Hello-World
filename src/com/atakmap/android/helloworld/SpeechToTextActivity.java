@@ -2,7 +2,7 @@
 package com.atakmap.android.helloworld;
 
 /**
- * Created by GoutermoutN on 5/22/2018.
+ *Tutorial Used: https://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
  */
 
 import android.app.Activity;

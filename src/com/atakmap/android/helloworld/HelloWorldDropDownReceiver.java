@@ -19,6 +19,7 @@ import com.atakmap.android.menu.MapMenuReceiver;
 import com.atakmap.android.dropdown.DropDownManager;
 import com.atakmap.android.routes.Route.RouteMethod;
 
+
 import java.util.Timer;
 import java.util.TimerTask;
 import com.atakmap.android.hierarchy.HierarchyListReceiver;
@@ -193,6 +194,15 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         public void onSpeechDataReceived(HashMap<String, String> s) {
             Log.d(TAG, "==========speech======>" + s);
             createSpeechMarker(s);
+
+        }
+    };
+    /*Receives speech from SpeechToActivity and sends it into geocodeSpeech(s)*/
+    private SpeechToActivity.SpeechDataListener sd1a = new SpeechToActivity.SpeechDataListener();
+    private SpeechToActivity.SpeechDataReceiver sdra = new SpeechToActivity.SpeechDataReceiver() {
+        public void onSpeechDataReceived(String s) {
+            Log.d(TAG, "==========speechAddr======>" + s);
+            geocodeSpeech(s);
 
         }
     };
@@ -386,6 +396,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.bumpControl:
                         toast(context.getString(R.string.bumpControl));
+                        break;
+                    case R.id.speechToActivity:
+                        toast(context.getString(R.string.speechToActivity));
                         break;
                     case R.id.btnHookNavigationEvents:
                         toast(context.getString(R.string.hookNavigation));
@@ -987,6 +1000,26 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 Intent intent = new Intent();
                 intent.setClassName("com.atakmap.android.helloworld.plugin",
                         "com.atakmap.android.helloworld.SpeechToTextActivity");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra("EXTRA_MESSAGE", "");
+                parentActivity.startActivityForResult(intent, 0);
+
+            }
+        });
+
+        final Button speechToActivity = (Button) helloView
+                .findViewById(R.id.speechToActivity);
+        speechToActivity.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sd1a.register(getMapView().getContext(), sdra);
+                // this makes use of an activity that cannot know anything
+                // about ATAK.   This is the same problem as we have with
+                // notifications.  They run outside of the current ATAK
+                // classloader paradigm.
+                Intent intent = new Intent();
+                intent.setClassName("com.atakmap.android.helloworld.plugin",
+                        "com.atakmap.android.helloworld.SpeechToActivity");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EXTRA_MESSAGE", "");
                 parentActivity.startActivityForResult(intent, 0);
@@ -2122,5 +2155,14 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             Log.d(TAG, "accuracy for the accelerometer: " + accuracy);
         }
+    }
+    /** Passes items not accessible inside plugin into SpeechNavigator*/
+    public void geocodeSpeech(String s){
+
+        Log.d(TAG, "geocodeSpeech==>"+s);
+        MapView view = MapView.getMapView();
+        SpeechNavigator speechNavigator = new SpeechNavigator(view);
+        speechNavigator.startNavigation(s);
+
     }
 }
