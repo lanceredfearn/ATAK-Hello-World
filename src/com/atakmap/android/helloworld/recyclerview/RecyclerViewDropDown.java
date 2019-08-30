@@ -14,15 +14,20 @@ import com.atakmap.android.maps.MapEvent;
 import com.atakmap.android.maps.MapEventDispatcher;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.MapView;
+import com.atakmap.android.util.time.TimeListener;
+import com.atakmap.android.util.time.TimeViewUpdater;
+import com.atakmap.coremap.maps.time.CoordinatedTime;
 
 /**
  * A drop-down menu that demonstrates use of a RecyclerView to show a list of content
  */
 public class RecyclerViewDropDown extends DropDownReceiver implements
-        MapEventDispatcher.MapEventDispatchListener, View.OnClickListener {
+        MapEventDispatcher.MapEventDispatchListener,
+        View.OnClickListener, TimeListener {
 
     private final MapView _mapView;
     private final Context _plugin;
+    private final TimeViewUpdater _timeUpdater;
     private final View _view;
     private final RecyclerView _rView;
     private final RecyclerViewAdapter _adapter;
@@ -54,8 +59,10 @@ public class RecyclerViewDropDown extends DropDownReceiver implements
                 MapEvent.ITEM_ADDED, this);
         _mapView.getMapEventDispatcher().addMapEventListener(
                 MapEvent.ITEM_REMOVED, this);
-        _mapView.getMapEventDispatcher().addMapEventListener(
-                MapEvent.ITEM_REFRESH, this);
+
+        // Update the time ago for all the users each second
+        _timeUpdater = new TimeViewUpdater(_mapView, 1000);
+        _timeUpdater.register(this);
     }
 
     @Override
@@ -65,8 +72,13 @@ public class RecyclerViewDropDown extends DropDownReceiver implements
                 MapEvent.ITEM_ADDED, this);
         _mapView.getMapEventDispatcher().removeMapEventListener(
                 MapEvent.ITEM_REMOVED, this);
-        _mapView.getMapEventDispatcher().removeMapEventListener(
-                MapEvent.ITEM_REFRESH, this);
+        _timeUpdater.unregister(this);
+    }
+
+    @Override
+    public void onTimeChanged(CoordinatedTime ot, CoordinatedTime nt) {
+        if (isVisible())
+            _adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -107,6 +119,7 @@ public class RecyclerViewDropDown extends DropDownReceiver implements
             _adapter.addItem(item);
         else if (MapEvent.ITEM_REMOVED.equals(type))
             _adapter.removeItem(item);
+
         _mapView.post(new Runnable() {
             @Override
             public void run() {
