@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.atak.plugins.impl.PluginLayoutInflater;
+import com.atakmap.android.helloworld.recyclerview.RecyclerViewDropDown;
 import com.atakmap.android.menu.MapMenuReceiver;
 import com.atakmap.android.dropdown.DropDownManager;
 import com.atakmap.android.routes.Route.RouteMethod;
@@ -41,7 +42,6 @@ import com.atakmap.comms.app.CotPortListActivity;
 import com.atakmap.comms.app.CotPortListActivity.CotPort;
 import com.atakmap.android.chat.ChatManagerMapComponent;
 import com.atakmap.android.contact.PluginConnector;
-import com.atakmap.android.coordoverlay.CoordOverlayMapReceiver;
 import com.atakmap.android.cot.CotMapComponent;
 import com.atakmap.android.user.PlacePointTool;
 import com.atakmap.android.util.AttachmentManager;
@@ -53,7 +53,7 @@ import com.atakmap.coremap.conversions.CoordinateFormat;
 import com.atakmap.coremap.conversions.CoordinateFormatUtilities;
 import com.atakmap.coremap.maps.assets.Icon;
 import com.atakmap.android.icons.UserIcon;
-import com.atakmap.android.util.Rings;
+
 import android.graphics.Bitmap;
 
 import com.atakmap.comms.CommsMapComponent;
@@ -135,8 +135,6 @@ import java.util.*;
 import android.app.Notification;
 import android.app.NotificationManager;
 
-import plugins.host.context.PluginLayoutInflator;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -170,6 +168,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private final Contact helloContact;
     private RouteEventListener routeEventListener = null;
     private HelloWorldMapOverlay mapOverlay;
+    private RecyclerViewDropDown recyclerView;
 
     // inspection map selector
     final InspectionMapItemSelectionTool imis;
@@ -297,7 +296,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     case R.id.largerButton:
                         toast(context.getString(R.string.largerButton));
                         break;
-                    case R.id.showSeachIcon:
+                    case R.id.showSearchIcon:
                         toast(context.getString(R.string.showSeachIcon));
                         break;
                     case R.id.fly:
@@ -515,7 +514,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // The button bellow shows how one might go about
         // setting up a custom map widget.
         final Button showSearchIcon = (Button) helloView
-                .findViewById(R.id.showSeachIcon);
+                .findViewById(R.id.showSearchIcon);
         showSearchIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -526,6 +525,16 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             }
         });
+
+        recyclerView = new RecyclerViewDropDown(getMapView(), pluginContext);
+        helloView.findViewById(R.id.recyclerViewBtn)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setRetain(true);
+                        recyclerView.show();
+                    }
+                });
 
         // The button bellow shows how one might go about
         // programatically add a route to the system. Adding

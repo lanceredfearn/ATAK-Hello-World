@@ -82,12 +82,20 @@
              android:text="Smaller"/>
 
          <Button
-             android:id="@+id/showSeachIcon"
+             android:id="@+id/showSearchIcon"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              style="@style/darkButton"
              android:padding="6dp"
              android:text="Show Search Icon"/>
+
+          <Button
+              android:id="@+id/recyclerViewBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              style="@style/darkButton"
+              android:padding="6dp"
+              android:text="Recycler View"/>
 
          <TextView
              android:layout_width="match_parent"
