@@ -63,5 +63,111 @@
     <string name="speech_prompt_Activity">Say what you want to do</string>
     <string name="speechToActivity">Tell ATAK what you want to do</string>
     <string name="activity_not_found">Activity not found</string>
-
+    <!-- Arrays of words for SpeechToActivity-->
+    <string-array name="drop_a_array">
+        <item>drop a</item>
+        <item>put a</item>
+        <item>place a</item>
+        <item>plot a</item>
+    </string-array>
+    <string-array name="at_array">
+        <item>at</item>
+        <item>by</item>
+        <item>around</item>
+        <item>near</item>
+        <item>on</item>
+    </string-array>
+    <string-array name="quick_array">
+        <item>quick</item>
+        <item>drive</item>
+        <item>go to</item>
+    </string-array>
+    <string-array name="navigate_array">
+        <item>navigate</item>
+        <item>route</item>
+        <item>drive</item>
+        <item>go to</item>
+    </string-array>
+    <string-array name="from_array">
+        <item>from</item>
+    </string-array>
+    <string-array name="bloodhound_array">
+        <item>bloodhound to a</item>
+        <item>bloodhound to</item>
+        <item>bloodhound</item>
+        <item>Bloodhound</item>
+    </string-array>
+    <string-array name="a_array">
+        <item>a</item>
+        <item>an</item>
+        <item>the</item>
+    </string-array>
+    <!-- word arrays for speechPointDropper-->
+    <string-array name="hostile_array">
+        <item>enemy</item>
+        <item>hostile</item>
+        <item>hostile marker</item>
+        <item>hostile point</item>
+        <item>hot style</item>
+        <item>hospital</item>
+        <item>hostiles</item>
+        <item>enemies</item>
+        <item>bad guy</item>
+        <item>bad guys</item>
+    </string-array>
+    <string-array name="unknown_array">
+        <item>unknown marker</item>
+        <item>unknown point</item>
+        <item>unknown</item>
+        <item>known</item>
+    </string-array>
+    <string-array name="friendly_array">
+        <item>friendly</item>
+        <item>friendly marker</item>
+        <item>friendly point</item>
+        <item>friend</item>
+        <item>buddy</item>
+    </string-array>
+    <string-array name="neutral_array">
+        <item>neutral</item>
+        <item>neutral marker</item>
+        <item>neutral point</item>
+        <item>new troll</item>
+    </string-array>
+    <string-array name="spotmap_array">
+        <item>spotmap</item>
+        <item>spot map</item>
+        <item>spot</item>
+        <item>point</item>
+    </string-array>
+    <string-array name="letter_array">
+        <item>B,be</item>
+        <item>B,bee</item>
+        <item>C,sea</item>
+        <item>C,see</item>
+        <item>D,dee</item>
+        <item>J,jay</item>
+        <item>N,end</item>
+        <item>N,and</item>
+        <item>O,oh</item>
+        <item>P,pee</item>
+        <item>Q,queue</item>
+        <item>Q,que</item>
+        <item>R,are</item>
+        <item>T,tea</item>
+        <item>T,tee</item>
+        <item>U,you</item>
+        <item>X,ex</item>
+        <item>Y,why</item>
+    </string-array>
+    <!-- Bloodhound words -->
+    <string-array name="callsign_array">
+        <item>callsign</item>
+        <item>marker</item>
+        <item>user</item>
+    </string-array>
+    <string-array name="route_array">
+        <item>route</item>
+        <item>root</item>
+    </string-array>
 </resources>

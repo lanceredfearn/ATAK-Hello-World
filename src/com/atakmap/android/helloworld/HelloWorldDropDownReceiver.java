@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.atak.plugins.impl.PluginLayoutInflater;
+import com.atakmap.android.brightness.BrightnessComponent;
+import com.atakmap.android.emergency.EmergencyAlertReceiver;
+import com.atakmap.android.emergency.tool.EmergencyConstants;
 import com.atakmap.android.helloworld.recyclerview.RecyclerViewDropDown;
 import com.atakmap.android.menu.MapMenuReceiver;
 import com.atakmap.android.dropdown.DropDownManager;
@@ -22,6 +25,7 @@ import com.atakmap.android.routes.Route.RouteMethod;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
 import com.atakmap.android.hierarchy.HierarchyListReceiver;
 import com.atakmap.android.toolbar.ToolManagerBroadcastReceiver;
 import com.atakmap.android.tools.ActionBarReceiver;
@@ -31,6 +35,8 @@ import com.atakmap.android.tools.menu.ActionClickData;
 import com.atakmap.android.tools.menu.ActionMenuData;
 import com.atakmap.android.util.ATAKUtilities;
 import com.atakmap.android.util.AbstractMapItemSelectionTool;
+import com.atakmap.coremap.cot.event.CotDetail;
+import com.atakmap.coremap.cot.event.CotPoint;
 import com.atakmap.coremap.maps.coords.GeoPointMetaData;
 import com.atakmap.map.layer.opengl.GLLayerFactory;
 import com.atakmap.android.helloworld.samplelayer.*;
@@ -60,8 +66,10 @@ import android.graphics.Bitmap;
 import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.android.drawing.mapItems.DrawingRectangle;
 import com.atakmap.android.importfiles.sort.ImportMissionPackageSort;
+
 import android.os.Bundle;
 import android.os.Environment;
+
 import java.io.File;
 
 import com.atakmap.android.maps.MapEvent;
@@ -76,6 +84,7 @@ import android.widget.Toast;
 
 import com.atakmap.coremap.filesystem.FileSystemUtils;
 import com.javacodegeeks.android.contentprovidertest.BirthProvider;
+
 import android.net.Uri;
 import android.content.ContentValues;
 
@@ -85,9 +94,11 @@ import com.atakmap.android.contact.IpConnector;
 import com.atakmap.android.contact.Contacts;
 import com.atakmap.android.contact.Contact;
 import com.atakmap.android.contact.IndividualContact;
+
 import java.util.List;
 
 import android.os.SystemClock;
+
 import com.atakmap.coremap.maps.time.CoordinatedTime;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.util.Circle;
@@ -131,8 +142,10 @@ import com.atakmap.coremap.log.Log;
 import java.util.UUID;
 
 import android.app.Activity;
+
 import java.lang.*;
 import java.util.*;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 
@@ -141,14 +154,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-/** 
- * The DropDown Receiver should define the visual experience 
- * that a user might have while using this plugin.   At a 
- * basic level, the dropdown can be a view of your own design 
- * that is inflated.   Please be wary of the type of context 
- * you use.   As noted in the Map Component, there are two 
- * contexts - the plugin context and the atak context.   
- * When using the plugin context - you cannot build thing or 
+/**
+ * The DropDown Receiver should define the visual experience
+ * that a user might have while using this plugin.   At a
+ * basic level, the dropdown can be a view of your own design
+ * that is inflated.   Please be wary of the type of context
+ * you use.   As noted in the Map Component, there are two
+ * contexts - the plugin context and the atak context.
+ * When using the plugin context - you cannot build thing or
  * post things to the ui thread.   You use the plugin context
  * to lookup resources contained specifically in the plugin.
  */
@@ -165,6 +178,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     public static final String LAYER_DELETE = "com.atakmap.android.helloworld.LAYER_DELETE";
     public static final String LAYER_VISIBILITY = "com.atakmap.android.helloworld.LAYER_VISIBILITY";
     private final View helloView;
+
     private final Context pluginContext;
     private final Contact helloContact;
     private RouteEventListener routeEventListener = null;
@@ -197,13 +211,73 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         }
     };
-    /*Receives speech from SpeechToActivity and sends it into geocodeSpeech(s)*/
+    /**
+     * This receives the intent from SpeechToActivity.
+     * It uses the info from the activityInfoBundle to decide
+     * what to do next. The bundle always contains a destination
+     * and an activity intent. Other stuff is added on a case-by-case basis.
+     * See SpeechToActivity for more details.
+     *
+     */
     private SpeechToActivity.SpeechDataListener sd1a = new SpeechToActivity.SpeechDataListener();
     private SpeechToActivity.SpeechDataReceiver sdra = new SpeechToActivity.SpeechDataReceiver() {
-        public void onSpeechDataReceived(String s) {
-            Log.d(TAG, "==========speechAddr======>" + s);
-            geocodeSpeech(s);
+        /**
+         * This receives the activityInfoBundle from SpeechToActivity. The switch case decides what classes to call
+         * @param activityInfoBundle - Bundle containing the activity intent, destination, origin, marker type and more.
+         */
+        public void onSpeechDataReceived(Bundle activityInfoBundle) {
+            MapView view = getMapView();
+            switch (activityInfoBundle.getInt(SpeechToActivity.ACTIVITY_INTENT)) {
+                //This case is for drawing and navigating routes
+                case SpeechToActivity.NAVIGATE_INTENT:
+                    new SpeechNavigator(view, activityInfoBundle.getString(SpeechToActivity.DESTINATION), activityInfoBundle.getBoolean(SpeechToActivity.QUICK_INTENT));
+                    break;
+                // This case is for plotting down markers
+                case SpeechToActivity.PLOT_INTENT:
+                    new SpeechPointDropper(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view, pluginContext);
+                    break;
+                //This case is for bloodhounding to markers,routes, or addresses
+                case SpeechToActivity.BLOODHOUND_INTENT:
+                    new SpeechBloodHound(view, activityInfoBundle.getString(SpeechToActivity.DESTINATION), pluginContext);
+                    break;
+                //This case is for launching the 9 Line window on a target
+                case SpeechToActivity.NINE_LINE_INTENT:
+                    new SpeechNineLine(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view, pluginContext);
+                    break;
+                //DOESNT WORK//This case is to open the compass on your self marker
+                case SpeechToActivity.COMPASS_INTENT:
+                    AtakBroadcast.getInstance().sendBroadcast(new Intent().setAction("com.atakmap.android.maps.COMPASS").putExtra("targetUID", view.getSelfMarker().getUID()));
+                    break;
+                //This case toggles the brightness slider
+                case SpeechToActivity.BRIGHTNESS_INTENT:
+                    AtakBroadcast.getInstance().sendBroadcast(new Intent().setAction(BrightnessComponent.SHOW_BRIGHTNESS_TOOL));
+                    break;
+                //this case deletes a shape, marker, or route
+                case SpeechToActivity.DELETE_INTENT:
+                    new SpeechItemRemover(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view, pluginContext);
+                    break;
+                //this case opens the hostiles window from fire tools
+                case SpeechToActivity.SHOW_HOSTILES_INTENT:
+                    AtakBroadcast.getInstance().sendBroadcast(new Intent().setAction("com.atakmap.android.maps.MANAGE_HOSTILES"));
+                    break;
+                //This case opens a markers detail menu
+                case SpeechToActivity.OPEN_DETAILS_INTENT:
+                    new SpeechDetailOpener(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view);
+                    break;
+                //this case starts an emergency
+                case SpeechToActivity.EMERGENCY_INTENT:
+                    EmergencyManager.getInstance().setEmergencyType(EmergencyType.fromDescription(activityInfoBundle.getString(SpeechToActivity.EMERGENCY_TYPE)));
+                    EmergencyManager.getInstance().initiateRepeat(EmergencyType.fromDescription(activityInfoBundle.getString(SpeechToActivity.EMERGENCY_TYPE)), false);
+                    EmergencyManager.getInstance().setEmergencyOn(true);
+                    break;
+                //This case draws a R&B line between 2 map items
+                case SpeechToActivity.LINK_INTENT:
+                    new SpeechLinker(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view, pluginContext);
+                    break;
+                default:
+                    Toast.makeText(getMapView().getContext(), "I did not understand please try again", Toast.LENGTH_SHORT).show();
 
+            }
         }
     };
 
@@ -237,20 +311,20 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             Log.v(TAG,
                     "Received ADD message for "
                             + descBundle
-                                    .getString(CotPort.DESCRIPTION_KEY)
+                            .getString(CotPort.DESCRIPTION_KEY)
                             + ": enabled="
                             + descBundle.getBoolean(
-                                    CotPort.ENABLED_KEY, true)
+                            CotPort.ENABLED_KEY, true)
                             + ": connected="
                             + descBundle.getBoolean(
-                                    CotPort.CONNECTED_KEY, false));
+                            CotPort.CONNECTED_KEY, false));
         }
     };
 
     /**************************** CONSTRUCTOR *****************************/
 
     public HelloWorldDropDownReceiver(final MapView mapView,
-            final Context context, HelloWorldMapOverlay overlay) {
+                                      final Context context, HelloWorldMapOverlay overlay) {
         super(mapView);
         this.pluginContext = context;
         this.mapOverlay = overlay;
@@ -270,13 +344,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             @Override
             protected void enabled(CotPortListActivity.CotPort port,
-                    boolean enabled) {
+                                   boolean enabled) {
                 Log.d(TAG, "stream enabled");
             }
 
             @Override
             protected void connected(CotPortListActivity.CotPort port,
-                    boolean connected) {
+                                     boolean connected) {
                 Log.d(TAG, "stream connected");
             }
 
@@ -515,7 +589,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
                             @Override
                             public void onClick(DialogInterface dialog,
-                                    int which) {
+                                                int which) {
                                 dialog.dismiss();
                             }
                         });
@@ -528,7 +602,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // The button bellow shows how one might go about
         // setting up a custom map widget.
         final Button showSearchIcon = (Button) helloView
-                .findViewById(R.id.showSearchIcon);
+                .findViewById(R.id.showSeachIcon);
         showSearchIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -650,11 +724,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 _route.setVisible(true);
                 _receiver.showRouteDetails(_route, null, true);
                 getMapView().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            DropDownManager.getInstance().hidePane();
-                        }
-                    });
+                    @Override
+                    public void run() {
+                        DropDownManager.getInstance().hidePane();
+                    }
+                });
 
             }
         });
@@ -777,8 +851,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 PlacePointTool.MarkerCreator mc = new PlacePointTool.MarkerCreator(
                         getMapView().getCenterPoint());
                 mc.showCotDetails(false);
-                mc.setArchive(false); // allows for the creation of CoT but marks it so it 
-                                      // does not persist.
+                mc.setArchive(false); // allows for the creation of CoT but marks it so it
+                // does not persist.
                 mc.setType("a-f-A");
                 mc.setCallsign("WT888");
                 final Marker m = mc.placePoint();
@@ -937,7 +1011,6 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                             "com.atakmap.android.helloworld.InspectionMapItemSelectionTool", extras);
 
 
-
                 }
                 itemInspect.setSelected(!val);
             }
@@ -970,22 +1043,22 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 bumpControl.setSelected(!b);
                 SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
-                if (!b) { 
+                if (!b) {
                     TextContainer.getTopInstance()
-                        .displayPrompt("Tilt the phone to perform an action");
-                  
-                    sensorManager.registerListener(HelloWorldDropDownReceiver.this,
-                        sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                        SensorManager.SENSOR_DELAY_NORMAL);
+                            .displayPrompt("Tilt the phone to perform an action");
 
-                } else { 
+                    sensorManager.registerListener(HelloWorldDropDownReceiver.this,
+                            sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                            SensorManager.SENSOR_DELAY_NORMAL);
+
+                } else {
                     sensorManager.unregisterListener(HelloWorldDropDownReceiver.this);
                     TextContainer.getTopInstance().closePrompt();
 
                 }
             }
         });
-               
+
 
         final Button speechToText = (Button) helloView
                 .findViewById(R.id.speechToText);
@@ -1080,7 +1153,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     // previously this was done by intent
                     MapMenuReceiver.getInstance().unregisterMenu("a-f");
                 } else {
-                    // previously this was done by intent and we were unable to get the menu 
+                    // previously this was done by intent and we were unable to get the menu
                     // based on a specific type
                     MapMenuReceiver.getInstance().registerMenu("a-f",
                             MapMenuReceiver.getInstance().lookupMenu("a-h"));
@@ -1178,13 +1251,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             public void onClick(View v) {
                 if (v.isSelected()) {
                     Intent intent = new Intent(ActionBarReceiver.REMOVE_TOOLS);
-                    intent.putExtra("menus", new ActionMenuData[] {
+                    intent.putExtra("menus", new ActionMenuData[]{
                             amd
                     });
                     AtakBroadcast.getInstance().sendBroadcast(intent);
                 } else {
                     Intent intent = new Intent(ActionBarReceiver.ADD_NEW_TOOLS);
-                    intent.putExtra("menus", new ActionMenuData[] {
+                    intent.putExtra("menus", new ActionMenuData[]{
                             amd
                     });
                     AtakBroadcast.getInstance().sendBroadcast(intent);
@@ -1365,7 +1438,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
-                                            int which) {
+                                                        int which) {
                                         GeoPointMetaData gp = coordView
                                                 .getPoint();
                                         if (coordView
@@ -1533,7 +1606,6 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     };
 
 
-
     synchronized public void runSim() {
         Marker item = getMapView().getSelfMarker();
         if (item != null) {
@@ -1660,10 +1732,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         String countNum = "Javacodegeeks: " + count + " records are deleted.";
         toast(countNum);
 
-        String[] names = new String[] {
+        String[] names = new String[]{
                 "Joe", "Bob", "Sam", "Carol"
         };
-        String[] dates = new String[] {
+        String[] dates = new String[]{
                 "01/01/2001", "01/01/2002", "01/01/2003", "01/01/2004"
         };
         for (int i = 0; i < names.length; ++i) {
@@ -1790,7 +1862,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     @Override
     public void onDropDownClose() {
 
-        // make sure that if the Map Item inspector is running 
+        // make sure that if the Map Item inspector is running
         // turn off the map item inspector
         final Button itemInspect = (Button) helloView
                 .findViewById(R.id.itemInspect);
@@ -1836,7 +1908,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     public void createSpeechMarker(HashMap<String, String> s) {
         final GeoPoint mgrsPoint;
         try {
-            String[] coord = new String[] {
+            String[] coord = new String[]{
                     s.get("numericGrid") + s.get("alphaGrid"),
                     s.get("squareID"),
                     s.get("easting"),
@@ -1995,11 +2067,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     }
 
     /**
-     * For plugins to have custom radial menus, we need to set the "menu" metadata to 
-     * contain a well formed xml entry.   This only allows for reskinning of existing 
+     * For plugins to have custom radial menus, we need to set the "menu" metadata to
+     * contain a well formed xml entry.   This only allows for reskinning of existing
      * radial menus with icons and actions that already exist in ATAK.
-     * In order to perform a completely custom radia menu instalation. You need to 
-     * define the radial menu as below and then uuencode the sub elements such as 
+     * In order to perform a completely custom radia menu instalation. You need to
+     * define the radial menu as below and then uuencode the sub elements such as
      * images or instructions.
      */
     private String getMenu() {
@@ -2008,7 +2080,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     /**
      * This is an example of a completely custom xml definition for a menu.   It uses the
-     * plaintext stringified version of the current menu language plus uuencoded images 
+     * plaintext stringified version of the current menu language plus uuencoded images
      * and actions.
      */
     public String getMenu2() {
@@ -2019,6 +2091,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
      * Add a plugin-specific contact to the contacts list
      * This contact fires an intent when a message is sent to it,
      * instead of using the default chat implementation
+     *
      * @param name Contact display name
      * @return New plugin contact
      */
@@ -2057,6 +2130,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     /**
      * Remove a contact from the master contacts list
      * This will remove it from the contacts list drop-down
+     *
      * @param contact Contact object
      */
     public void removeContact(Contact contact) {
@@ -2129,23 +2203,23 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             float x = values[0];
             float y = values[1];
             float z = values[2];
-    
+
             float asr = (x * x + y * y + z * z)
                     / (SensorManager.GRAVITY_EARTH * SensorManager.GRAVITY_EARTH);
-            if (Math.abs(x) > 6 || Math.abs(y) > 6 || Math.abs(z) > 8) 
+            if (Math.abs(x) > 6 || Math.abs(y) > 6 || Math.abs(z) > 8)
                 Log.d(TAG, "gravity=" + SensorManager.GRAVITY_EARTH + " x=" + x + " y=" + y + " z=" + z + " asr=" + asr);
             if (y > 7) {
-                 TextContainer.getTopInstance().displayPrompt("Tilt Right");
-                 Log.d(TAG, "tilt right");
+                TextContainer.getTopInstance().displayPrompt("Tilt Right");
+                Log.d(TAG, "tilt right");
             } else if (y < -7) {
-                 TextContainer.getTopInstance().displayPrompt("Tilt Left");
-                 Log.d(TAG, "tilt left");
+                TextContainer.getTopInstance().displayPrompt("Tilt Left");
+                Log.d(TAG, "tilt left");
             } else if (x > 7) {
-                 TextContainer.getTopInstance().displayPrompt("Tilt Up");
-                 Log.d(TAG, "tilt up");
+                TextContainer.getTopInstance().displayPrompt("Tilt Up");
+                Log.d(TAG, "tilt up");
             } else if (x < -7) {
-                 TextContainer.getTopInstance().displayPrompt("Tilt Down");
-                 Log.d(TAG, "tilt down");
+                TextContainer.getTopInstance().displayPrompt("Tilt Down");
+                Log.d(TAG, "tilt down");
             }
         }
     }
@@ -2155,14 +2229,5 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         if (sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
             Log.d(TAG, "accuracy for the accelerometer: " + accuracy);
         }
-    }
-    /** Passes items not accessible inside plugin into SpeechNavigator*/
-    public void geocodeSpeech(String s){
-
-        Log.d(TAG, "geocodeSpeech==>"+s);
-        MapView view = MapView.getMapView();
-        SpeechNavigator speechNavigator = new SpeechNavigator(view);
-        speechNavigator.startNavigation(s);
-
     }
 }

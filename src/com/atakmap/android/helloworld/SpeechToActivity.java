@@ -1,37 +1,100 @@
 package com.atakmap.android.helloworld;
-//Tutorial Used: https://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
-import android.content.ActivityNotFoundException;
-import android.os.Debug;
 import android.speech.RecognizerIntent;
 import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.coremap.log.Log;
 
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class SpeechToActivity extends Activity {
+    //These are the intents for HelloWorldDropDownReceiver
+    static final int NAVIGATE_INTENT = 0;
+    static final int PLOT_INTENT = 1;
+    static final int BLOODHOUND_INTENT = 2;
+    static final int NINE_LINE_INTENT = 3;
+    static final int COMPASS_INTENT = 4;
+    static final int BRIGHTNESS_INTENT = 5;
+    static final int DELETE_INTENT = 6;
+    static final int LINK_INTENT = 7;
+    static final int SHOW_HOSTILES_INTENT = 8;
+    static final int OPEN_DETAILS_INTENT = 9;
+    static final int EMERGENCY_INTENT = 10;
+    //These are the extra intents
+    static final String QUICK_INTENT = "com.atakmap.android.helloworld.QUICKINTENT";
+    static final String NAVIGATE_SPEECH_INFO = "com.atakmap.android.helloworld.NAVIGATESPEECHINFO";
+    static final String ACTIVITY_INFO_BUNDLE = "com.atakmap.android.helloworld.ACTIVITYINFOBUNDLE";
+    static final String DESTINATION = "com.atakmap.android.helloworld.DESTINATION";
+    static final String EMERGENCY_TYPE = "com.atakmap.android.helloworld.EMERGENCYTYPE";
+    static final String ACTIVITY_INTENT = "com.atakmap.android.helloworld.ACTIVITY";
+
+
     private final int REQ_CODE_SPEECH_INPUT = 100;
-    private static final String NAVIGATE_SPEECH_INFO = "com.atackmap.android.helloworld.NAVIGATESPEECHINFO";
+
     private static final String TAG = "SpeechToActivity";
+    //These are the arrays of synonyms
+    private String[] dropArray;
+    private String[] quickArray;
+    private String[] navArray;
+    private String[] bloodHoundArray;
+    private String[] nineLineArray;
+    private String[] compassArray;
+    private String[] brightnessArray;
+    private String[] deleteArray;
+    private String[] showHostilesArray;
+    private String[] hostileSynonyms;
+    private String[] openArray;
+    private String[] detailsArray;
+    private String[] emergencyArray;
+    private String[] nineOneOneArray;
+    private String[] cancelArray;
+    private String[] ringTheBellArray;
+    private String[] troopsInContactArray;
+    private String[] linkArray;
+
+    private Intent returnIntent;
+    private Bundle activities = new Bundle();
 
 
+    /**
+     * This is what gets triggered when a user hits the Speech to Activity button.
+     *
+     * @param savedInstanceState - What the user was doing before hitting the button.
+     */
     protected void onCreate(Bundle savedInstanceState) {
-        //Debug.waitForDebugger();
         super.onCreate(savedInstanceState);
+        Resources resources = this.getResources();
+        dropArray = resources.getStringArray(R.array.drop_a_array);
+        quickArray = resources.getStringArray(R.array.quick_array);
+        navArray = resources.getStringArray(R.array.navigate_array);
+        bloodHoundArray = resources.getStringArray(R.array.bloodhound_array);
+        nineLineArray = resources.getStringArray(R.array.nine_line_array);
+        compassArray = resources.getStringArray(R.array.compass_array);
+        brightnessArray = resources.getStringArray(R.array.brightness_array);
+        deleteArray = resources.getStringArray(R.array.delete_array);
+        showHostilesArray = resources.getStringArray(R.array.show_hostiles_array);
+        hostileSynonyms = resources.getStringArray(R.array.hostile_array);
+        openArray = resources.getStringArray(R.array.open_array);
+        detailsArray = resources.getStringArray(R.array.details_array);
+        emergencyArray = resources.getStringArray(R.array.emergency_array);
+        nineOneOneArray = resources.getStringArray(R.array.NineOneOne_Array);
+        cancelArray = resources.getStringArray(R.array.Cancel_Array);
+        ringTheBellArray  = resources.getStringArray(R.array.RingTheBell_Array);
+        troopsInContactArray  = resources.getStringArray(R.array.TroopsInContact);
+        linkArray = resources.getStringArray(R.array.link_array);
+
+        returnIntent = new Intent(NAVIGATE_SPEECH_INFO);
         promptSpeechInput();
-
-
     }
 
     /**
@@ -55,7 +118,11 @@ public class SpeechToActivity extends Activity {
     }
 
     /**
-     * Receiving speech input
+     * This is what receives the speech input after the speech to text is finished.
+     *
+     * @param requestCode - The code for speech input
+     * @param resultCode  - If the result is OK then it succeeded
+     * @param data        - The actual text converted from speech
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -69,7 +136,7 @@ public class SpeechToActivity extends Activity {
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
 
-                    activityDecider(result);
+                    activityDecider(result.get(0));
                 } else {
                     finish();
                 }
@@ -81,37 +148,144 @@ public class SpeechToActivity extends Activity {
         }
     }
 
-    //Decides what to do based on first words of speech
-    //Right now it just uses "Navigate to"
-    protected void activityDecider(ArrayList<String> speech) {
-        String[] activity = speech.get(0).split(" ");
-        if (activity[0].equalsIgnoreCase("navigate")) {
-            navigateTo(activity);
-        } else {
-            finish();
+    private void activityDecider(String input) {
+        activities.putString(ACTIVITY_INTENT, "null");
+
+        for (String s : dropArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, PLOT_INTENT);
+                activities.putString(DESTINATION,input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
+                broadcast();
+            }
         }
+        for (String s : navArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, NAVIGATE_INTENT);
 
+                for (String q : quickArray) {
+                    if (input.contains(q))
+                        activities.putBoolean(QUICK_INTENT, true);
+                }
+                activities.putString(DESTINATION,input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
+                broadcast();
+            }
+        }
+        for (String s : bloodHoundArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, BLOODHOUND_INTENT);
+                activities.putString(DESTINATION, input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                broadcast();
+            }
+        }
+        for (String s : nineLineArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, NINE_LINE_INTENT);
+                activities.putString(DESTINATION, input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                broadcast();
+            }
+        }
+        for (String s : compassArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, COMPASS_INTENT);
+                broadcast();
+            }
+        }
+        for (String s : brightnessArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, BRIGHTNESS_INTENT);
+                broadcast();
+            }
+        }
+        for (String s : deleteArray) {
+            if (input.contains(s)) {
+                activities.putInt(ACTIVITY_INTENT, DELETE_INTENT);
+                activities.putString(DESTINATION, input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                broadcast();
+            }
+        }
+        for (String s : showHostilesArray) {
+            for (String h : hostileSynonyms) {
+                if (input.contains(s) && input.contains(h)) {
+                    activities.putInt(ACTIVITY_INTENT, SHOW_HOSTILES_INTENT);
+                    broadcast();
+                }
 
+            }
+        }
+        for (String s : openArray) {
+            if (input.contains(s)) {
+                for (String w : detailsArray) {
+                    if (input.contains(w))
+                        activities.putInt(ACTIVITY_INTENT, OPEN_DETAILS_INTENT);
+                    input = input.replace(w, "").replace(s, "").replace("'s", "").trim();
+                    activities.putString(DESTINATION, input);
+                    returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                    broadcast();
+                }
+            }
+        }
+        for(String s : emergencyArray){
+            if(input.contains(s)){
+                activities.putInt(ACTIVITY_INTENT,EMERGENCY_INTENT);
+                String em= "911 Alert";
+                    for(String w: nineOneOneArray){
+                        if(input.contains(w)){
+                            activities.putString(EMERGENCY_TYPE,em);
+                            returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                            broadcast();
+                        }
+                    }
+                    for(String w: cancelArray){
+                        if(input.contains(w)){
+                            em = "Cancel Alert";
+                            activities.putString(EMERGENCY_TYPE,em);
+                            returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                            broadcast();
+                        }
+                    }
+                    for(String w: ringTheBellArray){
+                        if(input.contains(w)){
+                            em = "Ring The Bell";
+                            activities.putString(EMERGENCY_TYPE,em);
+                            returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                            broadcast();
+                        }
+                    }
+                    for(String w: troopsInContactArray){
+                        if(input.contains(w)){
+                            em = "Troops In Contact";
+                            activities.putString(EMERGENCY_TYPE,em);
+                            returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                            broadcast();
+                        }
+                    }
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                broadcast();
+            }
+        }
+        for(String s : linkArray){
+            if(input.contains(s)){
+                activities.putInt(ACTIVITY_INTENT,LINK_INTENT);
+                activities.putString(DESTINATION,input);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
+                broadcast();
+            }
+        }
+        finish();
     }
 
-    /*Removes "Navigate To" from speech txt, then sends address back to HelloWorldDropDownReceiver*/
-    protected void navigateTo(String[] speechArr) {
-        speechArr[0] = "";
-        speechArr[1] = "";
-        StringBuilder addressBuilder = new StringBuilder();
-        for (String s : speechArr) {
-            addressBuilder.append(s);
-            addressBuilder.append(" ");
-        }
-        String address = addressBuilder.toString();
-        Intent returnIntent = new Intent(NAVIGATE_SPEECH_INFO);
-        returnIntent.putExtra("destination", address);
+    private void broadcast() {
         sendBroadcast(returnIntent);
         finish();
     }
 
     public interface SpeechDataReceiver {
-        void onSpeechDataReceived(String s);
+        void onSpeechDataReceived(Bundle activityInfoBundle);
     }
 
     /**
@@ -135,10 +309,11 @@ public class SpeechToActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             synchronized (this) {
                 try {
-                    String s = intent.getExtras().getString("destination");
-                    if (s != null && sdra != null)
-                        sdra.onSpeechDataReceived(s);
+                    Bundle activityInfoBundle = intent.getBundleExtra(ACTIVITY_INFO_BUNDLE);
+                    if (activityInfoBundle != null && sdra != null)
+                        sdra.onSpeechDataReceived(activityInfoBundle);
                 } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
                 }
                 if (registered) {
                     context.unregisterReceiver(this);
@@ -148,4 +323,3 @@ public class SpeechToActivity extends Activity {
         }
     }
 }
-

@@ -74,4 +74,215 @@
     <string name="speechToActivity">Tell ATAK what you want to do</string>
     <string name="activity_not_found">Activity not found</string>
     <string name="activity_found">Activity Found</string>
+    <string name="confirm_btn">Confirm</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="Remove_item_warn">Are you sure you want to remove </string>
+    <string name="Manual_mode">Please enter target manually</string>
+    <!-- Arrays of words for SpeechToActivity-->
+    <string-array name="drop_a_array">
+        <item>drop a</item>
+        <item>put a</item>
+        <item>place a</item>
+        <item>plot a</item>
+    </string-array>
+    <string-array name="at_array">
+        <item>at</item>
+        <item>by</item>
+        <item>around</item>
+        <item>near</item>
+        <item>on</item>
+    </string-array>
+    <string-array name="quick_array">
+        <item>quick</item>
+        <item>drive</item>
+        <item>go to</item>
+    </string-array>
+    <string-array name="navigate_array">
+        <item>navigate</item>
+        <item>route</item>
+        <item>drive</item>
+        <item>go to</item>
+    </string-array>
+    <string-array name="from_array">
+        <item>from</item>
+    </string-array>
+    <string-array name="bloodhound_array">
+        <item>bloodhound to a</item>
+        <item>bloodhound to</item>
+        <item>bloodhound</item>
+        <item>Bloodhound</item>
+    </string-array>
+    <string-array name="a_array">
+        <item>a</item>
+        <item>an</item>
+        <item>the</item>
+    </string-array>
+    <string-array name="nine_line_array">
+        <item>nine line</item>
+        <item>9 line</item>
+        <item>nine-line</item>
+        <item>9-line</item>
+    </string-array>
+    <string-array name="compass_array">
+        <item>compass</item>
+    </string-array>
+    <string-array name="brightness_array">
+        <item>brightness</item>
+        <item>alpha</item>
+    </string-array>
+    <string-array name="delete_array">
+        <item>delete</item>
+        <item>remove</item>
+        <item>kill</item>
+    </string-array>
+    <string-array name="pairing_array">
+        <item>pair</item>
+        <item>link</item>
+        <item>measure</item>
+    </string-array>
+    <string-array name="open_array">
+        <item>open</item>
+    </string-array>
+    <string-array name="show_hostiles_array">
+        <item>show hostiles</item>
+    </string-array>
+    <string-array name="details_array">
+        <item>details</item>
+        <item>detail menu</item>
+        <item>detail page</item>
+    </string-array>
+    <string-array name="emergency_array">
+        <item>emergency</item>
+        <item>help</item>
+        <item>alert</item>
+    </string-array>
+    <string-array name="link_array">
+        <item>link</item>
+        <item>draw a line between</item>
+        <item>draw a line from</item>
+        <item>measure the distance between</item>
+        <item>measure between</item>
+        <item>measure from</item>
+    </string-array>
+    <string-array name="link_preposition_position1">
+        <item>between</item>
+        <item>from</item>
+        <item>link</item>
+        <item>Link</item>
+    </string-array>
+    <string-array name="link_preposition_position2">
+        <item>and</item>
+        <item>to</item>
+    </string-array>
+    <!-- word arrays for speechPointDropper-->
+    <string-array name="hostile_array">
+        <item>enemy</item>
+        <item>hostile</item>
+        <item>hostile marker</item>
+        <item>hostile point</item>
+        <item>hot style</item>
+        <item>hospital</item>
+        <item>hostiles</item>
+        <item>enemies</item>
+        <item>bad guy</item>
+        <item>bad guys</item>
+    </string-array>
+    <string-array name="unknown_array">
+        <item>unknown marker</item>
+        <item>unknown point</item>
+        <item>unknown</item>
+        <item>known</item>
+    </string-array>
+    <string-array name="friendly_array">
+        <item>friendly</item>
+        <item>friendly marker</item>
+        <item>friendly point</item>
+        <item>friend</item>
+        <item>buddy</item>
+    </string-array>
+    <string-array name="neutral_array">
+        <item>neutral</item>
+        <item>neutral marker</item>
+        <item>neutral point</item>
+        <item>new troll</item>
+    </string-array>
+    <string-array name="spotmap_array">
+        <item>spotmap</item>
+        <item>spot map</item>
+        <item>spot</item>
+        <item>point</item>
+    </string-array>
+    <string-array name="letter_array">
+        <item>B,be</item>
+        <item>B,bee</item>
+        <item>C,sea</item>
+        <item>C,see</item>
+        <item>D,dee</item>
+        <item>J,jay</item>
+        <item>N,end</item>
+        <item>N,and</item>
+        <item>O,oh</item>
+        <item>P,pee</item>
+        <item>Q,queue</item>
+        <item>Q,que</item>
+        <item>R,are</item>
+        <item>T,tea</item>
+        <item>T,tee</item>
+        <item>U,you</item>
+        <item>X,ex</item>
+        <item>Y,why</item>
+    </string-array>
+    <string-array name="word_number_array">
+        <item>1,one</item>
+        <item>2,two</item>
+        <item>3,three</item>
+        <item>4,four</item>
+        <item>4,for</item>
+        <item>5,five</item>
+        <item>6,six</item>
+        <item>7,seven</item>
+        <item>8,eight</item>
+        <item>8,8th</item>
+        <item>9,nine</item>
+        <item>0,zero</item>
+    </string-array>
+    <!-- Item Identification words -->
+    <string-array name="callsign_array">
+        <item>callsign</item>
+        <item>marker</item>
+        <item>user</item>
+    </string-array>
+    <string-array name="route_array">
+        <item>route</item>
+        <item>root</item>
+    </string-array>
+    <string-array name="drawing_objects_array">
+        <item>line</item>
+        <item>circle</item>
+        <item>rectangle</item>
+        <item>polygon</item>
+        <item>polyline</item>
+        <item>telestration</item>
+        <item>shape</item>
+    </string-array>
+    <!-- EMERGENCY type words -->
+    <string-array name="NineOneOne_Array">
+        <item>911</item>
+        <item>nine one one</item>
+        <item>9-1-1</item>
+    </string-array>
+    <string-array name="Cancel_Array">
+        <item>cancel</item>
+        <item>stop</item>
+    </string-array>
+    <string-array name="RingTheBell_Array">
+        <item>ring the bell</item>
+        <item>alert ring the bell</item>
+    </string-array>
+    <string-array name="TroopsInContact">
+        <item>troops in contact</item>
+        <item>under fire</item>
+        <item>under attack</item>
+    </string-array>
+
 </resources>
