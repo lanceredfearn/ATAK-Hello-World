@@ -169,6 +169,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private RouteEventListener routeEventListener = null;
     private HelloWorldMapOverlay mapOverlay;
     private RecyclerViewDropDown recyclerView;
+    private TabViewDropDown tabView;
 
     // inspection map selector
     final InspectionMapItemSelectionTool imis;
@@ -533,6 +534,16 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     public void onClick(View v) {
                         setRetain(true);
                         recyclerView.show();
+                    }
+                });
+
+        tabView = new TabViewDropDown(getMapView(), pluginContext);
+        helloView.findViewById(R.id.tabViewBtn)
+                .setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setRetain(true);
+                        tabView.show();
                     }
                 });
 
