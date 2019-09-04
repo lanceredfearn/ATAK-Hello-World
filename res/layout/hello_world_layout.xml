@@ -82,7 +82,7 @@
                 android:text="Smaller" />
 
             <Button
-                android:id="@+id/showSeachIcon"
+                android:id="@+id/showSearchIcon"
                 style="@style/darkButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

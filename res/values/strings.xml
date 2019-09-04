@@ -251,6 +251,7 @@
         <item>callsign</item>
         <item>marker</item>
         <item>user</item>
+        <item>point</item>
     </string-array>
     <string-array name="route_array">
         <item>route</item>

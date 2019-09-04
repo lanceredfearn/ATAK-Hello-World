@@ -16,8 +16,6 @@ import com.atakmap.android.nineline.NineLineBroadcastReceiver;
  * and drops a 9-line on it. Can probably get rid of this class
  * and just put it all in the HelloWorldDropDownReceiver since
  * it is so small.
- * Could possibly expand to include route details and shapes too.
- * Need to do some research
  */
  class SpeechNineLine extends SpeechActivity {
     private final String TAG = "SPEECH_NINE_LINE";

@@ -17,67 +17,137 @@ import com.atakmap.android.maps.MapView;
 
 /**
  * Takes in user input. Then decides what mapGroup to look in based on target.
- * Then in theory it removes that object.
+ * Then it deletes that object.
  */
- class SpeechItemRemover {
+class SpeechItemRemover extends SpeechActivity {
     private final String TAG = "SPEECH_ITEM_REMOVER";
     private String[] callsignArray;
     private String[] drawingObjectArray;
     private String[] routeArray;
     private String[] wordNumberArray;
-    private Context context;
-    private MapView view;
     private MapGroup mapGroup;
     private MapItem targetItem;
     private String target;
+    private String mapGroupType = "null";
 
-     SpeechItemRemover(String target,final MapView view,final Context context) {
-        this.view = view;
-        this.context = context;
+
+    SpeechItemRemover(String input, final MapView view, final Context context) {
+        super(view, context);
         callsignArray = context.getResources().getStringArray(R.array.callsign_array);
         drawingObjectArray = context.getResources().getStringArray(R.array.drawing_objects_array);
         routeArray = context.getResources().getStringArray(R.array.route_array);
         wordNumberArray = context.getResources().getStringArray(R.array.word_number_array);
-        mapGroupDecider(target);
-        targetGetter(target);
-        broadcast();
+        analyzeSpeech(input);
+        startActivity();
     }
 
     /**
-     * Takes in user input and decides the type of item the user is looking for.
-     *
-     * @param input -
+     * Finds out what type of item the user is trying to remove
+     * based on their speech input
+     * input: Remove shape x| remove callsign x| remove route x|
+     * words used can be found in strings.xml in HelloWorld
+     * @param input - The speech input
      */
-    private void mapGroupDecider(String input) {
-        String mapGroupType = "null";
+    @Override
+    void analyzeSpeech(String input) {
         input = input.replace("call sign", "callsign");
         String[] inputArr = input.split(" ");
-            for (String s : callsignArray) {
-                if (inputArr[1].equalsIgnoreCase(s)) {
-                    mapGroupType = "Cursor on Target";
-                    mapGroup = view.getRootGroup().findMapGroup(mapGroupType);
-                }
+        for (String s : callsignArray) {
+            if (inputArr[1].equalsIgnoreCase(s)) {
+                mapGroupType = "Cursor on Target";
+                mapGroup = getView().getRootGroup().findMapGroup(mapGroupType);
+                targetGetter(input);
             }
-            if(mapGroupType.contentEquals("null")){
-                for (String s : routeArray) {
-                    if (inputArr[1].equalsIgnoreCase(s)) {
-                        mapGroupType = "Route";
-                        mapGroup = view.getRootGroup().findMapGroup(mapGroupType);
-                    }
-                }
-            }
-        if(mapGroupType.contentEquals("null")){
-            for (String s : drawingObjectArray) {
+        }
+        if (mapGroupType.contentEquals("null")) {
+            for (String s : routeArray) {
                 if (inputArr[1].equalsIgnoreCase(s)) {
-                    mapGroupType = "Drawing Objects";
-                    mapGroup = view.getRootGroup().findMapGroup(mapGroupType);
+                    mapGroupType = "Route";
+                    mapGroup = getView().getRootGroup().findMapGroup(mapGroupType);
+                    targetGetter(input);
                 }
             }
         }
-        if (mapGroupType.contentEquals("null"))
-            Toast.makeText(view.getContext(), "Please say the type of item before it's title", Toast.LENGTH_SHORT).show();
+        if (mapGroupType.contentEquals("null")) {
+            for (String s : drawingObjectArray) {
+                if (inputArr[1].equalsIgnoreCase(s)) {
+                    mapGroupType = "Drawing Objects";
+                    mapGroup = getView().getRootGroup().findMapGroup(mapGroupType);
+                    targetGetter(input);
+                }
+            }
+        } else if (mapGroupType.contentEquals("null")) {
+            Toast.makeText(getView().getContext(), "Please say the type of item before it's title", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    /**
+     * Searches the group found in analyze speech
+     * for the title/callsign found in targetGetter
+     * When found, asks user for confirmation.
+     * If not found, asks user for manual input
+     */
+    @Override
+    void startActivity() {
+        {
+            if (mapGroupType.equals("Cursor on Target"))
+                targetItem = mapGroup.deepFindItem("callsign", target);
+            else
+                targetItem = mapGroup.deepFindItem("title", target);
+            if (targetItem != null) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(getView().getContext());
+                alert.setTitle(getPluginContext().getResources().getString(R.string.Remove_item_warn));
+                alert.setNegativeButton(getPluginContext().getResources().getString(R.string.cancel_btn), null);
+                alert.setPositiveButton(getPluginContext().getResources().getString(R.string.confirm_btn), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Long serialID = targetItem.getSerialId();
+                        AtakBroadcast.getInstance().sendBroadcast(new Intent()
+                                .setAction(MapCoreIntentsComponent.ACTION_DELETE_ITEM)
+                                .putExtra("serialId", serialID));
+
+                    }
+                });
+                alert.show();
+
+            } else {
+                final EditText input = new EditText(getView().getContext());
+                input.setSingleLine(true);
+                input.setText(target);
+                input.selectAll();
+                AlertDialog.Builder manualInput = new AlertDialog.Builder(getView().getContext());
+                manualInput.setTitle(getPluginContext().getResources().getString(R.string.Manual_mode));
+                manualInput.setView(input);
+                manualInput.setNegativeButton(getPluginContext().getResources().getString(R.string.cancel_btn), null);
+                manualInput.setPositiveButton(getPluginContext().getResources().getString(R.string.confirm_btn), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String newName = input.getText().toString().trim();
+                        targetItem = mapGroup.deepFindItem("title", newName);
+                        if (targetItem != null) {
+                            Long serialID = targetItem.getSerialId();
+                            AtakBroadcast.getInstance().sendBroadcast(new Intent()
+                                    .setAction(MapCoreIntentsComponent.ACTION_DELETE_ITEM)
+                                    .putExtra("serialId", serialID));
+                        } else {
+                            Toast.makeText(getView().getContext(), "Item not found", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                    }
+                });
+                AlertDialog alert = manualInput.create();
+                alert.show();
+            }
+        }
+    }
+
+    /**
+     * This searches for the name of the target the user wants to remove
+     * Removes "remove x" from input, then builds whats left into the target.
+     *
+     * @param target - Something like "Remove callsign Goose"
+     */
     private void targetGetter(String target) {
         target = target.replace("call sign", "callsign");
         StringBuilder targetBuilder = new StringBuilder();
@@ -93,55 +163,5 @@ import com.atakmap.android.maps.MapView;
             targetBuilder.append(" ");
         }
         this.target = targetBuilder.toString().trim();
-    }
-
-    private void broadcast() {
-        targetItem = mapGroup.deepFindItem("title", target);
-        if (targetItem != null) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
-            alert.setTitle(context.getResources().getString(R.string.Remove_item_warn));
-            alert.setNegativeButton(context.getResources().getString(R.string.cancel_btn), null);
-            alert.setPositiveButton(context.getResources().getString(R.string.confirm_btn), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Long serialID = targetItem.getSerialId();
-                    AtakBroadcast.getInstance().sendBroadcast(new Intent()
-                            .setAction(MapCoreIntentsComponent.ACTION_DELETE_ITEM)
-                            .putExtra("serialId", serialID));
-
-                }
-            });
-            alert.show();
-
-         }else{
-           final EditText input = new EditText(view.getContext());
-            input.setSingleLine(true);
-            input.setText(target);
-            input.selectAll();
-            AlertDialog.Builder manualInput = new AlertDialog.Builder(view.getContext());
-            manualInput.setTitle(context.getResources().getString(R.string.Manual_mode));
-            manualInput.setView(input);
-            manualInput.setNegativeButton(context.getResources().getString(R.string.cancel_btn),null);
-            manualInput.setPositiveButton(context.getResources().getString(R.string.confirm_btn), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                        String newName = input.getText().toString().trim();
-                        targetItem = mapGroup.deepFindItem("title", newName);
-                        if(targetItem!=null){
-                            Long serialID = targetItem.getSerialId();
-                            AtakBroadcast.getInstance().sendBroadcast(new Intent()
-                                    .setAction(MapCoreIntentsComponent.ACTION_DELETE_ITEM)
-                                    .putExtra("serialId", serialID));
-                        }
-                        else{
-                            Toast.makeText(view.getContext(),"Item not found",Toast.LENGTH_SHORT).show();
-                        }
-
-
-                }
-            });
-            AlertDialog alert = manualInput.create();
-            alert.show();
-        }
     }
 }

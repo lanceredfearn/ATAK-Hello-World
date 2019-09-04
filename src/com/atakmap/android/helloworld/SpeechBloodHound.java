@@ -126,6 +126,9 @@ class SpeechBloodHound extends SpeechActivity{
 
     /**
      * unused in this class
+     * can't use because no way to get the geopoint out of
+     * gt.setOnResultListener. The UID needs to be passed in.
+     * Well there might be and I just havent figured it out yet.
      */
     @Override
     void startActivity() {

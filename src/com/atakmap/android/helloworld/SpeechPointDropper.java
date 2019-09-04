@@ -103,6 +103,8 @@ class SpeechPointDropper extends SpeechActivity {
 
     /**
      * Sets the marker type based on what the user spoke.
+     * Currently does: Hostile, Friendly, Unknown, Neutral, SpotMap
+     * Can probably be updated to include more.
      */
     private void markerValidator() {
         Log.d(TAG, "=========INSIDE MARKER VALIDATOR=========");
@@ -147,6 +149,10 @@ class SpeechPointDropper extends SpeechActivity {
 
     /**
      * Takes in raw Coordinate info and figures out what format it is in.
+     * DD, DM, DMS are just more specific versions of the same thing
+     * MGRS and UTM have a 1 char difference. The rawCoordInfo is
+     * temporarily cleaned and it's length is compared.
+     * ADDR is just what is used if none of the other things work.
      */
     private void coordTypeDiscoverer() {
         Log.d(TAG, "==========INSIDE coordTypeDiscoverer===========");
@@ -174,6 +180,7 @@ class SpeechPointDropper extends SpeechActivity {
 
     /**
      * Formats the coords before sending into CoordinateFormatUtilities
+     * The type discovered in coordTypeDiscoverer is what is used here.
      */
     private void coordFormatter() {
         Log.d(TAG, "=========INSIDE OF coordFormatter===========");

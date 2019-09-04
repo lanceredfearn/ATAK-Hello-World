@@ -602,7 +602,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // The button bellow shows how one might go about
         // setting up a custom map widget.
         final Button showSearchIcon = (Button) helloView
-                .findViewById(R.id.showSeachIcon);
+                .findViewById(R.id.showSearchIcon);
         showSearchIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

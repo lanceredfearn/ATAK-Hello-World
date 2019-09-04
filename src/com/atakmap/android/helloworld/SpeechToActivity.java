@@ -17,6 +17,12 @@ import com.atakmap.coremap.log.Log;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/**
+ * Calls upon the android google speech to text function.
+ * Decides what the user wants to do from the speech.
+ * Puts that into an intent and sends it back out
+ * to the HelloWorldDropDownReceiver.
+ */
 public class SpeechToActivity extends Activity {
     //These are the intents for HelloWorldDropDownReceiver
     static final int NAVIGATE_INTENT = 0;
@@ -68,7 +74,7 @@ public class SpeechToActivity extends Activity {
 
     /**
      * This is what gets triggered when a user hits the Speech to Activity button.
-     *
+     * It loads in all the synonym arrays, creates the intent and calls the promptSpeechInput()
      * @param savedInstanceState - What the user was doing before hitting the button.
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +154,13 @@ public class SpeechToActivity extends Activity {
         }
     }
 
+    /**
+     * Decides what activity to do based on the speech.
+     * Looks through arrays of synonyms.
+     * Puts the activity intent into the activities bundle.
+     * activities bundle gets sent back to HelloWorldDropDownReceiver
+     * @param input -The unformatted speech input
+     */
     private void activityDecider(String input) {
         activities.putString(ACTIVITY_INTENT, "null");
 
@@ -279,6 +292,9 @@ public class SpeechToActivity extends Activity {
         finish();
     }
 
+    /**
+     * Sends out returnIntent back to HelloWorldDropDownReceiver
+     */
     private void broadcast() {
         sendBroadcast(returnIntent);
         finish();
@@ -291,6 +307,9 @@ public class SpeechToActivity extends Activity {
     /**
      * Broadcast Receiver that is responsible for getting the data back to the
      * plugin.
+     * Registers receiver with NAVIGATE_SPEECH_INFO. All intents with that action will end up
+     * here(or there in HelloWorldDropDownReceiver rather)
+     *
      */
     static class SpeechDataListener extends BroadcastReceiver {
         private boolean registered = false;
