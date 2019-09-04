@@ -105,7 +105,7 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
                     else{
 
                         Intent startNavIntent = new Intent(RouteMapReceiver.START_NAV)
-                                .putExtra("routeUID",RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED));
+                                .putExtra("routeUID",RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED).getUID());
                         AtakBroadcast.getInstance().sendBroadcast(startNavIntent);
                     }
                 } else {
