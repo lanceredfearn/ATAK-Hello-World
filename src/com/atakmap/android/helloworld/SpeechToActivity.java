@@ -57,7 +57,6 @@ public class SpeechToActivity extends Activity {
     private String[] compassArray;
     private String[] brightnessArray;
     private String[] deleteArray;
-    private String[] showHostilesArray;
     private String[] hostileSynonyms;
     private String[] openArray;
     private String[] detailsArray;
@@ -88,7 +87,6 @@ public class SpeechToActivity extends Activity {
         compassArray = resources.getStringArray(R.array.compass_array);
         brightnessArray = resources.getStringArray(R.array.brightness_array);
         deleteArray = resources.getStringArray(R.array.delete_array);
-        showHostilesArray = resources.getStringArray(R.array.show_hostiles_array);
         hostileSynonyms = resources.getStringArray(R.array.hostile_array);
         openArray = resources.getStringArray(R.array.open_array);
         detailsArray = resources.getStringArray(R.array.details_array);
@@ -204,12 +202,14 @@ public class SpeechToActivity extends Activity {
         for (String s : compassArray) {
             if (input.contains(s)) {
                 activities.putInt(ACTIVITY_INTENT, COMPASS_INTENT);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
                 broadcast();
             }
         }
         for (String s : brightnessArray) {
             if (input.contains(s)) {
                 activities.putInt(ACTIVITY_INTENT, BRIGHTNESS_INTENT);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
                 broadcast();
             }
         }
@@ -221,24 +221,23 @@ public class SpeechToActivity extends Activity {
                 broadcast();
             }
         }
-        for (String s : showHostilesArray) {
-            for (String h : hostileSynonyms) {
-                if (input.contains(s) && input.contains(h)) {
-                    activities.putInt(ACTIVITY_INTENT, SHOW_HOSTILES_INTENT);
-                    broadcast();
-                }
-
-            }
-        }
         for (String s : openArray) {
             if (input.contains(s)) {
                 for (String w : detailsArray) {
-                    if (input.contains(w))
+                    if (input.contains(w)){
                         activities.putInt(ACTIVITY_INTENT, OPEN_DETAILS_INTENT);
-                    input = input.replace(w, "").replace(s, "").replace("'s", "").trim();
-                    activities.putString(DESTINATION, input);
-                    returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
-                    broadcast();
+                        input = input.replace(w, "").replace(s, "").replace("'s", "").trim();
+                        activities.putString(DESTINATION, input);
+                        returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                        broadcast();
+                    }
+                }
+                for (String h : hostileSynonyms) {
+                    if (input.contains(h)) {
+                        activities.putInt(ACTIVITY_INTENT, SHOW_HOSTILES_INTENT);
+                        returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
+                        broadcast();
+                    }
                 }
             }
         }
