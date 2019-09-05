@@ -18,6 +18,7 @@ import com.atakmap.android.brightness.BrightnessComponent;
 import com.atakmap.android.emergency.EmergencyAlertReceiver;
 import com.atakmap.android.emergency.tool.EmergencyConstants;
 import com.atakmap.android.helloworld.recyclerview.RecyclerViewDropDown;
+import com.atakmap.android.image.quickpic.QuickPicReceiver;
 import com.atakmap.android.menu.MapMenuReceiver;
 import com.atakmap.android.dropdown.DropDownManager;
 import com.atakmap.android.routes.Route.RouteMethod;
@@ -217,7 +218,6 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
      * what to do next. The bundle always contains a destination
      * and an activity intent. Other stuff is added on a case-by-case basis.
      * See SpeechToActivity for more details.
-     *
      */
     private SpeechToActivity.SpeechDataListener sd1a = new SpeechToActivity.SpeechDataListener();
     private SpeechToActivity.SpeechDataReceiver sdra = new SpeechToActivity.SpeechDataReceiver() {
@@ -273,6 +273,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 //This case draws a R&B line between 2 map items
                 case SpeechToActivity.LINK_INTENT:
                     new SpeechLinker(activityInfoBundle.getString(SpeechToActivity.DESTINATION), view, pluginContext);
+                    break;
+                //This case launches the camera
+                case SpeechToActivity.CAMERA_INTENT:
+                    AtakBroadcast.getInstance().sendBroadcast(new Intent().setAction(QuickPicReceiver.QUICK_PIC));
                     break;
                 default:
                     Toast.makeText(getMapView().getContext(), "I did not understand please try again", Toast.LENGTH_SHORT).show();
@@ -1059,7 +1063,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-
+/* Functionallity implemented into SpeechToActivity: SpeechPointDropper specifically
         final Button speechToText = (Button) helloView
                 .findViewById(R.id.speechToText);
         speechToText.setOnClickListener(new OnClickListener() {
@@ -1078,7 +1082,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 parentActivity.startActivityForResult(intent, 0);
 
             }
-        });
+        });*/
 
         final Button speechToActivity = (Button) helloView
                 .findViewById(R.id.speechToActivity);
@@ -1517,7 +1521,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         notificationSpammer.setOnLongClickListener(longClickListener);
         cameraLauncher.setOnLongClickListener(longClickListener);
         imageAttach.setOnLongClickListener(longClickListener);
-        speechToText.setOnLongClickListener(longClickListener);
+        //speechToText.setOnLongClickListener(longClickListener);
         btnHookNavigationEvents.setOnLongClickListener(longClickListener);
         issLocation.setOnLongClickListener(longClickListener);
 

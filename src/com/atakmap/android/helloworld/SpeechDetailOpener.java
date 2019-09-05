@@ -32,7 +32,7 @@ class SpeechDetailOpener {
             self = true;
         }
         if (item == null && !self) {
-            Toast.makeText(view.getContext(), "Marker not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), "Callsign not found", Toast.LENGTH_SHORT).show();
         } else if(item!=null){
             detailOpener.putExtra("targetUID", item.getUID());
         }

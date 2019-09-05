@@ -36,7 +36,8 @@ public class SpeechToActivity extends Activity {
     static final int SHOW_HOSTILES_INTENT = 8;
     static final int OPEN_DETAILS_INTENT = 9;
     static final int EMERGENCY_INTENT = 10;
-    //These are the extra intents
+    static final int CAMERA_INTENT = 11;
+    //These are the extra intents for greater details in the activities bundle
     static final String QUICK_INTENT = "com.atakmap.android.helloworld.QUICKINTENT";
     static final String NAVIGATE_SPEECH_INFO = "com.atakmap.android.helloworld.NAVIGATESPEECHINFO";
     static final String ACTIVITY_INFO_BUNDLE = "com.atakmap.android.helloworld.ACTIVITYINFOBUNDLE";
@@ -66,6 +67,7 @@ public class SpeechToActivity extends Activity {
     private String[] ringTheBellArray;
     private String[] troopsInContactArray;
     private String[] linkArray;
+    private String[] cameraArray;
 
     private Intent returnIntent;
     private Bundle activities = new Bundle();
@@ -96,6 +98,7 @@ public class SpeechToActivity extends Activity {
         ringTheBellArray  = resources.getStringArray(R.array.RingTheBell_Array);
         troopsInContactArray  = resources.getStringArray(R.array.TroopsInContact);
         linkArray = resources.getStringArray(R.array.link_array);
+        cameraArray = resources.getStringArray(R.array.camera_array);
 
         returnIntent = new Intent(NAVIGATE_SPEECH_INFO);
         promptSpeechInput();
@@ -218,6 +221,13 @@ public class SpeechToActivity extends Activity {
                 activities.putInt(ACTIVITY_INTENT, DELETE_INTENT);
                 activities.putString(DESTINATION, input);
                 returnIntent.putExtra(ACTIVITY_INFO_BUNDLE, activities);
+                broadcast();
+            }
+        }
+        for(String s : cameraArray){
+            if(input.contains(s)){
+                activities.putInt(ACTIVITY_INTENT,CAMERA_INTENT);
+                returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
                 broadcast();
             }
         }

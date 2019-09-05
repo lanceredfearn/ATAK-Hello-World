@@ -32,6 +32,7 @@
             android:configChanges="orientation">
         </activity>
 
+       <!-- Commented out, functionality absorbed by SpeechToActivity
         <activity
             android:name="com.atakmap.android.helloworld.SpeechToTextActivity"
             android:theme="@style/AppTheme"
@@ -42,7 +43,7 @@
                 <action android:name="com.atakmap.android.helloworld.SpeechToTextActivity"/>
             </intent-filter>
         </activity>
-
+        -->
         <activity
             android:name="com.atakmap.android.helloworld.SpeechToActivity"
             android:theme="@style/Theme.Transparent"

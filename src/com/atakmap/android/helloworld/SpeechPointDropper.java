@@ -119,6 +119,7 @@ class SpeechPointDropper extends SpeechActivity {
         for (String s : neutralArray) {
             if (markerType.equals(s)) {
                 marker.setType("a-n-G");
+                valid = true;
             }
         }
         for (String s : friendlyArray) {

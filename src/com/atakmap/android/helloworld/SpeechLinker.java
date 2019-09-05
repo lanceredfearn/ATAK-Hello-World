@@ -1,6 +1,7 @@
 package com.atakmap.android.helloworld;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.android.maps.MapGroup;
@@ -102,5 +103,12 @@ class SpeechLinker extends SpeechActivity {
             items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
             items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
         }
+        if(items[0]==null&&items[1]==null)
+            Toast.makeText(getView().getContext(),"Items not found",Toast.LENGTH_SHORT).show();
+        else if(items[0]==null)
+            Toast.makeText(getView().getContext(),"Item 1 not found",Toast.LENGTH_SHORT).show();
+        else if(items[1]==null)
+            Toast.makeText(getView().getContext(),"Item 2 not found",Toast.LENGTH_SHORT).show();
+
     }
 }

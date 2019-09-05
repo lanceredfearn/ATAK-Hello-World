@@ -20,7 +20,7 @@ import java.util.UUID;
 
 /**
  * This class broadcasts an intent to the bloodhound in ATAK
- * The idea is to say "Bloodhound to AVALON" or "Bloodhound to route route1"
+ * The idea is to say "Bloodhound to callsign AVALON" or "Bloodhound to route route1"
  * or "Bloodhound to Taco Bell" and have it bloodhound to it.
  */
 class SpeechBloodHound extends SpeechActivity{
@@ -126,16 +126,13 @@ class SpeechBloodHound extends SpeechActivity{
 
     /**
      * unused in this class
-     * can't use because no way to get the geopoint out of
-     * gt.setOnResultListener. The UID needs to be passed in.
-     * Well there might be and I just havent figured it out yet.
      */
     @Override
     void startActivity() {
     }
 
     /**
-     * This gets all the markers on the map and searches for the UID with the callsign
+     * This gets all the markers on the map and searches for the UID with the callsign/title
      *
      * @param title - the marker the user is looking for
      */
@@ -143,12 +140,20 @@ class SpeechBloodHound extends SpeechActivity{
         MapGroup cotGroup = getView().getRootGroup().findMapGroup(mapGroupType);
         if(mapGroupType.equalsIgnoreCase("route")){
             MapItem item = cotGroup.deepFindItem("title", title);
-            Route route = (Route) item;
-            startActivity(route.getMarker(0).getUID());
+            if(item!=null){
+                Route route = (Route) item;
+                startActivity(route.getMarker(0).getUID());
+            }
+            else
+                Toast.makeText(getView().getContext(),"Route not found",Toast.LENGTH_SHORT).show();
+
         }
         else{
             MapItem item = cotGroup.deepFindItem("callsign", title);
+            if(item!=null)
             startActivity(item.getUID());
+            else
+                Toast.makeText(getView().getContext(),"Callsign not found",Toast.LENGTH_SHORT).show();
         }
     }
 

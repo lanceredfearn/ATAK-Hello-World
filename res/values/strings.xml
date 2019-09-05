@@ -116,6 +116,9 @@
         <item>a</item>
         <item>an</item>
         <item>the</item>
+        <item>drop</item>
+        <item>put</item>
+        <item>place</item>
     </string-array>
     <string-array name="nine_line_array">
         <item>nine line</item>
@@ -161,6 +164,15 @@
         <item>measure the distance between</item>
         <item>measure between</item>
         <item>measure from</item>
+    </string-array>
+    <string-array name="camera_array">
+        <item>launch camera</item>
+        <item>take picture</item>
+        <item>QuickPic</item>
+        <item>quick pick</item>
+        <item>quick pic</item>
+        <item>open camera</item>
+        <item>open quick pick</item>
     </string-array>
     <string-array name="link_preposition_position1">
         <item>between</item>
@@ -210,6 +222,7 @@
         <item>spot</item>
         <item>point</item>
     </string-array>
+    <!-- letter,word converter arrays -->
     <string-array name="letter_array">
         <item>B,be</item>
         <item>B,bee</item>
@@ -231,6 +244,7 @@
         <item>Y,why</item>
     </string-array>
     <string-array name="word_number_array">
+        <item>0,zero</item>
         <item>1,one</item>
         <item>2,two</item>
         <item>3,three</item>
@@ -242,7 +256,6 @@
         <item>8,eight</item>
         <item>8,8th</item>
         <item>9,nine</item>
-        <item>0,zero</item>
     </string-array>
     <!-- Item Identification words -->
     <string-array name="callsign_array">

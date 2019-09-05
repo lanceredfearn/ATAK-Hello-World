@@ -2,10 +2,12 @@ package com.atakmap.android.helloworld;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapView;
+import com.atakmap.android.routes.Route;
 import com.atakmap.android.routes.RouteMapReceiver;
 import com.atakmap.android.user.geocode.GeocodingTask;
 import com.atakmap.coremap.log.Log;
@@ -21,6 +23,7 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
     private String geoAddress;
     private GeoPoint destination;
     private GeoPoint source;
+    private Route route;
 
     private String inputDestination;
     private String inputOrigin;
@@ -100,12 +103,17 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
                 if (gt.getPoint() != null) {
                     Log.d(TAG, "Inside GeocodingTask result listener");
                     destination = gt.getPoint();
-                    if(!navFlag)
-                        RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED);
+                    if(!navFlag){
+                       route =  RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED);
+                        route.persist(getView().getMapEventDispatcher(), null,
+                                this.getClass());
+                    }
                     else{
-
+                      route = RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED);
+                        route.persist(getView().getMapEventDispatcher(), null,
+                                this.getClass());
                         Intent startNavIntent = new Intent(RouteMapReceiver.START_NAV)
-                                .putExtra("routeUID",RouteMapReceiver.promptPlanRoute(getView(), source, destination, "Route to " + inputDestination, Color.RED).getUID());
+                                .putExtra("routeUID",route.getUID());
                         AtakBroadcast.getInstance().sendBroadcast(startNavIntent);
                     }
                 } else {
