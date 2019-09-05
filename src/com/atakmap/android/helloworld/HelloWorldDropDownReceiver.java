@@ -250,7 +250,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     break;
                 //This case toggles the brightness slider
                 case SpeechToActivity.BRIGHTNESS_INTENT:
-                    AtakBroadcast.getInstance().sendBroadcast(new Intent().setAction(BrightnessComponent.SHOW_BRIGHTNESS_TOOL));
+                    new SpeechBrightness(view,pluginContext,activityInfoBundle.getString(SpeechToActivity.DESTINATION));
                     break;
                 //this case deletes a shape, marker, or route
                 case SpeechToActivity.DELETE_INTENT:

@@ -212,6 +212,7 @@ public class SpeechToActivity extends Activity {
         for (String s : brightnessArray) {
             if (input.contains(s)) {
                 activities.putInt(ACTIVITY_INTENT, BRIGHTNESS_INTENT);
+                activities.putString(DESTINATION,input);
                 returnIntent.putExtra(ACTIVITY_INFO_BUNDLE,activities);
                 broadcast();
             }

@@ -296,5 +296,26 @@
         <item>under fire</item>
         <item>under attack</item>
     </string-array>
-
+    <!-- Arrays for brightness light levels -->
+    <string-array name="high_array">
+        <item>high</item>
+        <item>bright</item>
+        <item>max</item>
+        <item>hot</item>
+    </string-array>
+    <string-array name="medium_array">
+        <item>medium</item>
+        <item>middle</item>
+        <item>warm</item>
+        <item>average</item>
+        <item>fair</item>
+    </string-array>
+    <string-array name="low_array">
+        <item>low</item>
+        <item>cold</item>
+        <item>dim</item>
+        <item>dark</item>
+        <item>minimum</item>
+        <item>min</item>
+    </string-array>
 </resources>
