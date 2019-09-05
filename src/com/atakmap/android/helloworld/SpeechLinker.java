@@ -90,8 +90,17 @@ class SpeechLinker extends SpeechActivity {
      */
     private void itemFinder(String title1, String title2) {
         MapGroup cotGroup = getView().getRootGroup().findMapGroup("Cursor on Target");
-        items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
-        items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
-
+        if(title1.equalsIgnoreCase("me")||(title1.equalsIgnoreCase("I"))||(title1.equalsIgnoreCase("myself"))){
+            items[0] = getView().getSelfMarker();
+            items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
+        }
+        else if(title2.equalsIgnoreCase("me")||(title2.equalsIgnoreCase("I"))||(title2.equalsIgnoreCase("myself"))){
+            items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
+            items[1] = getView().getSelfMarker();
+        }
+        else{
+            items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
+            items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
+        }
     }
 }

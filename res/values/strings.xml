@@ -142,9 +142,7 @@
     </string-array>
     <string-array name="open_array">
         <item>open</item>
-    </string-array>
-    <string-array name="show_hostiles_array">
-        <item>show hostiles</item>
+        <item>show</item>
     </string-array>
     <string-array name="details_array">
         <item>details</item>

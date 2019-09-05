@@ -37,6 +37,7 @@ class SpeechPointDropper extends SpeechActivity {
 
     private String markerType;
     private String rawCoordInfo;
+
     private PlacePointTool.MarkerCreator marker;
     private CoordinateFormat coordinateFormat;
 
@@ -183,18 +184,28 @@ class SpeechPointDropper extends SpeechActivity {
      * The type discovered in coordTypeDiscoverer is what is used here.
      */
     private void coordFormatter() {
+        GeoPoint convertedCoordinate;
+        String cleanCoordInfo;
         Log.d(TAG, "=========INSIDE OF coordFormatter===========");
         //Possible entrants: North 22 degrees West 14.9139 degrees
         if (coordinateFormat.getDisplayName().contains("D") &&
                 (!coordinateFormat.getDisplayName().equals(CoordinateFormat.ADDRESS.getDisplayName()))) {
-            pointPlotter(CoordinateFormatUtilities.convert(degreeCleaner(rawCoordInfo), coordinateFormat));
+            cleanCoordInfo = degreeCleaner(rawCoordInfo);
+            Log.d(TAG,coordinateFormat.getDisplayName()+" CLEANED===="+cleanCoordInfo);
+            convertedCoordinate = CoordinateFormatUtilities.convert(cleanCoordInfo,coordinateFormat);
+            pointPlotter(convertedCoordinate);
         } else if (coordinateFormat.getDisplayName().equals("MGRS")) {
-
             Log.d(TAG, "====INSIDE MGRS====" + rawCoordInfo);
-            pointPlotter(CoordinateFormatUtilities.convert(mgrsAndUTMCleaner(rawCoordInfo), coordinateFormat));
+            cleanCoordInfo = mgrsAndUTMCleaner(rawCoordInfo);
+            Log.d(TAG,coordinateFormat.getDisplayName()+" CLEANED===="+cleanCoordInfo);
+            convertedCoordinate = CoordinateFormatUtilities.convert(cleanCoordInfo,coordinateFormat);
+            pointPlotter(convertedCoordinate);
         } else if (coordinateFormat.getDisplayName().equals("UTM")) {
             Log.d(TAG, "====INSIDE UTM====");
-            pointPlotter(CoordinateFormatUtilities.convert(mgrsAndUTMCleaner(rawCoordInfo), coordinateFormat));
+            cleanCoordInfo = mgrsAndUTMCleaner(rawCoordInfo);
+            Log.d(TAG,coordinateFormat.getDisplayName()+" CLEANED===="+cleanCoordInfo);
+            convertedCoordinate = CoordinateFormatUtilities.convert(cleanCoordInfo,coordinateFormat);
+            pointPlotter(convertedCoordinate);
         } else {
             GeoBounds gb = getView().getBounds();
             final GeocodingTask gt = new GeocodingTask(getView().getContext(),
@@ -265,7 +276,7 @@ class SpeechPointDropper extends SpeechActivity {
      * "N20deg30'10" W20deg30'10""
      */
     private String degreeCleaner(String dirtyString) {
-        String cleanString = dirtyString;
+        String cleanString = dirtyString.toLowerCase();
         cleanString = cleanString.replace("south ", "S");
         cleanString = cleanString.replace("west ", "W");
         cleanString = cleanString.replace("east ", "E");
