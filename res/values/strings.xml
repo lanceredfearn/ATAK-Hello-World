@@ -159,6 +159,7 @@
     </string-array>
     <string-array name="link_array">
         <item>link</item>
+        <item>range</item>
         <item>draw a line between</item>
         <item>draw a line from</item>
         <item>measure the distance between</item>
@@ -179,6 +180,7 @@
         <item>from</item>
         <item>link</item>
         <item>Link</item>
+        <item>range</item>
     </string-array>
     <string-array name="link_preposition_position2">
         <item>and</item>
@@ -258,6 +260,11 @@
         <item>9,nine</item>
     </string-array>
     <!-- Item Identification words -->
+    <string-array name="self_array">
+        <item>me</item>
+        <item>myself</item>
+        <item>I</item>
+    </string-array>
     <string-array name="callsign_array">
         <item>callsign</item>
         <item>marker</item>

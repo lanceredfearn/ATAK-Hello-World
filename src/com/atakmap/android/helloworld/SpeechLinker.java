@@ -18,10 +18,12 @@ import java.util.UUID;
  */
 class SpeechLinker extends SpeechActivity {
 
-    private PointMapItem[] items= new PointMapItem[2];
+    private PointMapItem[] items = new PointMapItem[2];
+    private String[] selfArray;
 
     SpeechLinker(String input, MapView view, Context pluginContext) {
         super(view, pluginContext);
+        selfArray = getPluginContext().getResources().getStringArray(R.array.self_array);
         analyzeSpeech(input);
         startActivity();
 
@@ -38,8 +40,7 @@ class SpeechLinker extends SpeechActivity {
     void analyzeSpeech(String input) {
         String[] prep1Array = getPluginContext().getResources().getStringArray(R.array.link_preposition_position1);
         String[] prep2Array = getPluginContext().getResources().getStringArray(R.array.link_preposition_position2);
-        String title1;
-        String title2;
+        String[] titles = new String[2];
         int indexPreposition1 = -1, indexPreposition2 = -1;
         String[] inputArr = input.split(" ");
         //First find the indexes of preposition 1 and 2
@@ -60,55 +61,58 @@ class SpeechLinker extends SpeechActivity {
             item1.append(inputArr[i]);
             item1.append(" ");
         }
-        title1 = item1.toString().trim();
-        for (int i = indexPreposition2+1; i < inputArr.length; i++) {
+        titles[0] = item1.toString().trim();
+        for (int i = indexPreposition2 + 1; i < inputArr.length; i++) {
             item2.append(inputArr[i]);
             item2.append(" ");
         }
-        title2 = item2.toString().trim();
-        itemFinder(title1, title2);
+        titles[1] = item2.toString().trim();
+        itemFinder(titles);
     }
 
     /**
-     * Creates the RangeAndBearingMapItem (the line).
+     * Checks to see if the two items are the same.
+     * Then creates the RangeAndBearingMapItem (the line).
      * Then adds it to the Range & Bearing MapGroup.
      */
     @Override
     void startActivity() {
-       RangeAndBearingMapItem rab = RangeAndBearingMapItem.createOrUpdateRABLine(UUID.randomUUID().toString(), items[0], items[1], true);
-       rab.setVisible(true);
-        final MapGroup _linkGroup = getView().getRootGroup().findMapGroup(
-                "Range & Bearing");
-        _linkGroup.addItem(rab);
+        if(items[0]!=null&&items[1]!=null){
+            if(items[0].equals(items[1]))
+                Toast.makeText(getView().getContext(), "Can't link an object to itself", Toast.LENGTH_SHORT).show();
+            else{
+                RangeAndBearingMapItem rab = RangeAndBearingMapItem.createOrUpdateRABLine(UUID.randomUUID().toString(), items[0], items[1], true);
+                rab.setVisible(true);
+                final MapGroup _linkGroup = getView().getRootGroup().findMapGroup(
+                        "Range & Bearing");
+                _linkGroup.addItem(rab);
+            }
+        }
     }
 
     /**
      * Searches through the Cursor on Target MapGroup for both titles.
      * Then they get casted into PointMapItems because thats what the R&BItem creator uses.
      * Link x and y
-     * @param title1 - the x
-     * @param title2 - the y
+     *
+     * @param titles - String array of the x and y terms in "Link x to y"
      */
-    private void itemFinder(String title1, String title2) {
+    private void itemFinder(String[] titles) {
         MapGroup cotGroup = getView().getRootGroup().findMapGroup("Cursor on Target");
-        if(title1.equalsIgnoreCase("me")||(title1.equalsIgnoreCase("I"))||(title1.equalsIgnoreCase("myself"))){
-            items[0] = getView().getSelfMarker();
-            items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
+        for (int i = 0; i < items.length; i++) {
+            for (String s : selfArray) {
+                if (titles[i].contentEquals(s))
+                    items[i] = getView().getSelfMarker();
+            }
+            if (items[i] == null)
+                items[i] = (PointMapItem) cotGroup.deepFindItem("callsign", titles[i]);
         }
-        else if(title2.equalsIgnoreCase("me")||(title2.equalsIgnoreCase("I"))||(title2.equalsIgnoreCase("myself"))){
-            items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
-            items[1] = getView().getSelfMarker();
-        }
-        else{
-            items[0] = (PointMapItem) cotGroup.deepFindItem("callsign", title1);
-            items[1] = (PointMapItem) cotGroup.deepFindItem("callsign", title2);
-        }
-        if(items[0]==null&&items[1]==null)
-            Toast.makeText(getView().getContext(),"Items not found",Toast.LENGTH_SHORT).show();
-        else if(items[0]==null)
-            Toast.makeText(getView().getContext(),"Item 1 not found",Toast.LENGTH_SHORT).show();
-        else if(items[1]==null)
-            Toast.makeText(getView().getContext(),"Item 2 not found",Toast.LENGTH_SHORT).show();
+        if (items[0] == null && items[1] == null)
+            Toast.makeText(getView().getContext(), "Items not found", Toast.LENGTH_SHORT).show();
+        else if (items[0] == null)
+            Toast.makeText(getView().getContext(), "Item 1 not found", Toast.LENGTH_SHORT).show();
+        else if (items[1] == null)
+            Toast.makeText(getView().getContext(), "Item 2 not found", Toast.LENGTH_SHORT).show();
 
     }
 }
