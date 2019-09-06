@@ -58,8 +58,10 @@ dependencies {
         if (sdkdir == null) { 
             throw new StopExecutionException("error reading sdk.path from the local.properties file, this should point to the main.jar file");
         }
-        if (new File(sdkdir).exists())
-           compileOnly fileTree(dir: '${sdkdir}', include: '*.jar')
+        if (new File(sdkdir).exists()) {
+           println("using the local version of ${sdkdir}");
+           compileOnly fileTree(dir: "${sdkdir}", include: '*.jar')
+        }
     }
 
 
