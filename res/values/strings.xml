@@ -80,10 +80,11 @@
     <string name="Manual_mode">Please enter target manually</string>
     <!-- Arrays of words for SpeechToActivity-->
     <string-array name="drop_a_array">
-        <item>drop a</item>
-        <item>put a</item>
-        <item>place a</item>
-        <item>plot a</item>
+        <item>dropped</item>
+        <item>drop</item>
+        <item>put</item>
+        <item>place</item>
+        <item>plot</item>
     </string-array>
     <string-array name="at_array">
         <item>at</item>
@@ -113,12 +114,13 @@
         <item>Bloodhound</item>
     </string-array>
     <string-array name="a_array">
-        <item>a</item>
-        <item>an</item>
-        <item>the</item>
+        <item>dropped</item>
         <item>drop</item>
         <item>put</item>
         <item>place</item>
+        <item>a</item>
+        <item>an</item>
+        <item>the</item>
     </string-array>
     <string-array name="nine_line_array">
         <item>nine line</item>
@@ -187,17 +189,66 @@
         <item>to</item>
     </string-array>
     <!-- word arrays for speechPointDropper-->
+    <string-array name="range_units_array">
+        <item>meters,1</item>
+        <item>m,1</item>
+        <item>kilometers,0</item>
+        <item>km,0</item>
+        <item>feet,4</item>
+        <item>ft,4</item>
+        <item>yards,3</item>
+        <item>miles,2</item>
+        <item>mi,2</item>
+        <item>my,2</item>
+        <item>nautical miles,5</item>
+        <item>nm,5</item>
+    </string-array>
+    <string-array name="range_units_abbreviation">
+        <item>miles,mi</item>
+        <item>mile,mi</item>
+        <item>feet,ft</item>
+        <item>foot,ft</item>
+        <item>yards,yd</item>
+        <item>meters,m</item>
+        <item>meter,m</item>
+        <item>kilometers,km</item>
+        <item>kilometer,km</item>
+        <item>nautical miles, nm</item>
+        <item>nautical mile, nm</item>
+    </string-array>
+    <string-array name="cardinal_array">
+        <item>north,0</item>
+        <item>east,90</item>
+        <item>northeast,45</item>
+        <item>north east,45</item>
+        <item>south,180</item>
+        <item>southeast,135</item>
+        <item>south east,135</item>
+        <item>west,270</item>
+        <item>southwest,225</item>
+        <item>south west,225</item>
+        <item>northwest,315</item>
+        <item>north west,315</item>
+    </string-array>
+    <string-array name="unit_types_array">
+        <item>hostile</item>
+        <item>friendly</item>
+        <item>neutral</item>
+        <item>unknown</item>
+    </string-array>
+    <string-array name="unit_tag_array">
+        <item>marker</item>
+        <item>point</item>
+    </string-array>
     <string-array name="hostile_array">
         <item>enemy</item>
         <item>hostile</item>
         <item>hostile marker</item>
         <item>hostile point</item>
+        <item>hostel</item>
         <item>hot style</item>
         <item>hospital</item>
         <item>hostiles</item>
-        <item>enemies</item>
-        <item>bad guy</item>
-        <item>bad guys</item>
     </string-array>
     <string-array name="unknown_array">
         <item>unknown marker</item>
@@ -249,6 +300,8 @@
         <item>0,zero</item>
         <item>1,one</item>
         <item>2,two</item>
+        <item>2,to</item>
+        <item>2,too</item>
         <item>3,three</item>
         <item>4,four</item>
         <item>4,for</item>

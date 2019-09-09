@@ -65,6 +65,7 @@
     <string name="activity_not_found">Activity not found</string>
     <!-- Arrays of words for SpeechToActivity-->
     <string-array name="drop_a_array">
+        <item>dropped</item>
         <item>drop a</item>
         <item>put a</item>
         <item>place a</item>
@@ -98,6 +99,7 @@
         <item>Bloodhound</item>
     </string-array>
     <string-array name="a_array">
+        <item>dropped</item>
         <item>a</item>
         <item>an</item>
         <item>the</item>
@@ -111,12 +113,10 @@
         <item>hostile</item>
         <item>hostile marker</item>
         <item>hostile point</item>
+        <item>hostel</item>
         <item>hot style</item>
         <item>hospital</item>
         <item>hostiles</item>
-        <item>enemies</item>
-        <item>bad guy</item>
-        <item>bad guys</item>
     </string-array>
     <string-array name="unknown_array">
         <item>unknown marker</item>
