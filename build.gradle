@@ -54,9 +54,9 @@ dependencies {
     } else { 
         def props = new Properties()
         props.load(project.rootProject.file("local.properties").newDataInputStream())
-        def sdkdir = props.getProperty("sdk.path")
+        def sdkdir = props.getProperty("sdk.path").toString()
         if (sdkdir == null) { 
-            throw new StopExecutionException("error reading sdk.path from the local.properties file, this should point to the main.jar file");
+            println("error reading sdk.path from the local.properties file, this should point to the main.jar file");
         }
         if (new File(sdkdir).exists()) {
            println("using the local version of ${sdkdir}");
