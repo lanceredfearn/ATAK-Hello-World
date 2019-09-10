@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Intent;
 import android.widget.Toast;
@@ -15,14 +15,14 @@ import com.atakmap.android.maps.MapView;
  * Uses a different style of speech input, where the used words are stripped out in SpeechToActivity
  * before being sent here.
  */
-class SpeechDetailOpener {
+public class SpeechDetailOpener {
     /**
      * Gets the speech in, finds the map Item based on that. If its not found, it asks for manual input.
      * Broadcasts intent to the CoTInfoBroadcastReceiver
      * @param speech - input from users voice, stripped of open and details, in theory should be a title of an CoT marker.
      * @param view - view from the HelloWorldDropDownReceiver. Needed to get the self marker. And to get the mapGroups
      */
-     SpeechDetailOpener(String speech, MapView view) {
+    public SpeechDetailOpener(String speech, MapView view) {
         MapGroup cotGroup = view.getRootGroup().findMapGroup("Cursor on Target");
         MapItem item = cotGroup.deepFindItem("callsign", speech);
         Intent detailOpener = new Intent().setAction(CoTInfoBroadcastReceiver.COTINFO_DETAILS);

@@ -1,9 +1,10 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.maps.PointMapItem;
@@ -16,12 +17,12 @@ import java.util.UUID;
  * Speech format would be something like : Link x and y
  * You can see the actual words used in ATAK\plugins\helloworld\res\values\strings.xml
  */
-class SpeechLinker extends SpeechActivity {
+public class SpeechLinker extends SpeechActivity {
 
     private PointMapItem[] items = new PointMapItem[2];
     private String[] selfArray;
 
-    SpeechLinker(String input, MapView view, Context pluginContext) {
+    public SpeechLinker(String input, MapView view, Context pluginContext) {
         super(view, pluginContext);
         selfArray = getPluginContext().getResources().getStringArray(R.array.self_array);
         analyzeSpeech(input);

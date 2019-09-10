@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.atakmap.android.brightness.BrightnessComponent;
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapView;
 
@@ -13,7 +14,7 @@ import com.atakmap.android.maps.MapView;
  * Class that takes in speech input: Change brightness to xxx
  * Gets x then sends it to the brightness receiver to change the brightness
  */
- class SpeechBrightness extends SpeechActivity {
+ public class SpeechBrightness extends SpeechActivity {
     private String[] highArray;
     private String[] mediumArray;
     private String[] lowArray;
@@ -21,7 +22,7 @@ import com.atakmap.android.maps.MapView;
     private int value = -1;
     private Intent returnIntent = new Intent();
 
-    SpeechBrightness(MapView view, Context pluginContext, String input) {
+    public SpeechBrightness(MapView view, Context pluginContext, String input) {
         super(view, pluginContext);
         highArray = getPluginContext().getResources().getStringArray(R.array.high_array);
         mediumArray = getPluginContext().getResources().getStringArray(R.array.medium_array);

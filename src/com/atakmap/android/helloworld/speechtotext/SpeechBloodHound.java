@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.atakmap.android.bloodhound.BloodHoundButtonTool;
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapItem;
@@ -23,7 +24,7 @@ import java.util.UUID;
  * The idea is to say "Bloodhound to callsign AVALON" or "Bloodhound to route route1"
  * or "Bloodhound to Taco Bell" and have it bloodhound to it.
  */
-class SpeechBloodHound extends SpeechActivity{
+public class SpeechBloodHound extends SpeechActivity {
     private final String TAG = "SPEECH_BLOODHOUND";
     private String[] routeArray;
     private String[] callsignArray;
@@ -36,7 +37,7 @@ class SpeechBloodHound extends SpeechActivity{
      * @param input - This is where the bloodhound will end. Should contain the name of a route/callsign
      * @param context - This is the plugin context needed so we can load resources.
      */
-    SpeechBloodHound(MapView view, String input, Context context) {
+    public SpeechBloodHound(MapView view, String input, Context context) {
         super(view,context);
         Log.d(TAG, "============INSIDE SPEECH BLOOD HOUND==========");
         routeArray = context.getResources().getStringArray(R.array.route_array);

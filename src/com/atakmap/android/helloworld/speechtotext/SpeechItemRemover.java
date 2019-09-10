@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.atakmap.android.gui.EditText;
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapCoreIntentsComponent;
 import com.atakmap.android.maps.MapGroup;
@@ -19,7 +20,7 @@ import com.atakmap.android.maps.MapView;
  * Takes in user input. Then decides what mapGroup to look in based on target.
  * Then it deletes that object.
  */
-class SpeechItemRemover extends SpeechActivity {
+public class SpeechItemRemover extends SpeechActivity {
     private final String TAG = "SPEECH_ITEM_REMOVER";
     private String[] callsignArray;
     private String[] drawingObjectArray;
@@ -31,7 +32,7 @@ class SpeechItemRemover extends SpeechActivity {
     private String mapGroupType = "null";
 
 
-    SpeechItemRemover(String input, final MapView view, final Context context) {
+    public SpeechItemRemover(String input, final MapView view, final Context context) {
         super(view, context);
         callsignArray = context.getResources().getStringArray(R.array.callsign_array);
         drawingObjectArray = context.getResources().getStringArray(R.array.drawing_objects_array);

@@ -1,9 +1,10 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.user.PlacePointTool;
 import com.atakmap.android.user.geocode.GeocodingTask;
@@ -24,7 +25,7 @@ import java.util.UUID;
  * Should accept MGRS DD DM DMS UTM AND ADDRESSES
  * Valid point types: Hostile, Friendly, Unknown, Neutral
  */
-class SpeechPointDropper extends SpeechActivity {
+public class SpeechPointDropper extends SpeechActivity {
 
     private final String TAG = "SPEECH_POINT_DROPPER";
     private final String CHAR_DEG = "\u00B0"; //The degree symbol
@@ -60,7 +61,7 @@ class SpeechPointDropper extends SpeechActivity {
      * @param context - The plugin context needed to load in resources.
      * @param view    - the mapview passed in from HelloWorldDropReceiver, needed for geobound stuff.
      */
-    SpeechPointDropper(String input, MapView view, Context context) {
+    public  SpeechPointDropper(String input, MapView view, Context context) {
         super(view, context);
         Log.d(TAG, "=======INSIDE SpeechPointDropper Constructor======");
         loadResources();

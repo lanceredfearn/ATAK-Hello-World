@@ -14,10 +14,16 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.atak.plugins.impl.PluginLayoutInflater;
-import com.atakmap.android.brightness.BrightnessComponent;
-import com.atakmap.android.emergency.EmergencyAlertReceiver;
-import com.atakmap.android.emergency.tool.EmergencyConstants;
 import com.atakmap.android.helloworld.recyclerview.RecyclerViewDropDown;
+import com.atakmap.android.helloworld.speechtotext.SpeechBloodHound;
+import com.atakmap.android.helloworld.speechtotext.SpeechBrightness;
+import com.atakmap.android.helloworld.speechtotext.SpeechDetailOpener;
+import com.atakmap.android.helloworld.speechtotext.SpeechItemRemover;
+import com.atakmap.android.helloworld.speechtotext.SpeechLinker;
+import com.atakmap.android.helloworld.speechtotext.SpeechNavigator;
+import com.atakmap.android.helloworld.speechtotext.SpeechNineLine;
+import com.atakmap.android.helloworld.speechtotext.SpeechPointDropper;
+import com.atakmap.android.helloworld.speechtotext.SpeechToActivity;
 import com.atakmap.android.image.quickpic.QuickPicReceiver;
 import com.atakmap.android.menu.MapMenuReceiver;
 import com.atakmap.android.dropdown.DropDownManager;
@@ -36,8 +42,6 @@ import com.atakmap.android.tools.menu.ActionClickData;
 import com.atakmap.android.tools.menu.ActionMenuData;
 import com.atakmap.android.util.ATAKUtilities;
 import com.atakmap.android.util.AbstractMapItemSelectionTool;
-import com.atakmap.coremap.cot.event.CotDetail;
-import com.atakmap.coremap.cot.event.CotPoint;
 import com.atakmap.coremap.maps.coords.GeoPointMetaData;
 import com.atakmap.map.layer.opengl.GLLayerFactory;
 import com.atakmap.android.helloworld.samplelayer.*;
@@ -1096,7 +1100,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 // classloader paradigm.
                 Intent intent = new Intent();
                 intent.setClassName("com.atakmap.android.helloworld.plugin",
-                        "com.atakmap.android.helloworld.SpeechToActivity");
+                        "com.atakmap.android.helloworld.speechtotext.SpeechToActivity");
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("EXTRA_MESSAGE", "");
                 parentActivity.startActivityForResult(intent, 0);

@@ -1,4 +1,4 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -25,25 +25,25 @@ import java.util.Locale;
  */
 public class SpeechToActivity extends Activity {
     //These are the intents for HelloWorldDropDownReceiver
-    static final int NAVIGATE_INTENT = 0;
-    static final int PLOT_INTENT = 1;
-    static final int BLOODHOUND_INTENT = 2;
-    static final int NINE_LINE_INTENT = 3;
-    static final int COMPASS_INTENT = 4;
-    static final int BRIGHTNESS_INTENT = 5;
-    static final int DELETE_INTENT = 6;
-    static final int LINK_INTENT = 7;
-    static final int SHOW_HOSTILES_INTENT = 8;
-    static final int OPEN_DETAILS_INTENT = 9;
-    static final int EMERGENCY_INTENT = 10;
-    static final int CAMERA_INTENT = 11;
+    public static final int NAVIGATE_INTENT = 0;
+    public static final int PLOT_INTENT = 1;
+    public static final int BLOODHOUND_INTENT = 2;
+    public static final int NINE_LINE_INTENT = 3;
+    public static final int COMPASS_INTENT = 4;
+    public static final int BRIGHTNESS_INTENT = 5;
+    public static final int DELETE_INTENT = 6;
+    public static final int LINK_INTENT = 7;
+    public static final int SHOW_HOSTILES_INTENT = 8;
+    public static final int OPEN_DETAILS_INTENT = 9;
+    public static final int EMERGENCY_INTENT = 10;
+    public static final int CAMERA_INTENT = 11;
     //These are the extra intents for greater details in the activities bundle
-    static final String QUICK_INTENT = "com.atakmap.android.helloworld.QUICKINTENT";
-    static final String NAVIGATE_SPEECH_INFO = "com.atakmap.android.helloworld.NAVIGATESPEECHINFO";
-    static final String ACTIVITY_INFO_BUNDLE = "com.atakmap.android.helloworld.ACTIVITYINFOBUNDLE";
-    static final String DESTINATION = "com.atakmap.android.helloworld.DESTINATION";
-    static final String EMERGENCY_TYPE = "com.atakmap.android.helloworld.EMERGENCYTYPE";
-    static final String ACTIVITY_INTENT = "com.atakmap.android.helloworld.ACTIVITY";
+    public static final String QUICK_INTENT = "com.atakmap.android.helloworld.QUICKINTENT";
+    public static final String NAVIGATE_SPEECH_INFO = "com.atakmap.android.helloworld.NAVIGATESPEECHINFO";
+    public static final String ACTIVITY_INFO_BUNDLE = "com.atakmap.android.helloworld.ACTIVITYINFOBUNDLE";
+    public static final String DESTINATION = "com.atakmap.android.helloworld.DESTINATION";
+    public static final String EMERGENCY_TYPE = "com.atakmap.android.helloworld.EMERGENCYTYPE";
+    public static final String ACTIVITY_INTENT = "com.atakmap.android.helloworld.ACTIVITY";
 
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
@@ -321,7 +321,7 @@ public class SpeechToActivity extends Activity {
      * here(or there in HelloWorldDropDownReceiver rather)
      *
      */
-    static class SpeechDataListener extends BroadcastReceiver {
+    public static class SpeechDataListener extends BroadcastReceiver {
         private boolean registered = false;
         private SpeechToActivity.SpeechDataReceiver sdra = null;
 

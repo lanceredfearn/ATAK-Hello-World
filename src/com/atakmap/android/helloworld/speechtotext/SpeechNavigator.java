@@ -1,10 +1,10 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.widget.Toast;
 
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.routes.Route;
@@ -17,7 +17,7 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
 /**
  * Takes in String addresses and starts navigation to them.
  */
- class SpeechNavigator extends SpeechActivity {
+ public class SpeechNavigator extends SpeechActivity {
     private static final String TAG = "SPEECH_NAVIGATOR";
 
     private String geoAddress;
@@ -29,7 +29,7 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
     private String inputOrigin;
     private boolean navFlag;
 
-     SpeechNavigator(MapView mapview, String input, Boolean quickNav) {
+    public SpeechNavigator(MapView mapview, String input, Boolean quickNav) {
          super(mapview,mapview.getContext());
          this.navFlag = quickNav;
          analyzeSpeech(input);

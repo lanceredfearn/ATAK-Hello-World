@@ -45,7 +45,7 @@
         </activity>
         -->
         <activity
-            android:name="com.atakmap.android.helloworld.SpeechToActivity"
+            android:name="com.atakmap.android.helloworld.speechtotext.SpeechToActivity"
             android:theme="@style/Theme.Transparent"
             android:exported="true"
             android:configChanges="orientation"

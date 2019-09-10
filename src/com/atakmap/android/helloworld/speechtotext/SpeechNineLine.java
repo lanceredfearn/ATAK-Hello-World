@@ -1,10 +1,11 @@
-package com.atakmap.android.helloworld;
+package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapItem;
@@ -17,7 +18,7 @@ import com.atakmap.android.nineline.NineLineBroadcastReceiver;
  * and just put it all in the HelloWorldDropDownReceiver since
  * it is so small.
  */
- class SpeechNineLine extends SpeechActivity {
+public class SpeechNineLine extends SpeechActivity {
     private final String TAG = "SPEECH_NINE_LINE";
     private String target;
     private MapGroup cotGroup;
@@ -26,7 +27,7 @@ import com.atakmap.android.nineline.NineLineBroadcastReceiver;
      * @param input - the marker wanted
      * @param view - needed to get map groups
      */
-    SpeechNineLine(String input, MapView view, Context pluginContext){
+    public SpeechNineLine(String input, MapView view, Context pluginContext){
         super(view,pluginContext);
         cotGroup = view.getRootGroup().findMapGroup("Cursor on Target");
         analyzeSpeech(input);
