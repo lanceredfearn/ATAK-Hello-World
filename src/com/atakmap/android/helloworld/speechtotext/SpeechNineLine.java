@@ -10,7 +10,6 @@ import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.MapView;
-import com.atakmap.android.nineline.NineLineBroadcastReceiver;
 
 /**
  * This class simply finds the target described in the speech input
@@ -69,7 +68,7 @@ public class SpeechNineLine extends SpeechActivity {
     void startActivity() {
         MapItem marker = cotGroup.deepFindItem("callsign",target);
         if(marker != null){
-            Intent intent = new Intent().setAction(NineLineBroadcastReceiver.NINE_LINE);
+            Intent intent = new Intent().setAction("com.atakmap.baokit.NINE_LINE");
             intent.putExtra("targetUID",marker.getUID());
             AtakBroadcast.getInstance().sendBroadcast(intent);
         }
