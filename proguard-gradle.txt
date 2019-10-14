@@ -53,6 +53,4 @@
 -keep class * implements transapps.maps.plugin.lifecycle.Lifecycle {
 }
 
--keep class org.simpleframework.** {*;}
--keep class com.atak.maps.daco.xml.** {*;}
-
+-dontwarn android.support.**
