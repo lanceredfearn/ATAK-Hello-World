@@ -21,7 +21,7 @@ def ATAK_VERSION = "3.12.1.MIL";
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.android.tools.build:gradle:3.5.1'
     }
  }
 
