@@ -112,13 +112,6 @@
              android:id="@+id/mapMovement"
              android:textSize="18sp"
              android:textColor="@android:color/white"/>
-            <TextView
-                android:id="@+id/mapMovement"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Map Movement"
-                android:textColor="@android:color/white"
-                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
