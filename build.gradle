@@ -42,9 +42,9 @@ apply plugin: 'idea'
 
 dependencies {
 
-    if (new File("$project.projectDir/../../ATAK/build/libs/main.jar").exists()) { 
+    if (new File("$project.projectDir/../../ATAK/app/build/libs/main.jar").exists()) { 
         println("using the autobuilder version of main.jar");
-        compileOnly fileTree(dir: '../../ATAK/build/libs', include: '*.jar')
+        compileOnly fileTree(dir: '../../ATAK/app/build/libs', include: '*.jar')
     } else if (new File("$project.projectDir/../../main.jar").exists()) { 
         println("using the sdk version of main.jar");
        compileOnly fileTree(dir: '../..', include: '*.jar')
@@ -183,9 +183,9 @@ android {
 
         release {
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION ];
-            def f = new File("$project.projectDir/../../ATAK/build/outputs/mapping/release/mapping.txt");
+            def f = new File("$project.projectDir/../../ATAK/app/build/outputs/mapping/release/mapping.txt");
             if (f.exists()) {
-                System.setProperty("atak.proguard.mapping", "../../ATAK/build/outputs/mapping/release/mapping.txt")
+                System.setProperty("atak.proguard.mapping", "../../ATAK/app/build/outputs/mapping/release/mapping.txt")
             } else {
                 println("no mapping file exists");
                 file("$project.projectDir/build").mkdir()
