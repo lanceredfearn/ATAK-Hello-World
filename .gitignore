@@ -69,3 +69,6 @@ freeline_project_description.json
 VNS.iml
 .idea/
 armessagebus-release.aar.orig
+.orig
+.rej
+.swp
