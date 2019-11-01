@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 def PLUGIN_VERSION = "1.0";
-def ATAK_VERSION = "3.13.0.MIL";
+def ATAK_VERSION = "3.13.0";
 
 
  buildscript {
@@ -178,11 +178,9 @@ android {
     buildTypes {
         debug {
             debuggable true
-            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION ];
         }
 
         release {
-            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION ];
             def f = new File("$project.projectDir/../../ATAK/app/build/outputs/mapping/release/mapping.txt");
             if (f.exists()) {
                 System.setProperty("atak.proguard.mapping", "../../ATAK/app/build/outputs/mapping/release/mapping.txt")
@@ -239,6 +237,44 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+    }
+
+    flavorDimensions "application"
+
+    productFlavors {
+        mil {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".MIL"]
+        }
+        civ {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".CIV"]
+        }
+        fvey {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".FVEY"]
+        }
+        aus {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".AUS"]
+        }
+        nzl {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".NZL"]
+        }
+        gbr {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".GBR"]
+        }
+        can {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".CAN"]
+        }
+        intl {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".INTL"]
+        }
+
     }
 
 
