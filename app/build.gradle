@@ -174,7 +174,7 @@ android {
 
     sourceSets {
         main {
-            setProperty("archivesBaseName", "ATAK-Plugin-" + project.name + "-" + ATAK_VERSION + "-" + getVersionName())
+            setProperty("archivesBaseName", "ATAK-Plugin-" + rootProject.name + "-" + ATAK_VERSION + "-" + getVersionName())
             defaultConfig.versionCode = getVersionCode()
             defaultConfig.versionName = PLUGIN_VERSION + " (" + getVersionName() + ") - [" + ATAK_VERSION + "]"
         }
