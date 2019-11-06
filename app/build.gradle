@@ -158,7 +158,7 @@ android {
             } else {
                 println("no mapping file exists");
                 file("$project.projectDir/build").mkdir()
-                file("$project.projectD./build/blank-mapping.txt").text="";
+                file("$project.projectDir/build/blank-mapping.txt").text="";
                 System.setProperty("atak.proguard.mapping", "./build/blank-mapping.txt")
             }
 
