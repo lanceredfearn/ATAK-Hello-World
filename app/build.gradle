@@ -158,8 +158,8 @@ android {
             } else {
                 println("no mapping file exists");
                 file("$project.projectDir/build").mkdir()
-                file("$project.projectDir/build/blank-mapping.txt").text="";
-                System.setProperty("atak.proguard.mapping", "../build/blank-mapping.txt")
+                file("$project.projectD./build/blank-mapping.txt").text="";
+                System.setProperty("atak.proguard.mapping", "./build/blank-mapping.txt")
             }
 
             minifyEnabled true
@@ -174,7 +174,7 @@ android {
 
     sourceSets {
         main {
-            setProperty("archivesBaseName", "ATAK-Plugin-" + rootProject.name + "-" + ATAK_VERSION + "-" + getVersionName())
+            setProperty("archivesBaseName", "ATAK-Plugin-" + rootProject.name + "-" + PLUGIN_VERSION + "-" + getVersionName() + "-" + ATAK_VERSION)
             defaultConfig.versionCode = getVersionCode()
             defaultConfig.versionName = PLUGIN_VERSION + " (" + getVersionName() + ") - [" + ATAK_VERSION + "]"
         }
