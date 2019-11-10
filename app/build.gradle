@@ -156,7 +156,7 @@ android {
             if (f.exists()) {
                 System.setProperty("atak.proguard.mapping", "../../../ATAK/app/build/outputs/mapping/release/mapping.txt")
             } else {
-                println("no mapping file exists");
+                println("WARNING: no mapping file exists, obfuscating just the plugin to work with the development core");
                 file("$project.projectDir/build").mkdir()
                 file("$project.projectDir/build/blank-mapping.txt").text="";
                 System.setProperty("atak.proguard.mapping", "./build/blank-mapping.txt")
