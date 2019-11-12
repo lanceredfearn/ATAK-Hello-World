@@ -2175,6 +2175,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     jr.endObject();
                 } else if (name.equals("timestamp")) {
                     jr.skipValue();
+                } else if (name.equals("message")) {
+                    jr.skipValue();
                 }
             }
             jr.endObject();

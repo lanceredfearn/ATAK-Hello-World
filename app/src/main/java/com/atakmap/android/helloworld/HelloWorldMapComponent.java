@@ -18,6 +18,8 @@ import com.atakmap.android.maps.MapEvent;
 import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
+import com.atakmap.android.menu.MapMenuWidget;
+import com.atakmap.android.menu.MenuMapComponent;
 import com.atakmap.android.munitions.DangerCloseReceiver;
 import com.atakmap.android.user.geocode.GeocodeManager;
 import com.atakmap.coremap.cot.event.CotDetail;
@@ -162,6 +164,8 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         this.dropDown = new HelloWorldDropDownReceiver(view, context,
                 this.mapOverlay);
 
+
+
         // We use documented intent filters within the system
         // in order to automatically document all of the 
         // intents and their associated purposes.
@@ -248,7 +252,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         // example for how to register a radio with the radio map control.
 
-        LayoutInflater inflater = (LayoutInflater) context
+        LayoutInflater inflater = (LayoutInflater) pluginContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         genericRadio = inflater.inflate(R.layout.radio_item_generic, null);
 
