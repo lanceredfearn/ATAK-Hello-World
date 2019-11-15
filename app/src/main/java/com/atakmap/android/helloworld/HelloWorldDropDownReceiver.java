@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.atakmap.android.video.StreamManagementUtils;
+import com.atakmap.android.video.ConnectionEntry;
 import com.atak.plugins.impl.PluginLayoutInflater;
 import com.atakmap.android.helloworld.recyclerview.RecyclerViewDropDown;
 import com.atakmap.android.helloworld.speechtotext.SpeechBloodHound;
@@ -460,6 +462,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.notificationSpammer:
                         toast(context.getString(R.string.notificationSpammer));
+                        break;
+                    case R.id.videoLauncher:
+                        toast(context.getString(R.string.videoLauncher));
                         break;
                     case R.id.addToolbarItem:
                         toast(context.getString(R.string.addToolbarItem));
@@ -1233,6 +1238,21 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 for (int i = 0; i < 40; ++i) {
                     //spamNotification(i+ indx);
                 }
+            }
+        });
+
+        final Button videoLauncher = (Button) helloView
+                .findViewById(R.id.videoLauncher);
+        videoLauncher.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               ConnectionEntry ce = StreamManagementUtils
+                    .createConnectionEntryFromUrl("big buck bunny", "rtsp://3.84.6.190:554/vod/mp4:BigBuckBunny_115k.mov");
+               Intent i = new Intent("com.atakmap.maps.video.DISPLAY");
+               i.putExtra("CONNECTION_ENTRY", ce);
+               i.putExtra("layers", new String[] { "test-layer" });
+               i.putExtra("cancelClose", "true");
+               AtakBroadcast.getInstance().sendBroadcast(i);       
             }
         });
 

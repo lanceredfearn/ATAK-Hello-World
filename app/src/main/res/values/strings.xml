@@ -30,6 +30,7 @@
     <string name="surfaceAtCenter">Display the surface height at the center of the screen</string>
     <string name="fakeContentProvider">Connect to a fake content provider</string>
     <string name="pluginNotification">Display an android notification</string>
+    <string name="videoLauncher">Example of how to display a video with an overlay layer</string>
     <string name="notificationSpammer">Spam android notifications</string>
     <string name="addToolbarItem">Sample of how to add / remove a toolbar item</string>
     <string name="cameraLauncher">Launch the camera</string>
