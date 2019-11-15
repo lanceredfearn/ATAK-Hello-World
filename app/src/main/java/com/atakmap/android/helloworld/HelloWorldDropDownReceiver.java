@@ -1247,7 +1247,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             @Override
             public void onClick(View v) {
                ConnectionEntry ce = StreamManagementUtils
-                    .createConnectionEntryFromUrl("big buck bunny", "rtsp://3.84.6.190:554/vod/mp4:BigBuckBunny_115k.mov");
+                    .createConnectionEntryFromUrl("big buck bunny", "rtsp://3.84.6.190/vod/mp4:BigBuckBunny_115k.mov");
                Intent i = new Intent("com.atakmap.maps.video.DISPLAY");
                i.putExtra("CONNECTION_ENTRY", ce);
                i.putExtra("layers", new String[] { "test-layer" });
