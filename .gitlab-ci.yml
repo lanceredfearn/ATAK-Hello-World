@@ -2,7 +2,7 @@
 # TODO - create an image that is the openjdk image + the SDK and NDK setup to 
 #        make initialization faster   shb 10/19/2019
 
-image: openjdk:9-jdk
+image: openjdk:11-jdk
 
 variables:
   ANDROID_COMPILE_SDK: "21"
@@ -32,6 +32,8 @@ before_script:
   #- cd atak-mil
   #- GIT_TRACE=1 git lfs pull -I "*main.jar"
   #- popd
+
+  - java -version
 
   - if [ ! -d android-sdk-linux ]; then
        $WGET --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip;
