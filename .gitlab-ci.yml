@@ -23,9 +23,9 @@ cache:
 before_script:
 
   #- stage the sdk
-  - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash 
-  - apt-get install -y git-lfs
-  - git lfs install --force
+ # - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash 
+ # - apt-get install -y git-lfs
+ # - git lfs install --force
   - git clone --depth 1 https://milsdk_builder:3ydao3HGquPdh2ybxKQk@git.pargovernment.com/sdks/atak-mil.git
 
   # TODO - investigate why lfs pull is failing with 
