@@ -2,7 +2,7 @@
 # TODO - create an image that is the openjdk image + the SDK and NDK setup to 
 #        make initialization faster   shb 10/19/2019
 
-image: openjdk:8-jdk
+image: openjdk:9-jdk
 
 variables:
   ANDROID_COMPILE_SDK: "21"
