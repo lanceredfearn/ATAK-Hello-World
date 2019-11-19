@@ -81,8 +81,8 @@ assembleMilRelease:
     - cp atak-mil/main.jar sdk
     - cp atak-mil/main.jar app/sdk
     - find . -name main.jar
-    - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
-    - rm -fr ATAK/app/build/outputs/apk/mil/debug
+    - ./gradlew -Pci --console=plain lintMilRelease assembleMilDebug
+    #- rm -fr ATAK/app/build/outputs/apk/mil/debug
     - du ATAK/app/build/outputs/
     - find ATAK/app/build/outputs
   artifacts:
