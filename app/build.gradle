@@ -48,9 +48,9 @@ dependencies {
     } else if (new File("$project.projectDir/../../../main.jar").exists()) {
         println("using the sdk version of main.jar");
         compileOnly fileTree(dir: '../../..', include: '*.jar')
-    } else if (new File("$project.projectDir/sdk/main.jar").exists()) {
+    } else if (new File("sdk/main.jar").exists()) {
         println("using the local version of main.jar");
-        compileOnly fileTree(dir: '$project.projectDir/sdk/main.jar', include: '*.jar')
+        compileOnly fileTree(dir: 'sdk/main.jar', include: '*.jar')
     } else if (project.rootProject.file("local.properties").exists()) {
         def props = new Properties()
         props.load(project.rootProject.file("local.properties").newDataInputStream())
