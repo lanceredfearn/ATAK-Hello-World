@@ -21,6 +21,11 @@ cache:
     - android-ndk-r12b
 
 before_script:
+
+  - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash 
+  - apt-get install -y git-lfs
+  - git lfs install --force
+
   - if [ ! -d android-sdk-linux ]; then
        $WGET --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip;
        unzip -qq -d android-sdk-linux android-sdk.zip;
