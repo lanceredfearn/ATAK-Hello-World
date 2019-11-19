@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.ClipboardManager;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.app.AlertDialog;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
@@ -1627,8 +1629,29 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             AlertDialog.Builder builderSingle = new AlertDialog.Builder(
                     getMapView().getContext());
+            TextView showText = new TextView(getMapView().getContext());
+            showText.setText(val);
+            showText.setTextIsSelectable(true);
+            showText.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+                    // Copy the Text to the clipboard
+                    ClipboardManager manager = 
+                        (ClipboardManager) getMapView().getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    TextView showTextParam = (TextView) v;
+                    manager.setText(showTextParam.getText());
+                    Toast.makeText(v.getContext(), 
+                          "copied the data", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+            });
+
+
+
+
             builderSingle.setTitle("Resulting CoT");
-            builderSingle.setMessage(val);
+            builderSingle.setView(showText);
             builderSingle.show();
         }
     };
