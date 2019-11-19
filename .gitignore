@@ -6,6 +6,9 @@ REPO_README.txt
 *.apk
 *.ap_
 
+# swap files
+.swp
+
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -40,6 +43,7 @@ captures/
 
 # Intellij
 *.iml
+.idea
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
@@ -59,16 +63,8 @@ google-services.json
 freeline.py
 freeline/
 freeline_project_description.json
-.idea/compiler.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/vcs.xml
-.idea/VNS.iml
-.idea/workspace.xml
-.idea/copyright/profiles_settings.xml
-VNS.iml
-.idea/
-armessagebus-release.aar.orig
-.orig
-.rej
-.swp
+
+
+# sdk stuff
+sdk/main.jar
+sdk/android_keystore
