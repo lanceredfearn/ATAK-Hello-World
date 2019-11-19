@@ -73,8 +73,10 @@ stages:
 assembleMilRelease:
   stage: build
   script:
+    - pwd 
     - mkdir sdk
     - cp atak-mil/main.jar sdk
+    - find . -name main.jar
     - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
     - rm -fr ATAK/app/build/outputs/apk/mil/debug
     - du ATAK/app/build/outputs/
