@@ -75,8 +75,6 @@ assembleMilRelease:
   script:
     - mkdir sdk
     - cp atak-mil/main.jar sdk
-    - ls -lra sdk
-    - jar tvf sdk/main.jar
     - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
     - rm -fr ATAK/app/build/outputs/apk/mil/debug
     - du ATAK/app/build/outputs/
@@ -89,6 +87,8 @@ assembleMilRelease:
 assembleCivRelease:
   stage: build
   script:
+    - mkdir sdk
+    - cp atak-mil/main.jar sdk
     - ./gradlew -Pci --console=plain lintCivRelease assembleCivRelease
     - rm -fr ATAK/app/build/outputs/apk/civ/debug
     - du ATAK/app/build/outputs/
@@ -103,6 +103,8 @@ assembleCivRelease:
 assembleFveyRelease:
   stage: build
   script:
+    - mkdir sdk
+    - cp atak-mil/main.jar sdk
     - ./gradlew -Pci --console=plain lintFveyRelease assembleFveyRelease
     - rm -fr ATAK/app/build/outputs/apk/fvey/debug
     - du ATAK/app/build/outputs/
@@ -117,4 +119,6 @@ assembleFveyRelease:
 testRelease:
   stage: test
   script:
+    - mkdir sdk
+    - cp atak-mil/main.jar sdk
     - ./gradlew -Pci --console=plain ATAK:app:testMilRelease
