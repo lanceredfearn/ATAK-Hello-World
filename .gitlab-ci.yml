@@ -23,7 +23,7 @@ cache:
 before_script:
 
   #- stage the sdk
-  git clone --depth 1 -n https://milsdk_builder:3ydao3HGquPdh2ybxKQk@git.pargovernment.com/sdks/atak-mil.git
+  - git clone --depth 1 -n https://milsdk_builder:3ydao3HGquPdh2ybxKQk@git.pargovernment.com/sdks/atak-mil.git
 
   # TODO - investigate why lfs pull is failing with 
   # git lfs pull cannot add to the index - missing --add option? fixed
