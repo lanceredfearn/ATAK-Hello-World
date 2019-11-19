@@ -26,7 +26,7 @@ before_script:
  # - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash 
  # - apt-get install -y git-lfs
  # - git lfs install --force
-  - git clone --depth 1 https://milsdk_builder:3ydao3HGquPdh2ybxKQk@git.pargovernment.com/sdks/atak-mil.git
+  - git clone --depth 1 git@git.pargovernment.com:sdks/atak-mil.git
 
   # TODO - investigate why lfs pull is failing with 
   # git lfs pull cannot add to the index - missing --add option? fixed
