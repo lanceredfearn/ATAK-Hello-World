@@ -33,7 +33,6 @@ before_script:
   #- GIT_TRACE=1 git lfs pull -I "*main.jar"
   #- popd
 
-  - java -version
 
   - if [ ! -d android-sdk-linux ]; then
        $WGET --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-${ANDROID_SDK_TOOLS}.zip;
@@ -67,6 +66,8 @@ before_script:
   - export ANDROID_NDK_HOME=$PWD/android-ndk-r${NDK_VERSION}
   - chmod +x ./gradlew
   - git branch
+  - java -version
+  - ./gradlew --version
 
 stages:
   - build
