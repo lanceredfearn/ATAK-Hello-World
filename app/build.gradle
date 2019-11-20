@@ -50,7 +50,7 @@ dependencies {
         compileOnly fileTree(dir: '../../..', include: '*.jar')
     } else if (new File("sdk/main.jar").exists()) {
         println("using the local version of main.jar");
-        compileOnly fileTree(dir: 'sdk/main.jar', include: '*.jar')
+        compileOnly fileTree(dir: '../sdk/main.jar', include: '*.jar')
     } else if (project.rootProject.file("local.properties").exists()) {
         def props = new Properties()
         props.load(project.rootProject.file("local.properties").newDataInputStream())
@@ -133,14 +133,22 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("../../../android_keystore")
+            if (new File("sdk/android_keystore").exists()) {
+                 storeFile file("../sdk/android_keystore")
+            } else { 
+                 storeFile file("../../../android_keystore")
+            }
             storePassword "tnttnt"
             keyAlias "wintec_mapping"
             keyPassword "tnttnt"
         }
 
         release {
-            storeFile file("../../../android_keystore")
+            if (new File("sdk/android_keystore").exists()) {
+                storeFile file("../sdk/android_keystore")
+            } else { 
+                storeFile file("../../../android_keystore")
+            }
             storePassword "tnttnt"
             keyAlias "wintec_mapping"
             keyPassword "tnttnt"
