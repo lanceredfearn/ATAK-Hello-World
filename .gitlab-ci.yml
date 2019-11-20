@@ -78,9 +78,8 @@ assembleMilRelease:
   script:
     - pwd .
     - mkdir sdk
-    - mkdir app/sdk
     - cp atak-mil/main.jar sdk
-    - cp atak-mil/main.jar app/sdk
+    - cp atak-mil/android_keystore sdk
     - find . -name main.jar
     - ./gradlew -Pci --console=plain lintMilRelease assembleMilDebug
     #- rm -fr ATAK/app/build/outputs/apk/mil/debug
