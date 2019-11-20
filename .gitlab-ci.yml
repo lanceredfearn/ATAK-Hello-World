@@ -118,4 +118,4 @@ testRelease:
   script:
     - mkdir sdk
     - cp atak-mil/main.jar sdk
-    - ./gradlew -Pci --console=plain ATAK:app:testMilRelease
+    - ./gradlew -Pci --console=plain :app:testMilRelease
