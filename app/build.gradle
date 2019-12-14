@@ -72,7 +72,7 @@ dependencies {
     // Since the support-v4 libraries are completely supplied by 
     // the core, the recyclerview version needs to match and the 
     // support-v4 module needs to be excluded from the plugin 
-    implementation ('com.android.support:recyclerview-v7:26.0.0') { 
+    implementation ('com.android.support:recyclerview-v7:26.0.2') { 
         exclude module: 'support-v4'
     }
 
