@@ -1,6 +1,7 @@
 
 package com.atakmap.android.helloworld;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
@@ -30,6 +31,7 @@ public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
         super(staticPluginContext, R.xml.preferences);
     }
 
+    @SuppressLint("ValidFragment")
     public HelloWorldPreferenceFragment(final Context pluginContext) {
         super(pluginContext, R.xml.preferences);
         staticPluginContext = pluginContext;

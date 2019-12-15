@@ -49,7 +49,7 @@ public class NotificationService extends Service {
         Notification notification = new Notification(R.drawable.abc,
                 "Hello World!",
                 System.currentTimeMillis());
-        notification.setLatestEventInfo(this, "1", "2", appIntent);
+        //notification.setLatestEventInfo(this, "1", "2", appIntent);
 
         notificationManager.notify(9999, notification);
 

@@ -188,4 +188,6 @@
     <string name="issLocation">Demonstrates how to plot the ISS location from a open source site</string>
     <string name="summary">Shows a quick test of launching the file browser</string>
 
+    <string name="videoLauncher">Example of how to display a video with an overlay layer</string>
+
 </resources>
