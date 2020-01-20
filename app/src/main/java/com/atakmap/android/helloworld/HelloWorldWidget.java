@@ -99,6 +99,12 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
 
     @Override
     public void onMapWidgetClick(MapWidget widget, MotionEvent event) {
+        if (dragging) {
+            pointDown = null;
+            dragging = false;
+            return;
+        }
+
         Log.d(TAG, "onClickListener called");
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(
                 mapView.getContext());
@@ -123,11 +129,7 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
 
     @Override
     public void onMapWidgetPress(MapWidget widget, MotionEvent event) {
-        if (dragging) {
-            pointDown = null;
-            dragging = false;
-            return;
-        }
+
 
         Log.d(TAG, "onMapPressed called");
         pointDown = new PointF(event.getX(), event.getY());
