@@ -100,8 +100,6 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
     @Override
     public void onMapWidgetClick(MapWidget widget, MotionEvent event) {
         if (dragging) {
-            pointDown = null;
-            dragging = false;
             return;
         }
 
@@ -132,6 +130,7 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
 
 
         Log.d(TAG, "onMapPressed called");
+        dragging = false;
         pointDown = new PointF(event.getX(), event.getY());
     }
 
