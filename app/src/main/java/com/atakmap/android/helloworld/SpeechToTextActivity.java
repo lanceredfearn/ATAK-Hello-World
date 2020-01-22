@@ -1,10 +1,7 @@
 
 package com.atakmap.android.helloworld;
 
-/**
- *Tutorial Used: https://www.androidhive.info/2014/07/android-speech-to-text-tutorial/
- */
-
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -44,7 +41,7 @@ public class SpeechToTextActivity extends Activity {
     private static final String DIGIT_VALIDATOR = "com.atackmap.android.helloworld.DIGIT_VALIDATOR";
     private static final String MARKER_VALIDATOR = "com.atackmap.android.helloworld.MARKER_VALIDATOR";
 
-    private HashMap<String, String> mgrsData = new HashMap<String, String>();
+    private HashMap<String, String> mgrsData = new HashMap<>();
     private TextView txtSpeechInput;
     private TextView txtNorthing;
     private TextView txtEasting;
@@ -64,17 +61,19 @@ public class SpeechToTextActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.speech_to_text);
 
-        btnMGRS = (Button) findViewById(R.id.speakMGRS_btn);
-        btnDropMarker = (Button) findViewById(R.id.dropMarker_btn);
-        txtNorthing = (TextView) findViewById(R.id.northing_txt);
-        txtEasting = (TextView) findViewById(R.id.easting_txt);
-        txtSquareID = (TextView) findViewById(R.id.squareID_txt);
-        txtNumericGrid = (TextView) findViewById(R.id.numericGrid_txt);
-        txtAlphaGrid = (TextView) findViewById(R.id.alphaGrid_txt);
-        txtMarkerType = (TextView) findViewById(R.id.marker_txt);
-        txtMarker = (TextView) findViewById(R.id.marker_type);
+        btnMGRS =  findViewById(R.id.speakMGRS_btn);
+        btnDropMarker = findViewById(R.id.dropMarker_btn);
+        txtNorthing = findViewById(R.id.northing_txt);
+        txtEasting = findViewById(R.id.easting_txt);
+        txtSquareID =  findViewById(R.id.squareID_txt);
+        txtNumericGrid =  findViewById(R.id.numericGrid_txt);
+        txtAlphaGrid = findViewById(R.id.alphaGrid_txt);
+        txtMarkerType = findViewById(R.id.marker_txt);
+        txtMarker = findViewById(R.id.marker_type);
         // hide the action bar
-        getActionBar().hide();
+        ActionBar bar = getActionBar();
+        if (bar != null)
+           bar.hide();
 
         btnMGRS.setOnClickListener(new View.OnClickListener() {
 
@@ -278,7 +277,7 @@ public class SpeechToTextActivity extends Activity {
 
     protected ArrayList<String> speechVerifyLength(
             ArrayList<String> resultsToTest, int expectedLength) {
-        ArrayList<String> lengthVerifiedResults = new ArrayList<String>();
+        ArrayList<String> lengthVerifiedResults = new ArrayList<>();
         for (String s : resultsToTest) {
             if (currentIntent == SQUAREID_INTENT) {
                 if (s.length() == expectedLength) {
@@ -301,34 +300,34 @@ public class SpeechToTextActivity extends Activity {
         String validatorType = null;
         switch (currentIntent) {
             case NORTHING_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.northing_txt);
+                txtSpeechInput = findViewById(R.id.northing_txt);
                 expectedLength = NORTHING_LENGTH;
                 validatorType = DIGIT_VALIDATOR;
                 break;
 
             case EASTING_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.easting_txt);
+                txtSpeechInput = findViewById(R.id.easting_txt);
                 expectedLength = EASTING_LENGTH;
                 validatorType = DIGIT_VALIDATOR;
                 break;
             case SQUAREID_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.squareID_txt);
+                txtSpeechInput = findViewById(R.id.squareID_txt);
                 expectedLength = SQUAREID_LENGTH;
                 validatorType = ALPHA_VALIDATOR;
                 break;
             case ALPHA_GRID_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.alphaGrid_txt);
+                txtSpeechInput = findViewById(R.id.alphaGrid_txt);
                 expectedLength = ALPHA_GRID_LENGTH;
                 validatorType = ALPHA_VALIDATOR;
                 break;
 
             case NUMERIC_GRID_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.numericGrid_txt);
+                txtSpeechInput = findViewById(R.id.numericGrid_txt);
                 expectedLength = NUMERIC_GRID_LENGTH;
                 validatorType = DIGIT_VALIDATOR;
                 break;
             case MARKER_TYPE_INTENT:
-                txtSpeechInput = (TextView) findViewById(R.id.marker_txt);
+                txtSpeechInput = findViewById(R.id.marker_txt);
                 expectedLength = MARKER_LENGTH;
                 validatorType = MARKER_VALIDATOR;
                 break;
@@ -346,7 +345,6 @@ public class SpeechToTextActivity extends Activity {
 
     protected String dataValidator(ArrayList<String> lengthValidatedResults,
             String validatorType) {
-        boolean isValid = false;
         //verify any alpha values
         //the letter portion of the grid reference must be between C and X
         //the Second letter in the square id must be between A and V
@@ -455,11 +453,14 @@ public class SpeechToTextActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             synchronized (this) {
                 try {
-                    HashMap<String, String> s = (HashMap<String, String>) intent
-                            .getExtras().get("mgrsData");
-                    if (s != null && sdr != null)
-                        sdr.onSpeechDataReceived(s);
-                } catch (Exception e) {
+                    Bundle extras = intent
+                            .getExtras();
+                    if (extras != null) {
+                        HashMap<String, String> s = (HashMap<String, String>) extras.get("mgrsData");
+                        if (s != null && sdr != null)
+                            sdr.onSpeechDataReceived(s);
+                    }
+                } catch (Exception ignored) {
                 }
                 if (registered) {
                     context.unregisterReceiver(this);

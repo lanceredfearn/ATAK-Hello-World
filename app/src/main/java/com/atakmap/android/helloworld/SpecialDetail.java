@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.maps.PointMapItem;
-import android.app.Service;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.helloworld.plugin.R;
 import android.content.Context;
@@ -26,15 +25,14 @@ public class SpecialDetail extends DropDownReceiver implements OnStateListener {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-
-        if (intent.getAction()
+        final String action = intent.getAction();
+        if (action != null && action
                 .equals("com.atakmap.android.helloworld.myspecialdetail")) {
             PointMapItem temp = findTarget(intent.getStringExtra("targetUID"));
             if (temp != null) {
-                LayoutInflater inflater = (LayoutInflater) pluginContext
-                        .getSystemService(Service.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = LayoutInflater.from(pluginContext);
                 View v = inflater.inflate(R.layout.specialdetail, null);
-                TextView tv = (TextView) v.findViewById(R.id.callsign);
+                TextView tv = v.findViewById(R.id.callsign);
                 tv.setText(temp.getMetaString("callsign", "[no callsign]"));
                 if (!isVisible()) {
                     setRetain(true);
