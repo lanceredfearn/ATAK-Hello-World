@@ -44,8 +44,7 @@ public class WebViewDropDownReceiver extends DropDownReceiver implements
         this.pluginContext = context;
         this.appContext = mapView.getContext();
 
-        LayoutInflater inflater = (LayoutInflater) pluginContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(pluginContext);
         ll = (LinearLayout) inflater.inflate(R.layout.blank_linearlayout, null);
 
         // must be created using the application context otherwise this will fail
@@ -73,8 +72,8 @@ public class WebViewDropDownReceiver extends DropDownReceiver implements
         this.htmlViewer.loadUrl("about:blank");
         this.htmlViewer.setWebViewClient(new Client());
 
-        htmlViewer.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-                LayoutParams.FILL_PARENT));
+        htmlViewer.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
+                LayoutParams.MATCH_PARENT));
         ll.addView(htmlViewer);
 
     }
@@ -118,7 +117,9 @@ public class WebViewDropDownReceiver extends DropDownReceiver implements
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(SHOW_WEBVIEW)) {
+        String action = intent.getAction();
+
+        if (action != null && action.equals(SHOW_WEBVIEW)) {
             showDropDown(ll, HALF_WIDTH, FULL_HEIGHT,
                     FULL_WIDTH, HALF_HEIGHT, false, this);
             this.htmlViewer.loadUrl("about:blank");

@@ -34,7 +34,7 @@ public class BirthProvider extends ContentProvider {
     DBHelper dbHelper;
 
     // projection map for a query
-    private static final HashMap<String, String> BirthMap = new HashMap<String, String>();
+    private static final HashMap<String, String> BirthMap = new HashMap<>();
 
     // maps content URI "patterns" to the integer values that were set above
     static final UriMatcher uriMatcher;

@@ -25,8 +25,11 @@ public class CameraActivity extends Activity {
             Intent data) {
         Intent i = new Intent(CAMERA_INFO);
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-            i.putExtra("image", photo);
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap photo = (Bitmap) extras.get("data");
+                i.putExtra("image", photo);
+            }
         }
         sendBroadcast(i);
         finish();
@@ -57,10 +60,13 @@ public class CameraActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             synchronized (this) {
                 try {
-                    Bitmap bm = (Bitmap) intent.getExtras().get("image");
-                    if (bm != null && cdr != null)
-                        cdr.onCameraDataReceived(bm);
-                } catch (Exception e) {
+                    Bundle extras = intent.getExtras();
+                    if (extras != null) {
+                        Bitmap bm = (Bitmap) extras.get("image");
+                        if (bm != null && cdr != null)
+                            cdr.onCameraDataReceived(bm);
+                    }
+                } catch (Exception ignored) {
                 }
                 if (registered) {
                     context.unregisterReceiver(this);

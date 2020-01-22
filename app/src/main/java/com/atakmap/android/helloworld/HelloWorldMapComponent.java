@@ -3,6 +3,9 @@ package com.atakmap.android.helloworld;
 
 import android.content.Context;
 import android.content.Intent;
+
+import com.atakmap.android.cot.detail.CotDetailHandler;
+import com.atakmap.android.cot.detail.CotDetailManager;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
@@ -149,7 +152,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         // Register capability to handle detail tags that TAK does not 
         // normally process.
-        CotMapComponent.getInstance().setMarkerDetailHandler(
+        CotDetailManager.getInstance().registerHandler(
                 "__special",
                 new SpecialDetailHandler());
 
@@ -232,8 +235,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         DangerCloseReceiver.ExternalMunitionQuery emq = new DangerCloseReceiver.ExternalMunitionQuery() {
             @Override
             public String queryMunitions() {
-                String response = BuildExternalMunitionsQuery();
-                return response;
+                return BuildExternalMunitionsQuery();
             }
         };
 
@@ -252,8 +254,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         // example for how to register a radio with the radio map control.
 
-        LayoutInflater inflater = (LayoutInflater) pluginContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(pluginContext);
         genericRadio = inflater.inflate(R.layout.radio_item_generic, null);
 
         RadioMapComponent.getInstance().registerControl(genericRadio);
@@ -316,7 +317,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
     }
 
-    public GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
+    private GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
         @Override
         public String getUniqueIdentifier() {
             return "fake-geocoder";
@@ -378,13 +379,13 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
     }
 
-    SpiListener spiListener;
+    private SpiListener spiListener;
 
     private class SpiListener implements MapEventDispatchListener,
             MapItem.OnVisibleChangedListener {
         private final MapView view;
 
-        public SpiListener(MapView view) {
+        SpiListener(MapView view) {
             this.view = view;
         }
 

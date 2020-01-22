@@ -27,7 +27,7 @@ import com.atakmap.opengl.GLText;
 
 public class GLSpecialMarker extends GLPointMapItem2 implements GLMapBatchable2 {
 
-    GeoPointMetaData gpm = new GeoPointMetaData();
+    private GeoPointMetaData gpm = new GeoPointMetaData();
 
     public final static GLMapItemSpi3 SPI = new GLMapItemSpi3() {
         @Override

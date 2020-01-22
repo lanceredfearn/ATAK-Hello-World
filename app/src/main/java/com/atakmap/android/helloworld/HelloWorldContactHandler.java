@@ -50,7 +50,7 @@ public class HelloWorldContactHandler extends
 
         // Find the contact with this UID
         Contact contact = Contacts.getInstance().getContactByUuid(contactUID);
-        if (contact != null && contact instanceof IndividualContact)
+        if (contact instanceof IndividualContact)
             // Open the chat window using this contact
             ChatManagerMapComponent.getInstance().openConversation(
                     ((IndividualContact) contact), true);

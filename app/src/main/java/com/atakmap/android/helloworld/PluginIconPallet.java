@@ -18,7 +18,7 @@ import com.atakmap.coremap.maps.coords.GeoPointMetaData;
 
 public class PluginIconPallet implements IconPallet {
 
-    final Fragment fragment;
+    private final Fragment fragment;
     static Context pContext = null;
 
     public PluginIconPallet(Context pContext) {
@@ -81,8 +81,7 @@ public class PluginIconPallet implements IconPallet {
                 Bundle savedInstanceState) {
             // Defines the xml file for the fragment
             // Note the inflater is using the plugin context.
-            LayoutInflater inflater = (LayoutInflater) pContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(pContext);
 
             return inflater.inflate(R.layout.fragment_foo, null);
         }

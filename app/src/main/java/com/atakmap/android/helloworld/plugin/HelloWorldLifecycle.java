@@ -38,7 +38,7 @@ public class HelloWorldLifecycle implements Lifecycle {
 
     public HelloWorldLifecycle(Context ctx) {
         this.pluginContext = ctx;
-        this.overlays = new LinkedList<MapComponent>();
+        this.overlays = new LinkedList<>();
         this.mapView = null;
     }
 

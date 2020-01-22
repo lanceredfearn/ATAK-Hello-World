@@ -4,7 +4,6 @@ package com.atakmap.android.helloworld;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.app.AlertDialog;
@@ -46,7 +45,7 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
 
     MarkerIconWidget widget = null;
 
-    final BroadcastReceiver wacky = new BroadcastReceiver() {
+    private final BroadcastReceiver wacky = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "wacky search");

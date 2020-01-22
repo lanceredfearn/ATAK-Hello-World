@@ -12,6 +12,7 @@ import com.atakmap.android.preference.PluginPreferenceFragment;
 import com.atakmap.android.helloworld.plugin.R;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.atakmap.coremap.filesystem.FileSystemUtils;
 import java.io.File;
@@ -43,7 +44,7 @@ public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
         try {
             ((PanEditTextPreference) findPreference("key_for_helloworld"))
                     .checkValidInteger();
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         findPreference("test_file_browser")
                 .setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -57,8 +58,9 @@ public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
                                 new ImportFileBrowserDialog.DialogDismissed() {
                                     public void onFileSelected(
                                             final File file) {
-                                        if (!FileSystemUtils.isFile(file))
-                                            return;
+                                        if (FileSystemUtils.isFile(file)) {
+                                            Toast.makeText(getActivity(), "file: " + file, Toast.LENGTH_SHORT).show();
+                                        }
                                     }
 
                                     public void onDialogClosed() {

@@ -224,7 +224,7 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
         @Override
         public Set<HierarchyListItem> find(String searchTerms) {
             searchTerms = searchTerms.toLowerCase();
-            Set<HierarchyListItem> results = new HashSet<HierarchyListItem>();
+            Set<HierarchyListItem> results = new HashSet<>();
             List<HierarchyListItem> items = getChildren();
             for (HierarchyListItem item : items) {
                 if (item.getTitle().toLowerCase().contains(searchTerms))

@@ -51,8 +51,8 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
     }
 
 
-    public static void setBadgeCount(Context context, LayerDrawable icon,
-                                     int count) {
+    private static void setBadgeCount(Context context, LayerDrawable icon,
+                                      int count) {
         BadgeDrawable badge;
 
         // Reuse drawable if possible
@@ -71,7 +71,7 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
 
 
 
-    BroadcastReceiver br = new BroadcastReceiver() {
+    private BroadcastReceiver br = new BroadcastReceiver() {
         private int count = 0;
         @Override
         public void onReceive(Context c, Intent intent) {
