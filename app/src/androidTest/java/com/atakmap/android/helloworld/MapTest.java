@@ -29,8 +29,6 @@ import java.util.concurrent.Callable;
 /**
  * Basic class to begin testing on the ATAK Map. This class is for generic testing and
  * testing of common code helper functions.
- *
- * Created by Vicky McDermott on 5/22/2017.
  */
 public class MapTest extends ATAKTestClass {
     private Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
