@@ -30,7 +30,7 @@ before_script:
   # git lfs pull cannot add to the index - missing --add option? fixed
   # when using git clone -n 
   #- pushd .
-  #- cd atak-mil
+  #- cd atak-civ
   #- GIT_TRACE=1 git lfs pull -I "*main.jar"
   #- popd
 
@@ -79,8 +79,8 @@ assembleMilRelease:
   script:
     - pwd .
     - mkdir sdk
-    - cp atak-mil/main.jar sdk
-    - cp atak-mil/android_keystore sdk
+    - cp atak-civ/main.jar sdk
+    - cp atak-civ/android_keystore sdk
     - find . -name main.jar
     - ./gradlew -Pci --console=plain lintMilRelease assembleMilDebug
   artifacts:
@@ -92,7 +92,7 @@ assembleCivRelease:
   stage: build
   script:
     - mkdir sdk
-    - cp atak-mil/main.jar sdk
+    - cp atak-civ/main.jar sdk
     - ./gradlew -Pci --console=plain lintCivRelease assembleCivRelease
   artifacts:
     expire_in: 720h
@@ -105,7 +105,7 @@ assembleFveyRelease:
   stage: build
   script:
     - mkdir sdk
-    - cp atak-mil/main.jar sdk
+    - cp atak-civ/main.jar sdk
     - ./gradlew -Pci --console=plain lintFveyRelease assembleFveyRelease
   artifacts:
     expire_in: 720h
@@ -118,5 +118,5 @@ testRelease:
   stage: test
   script:
     - mkdir sdk
-    - cp atak-mil/main.jar sdk
+    - cp atak-civ/main.jar sdk
     - ./gradlew -Pci --console=plain :app:testMilRelease
