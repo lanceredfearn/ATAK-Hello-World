@@ -51,4 +51,12 @@ public class ExampleTest extends ATAKTestClass {
                 .pressAircraftDetailsRadialMenuButton()
                 .verifyMarkerDetailsName(expectedName);
     }
+
+    @Test
+    public void testTrackSpaceStation() {
+        helloWorldRobot
+                .openToolFromOverflow()
+                .pressISSButton()
+                .verifyISSExists();
+    }
 }

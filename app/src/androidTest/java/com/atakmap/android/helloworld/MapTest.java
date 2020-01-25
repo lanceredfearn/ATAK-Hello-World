@@ -99,7 +99,7 @@ public class MapTest extends ATAKTestClass {
             public Marker call() {
                 return helper.getMarkerOfType("a-f-G");
             }
-        }, 2000));
+        }, 3000));
     }
 
     @Test

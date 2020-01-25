@@ -10,6 +10,8 @@ import com.atakmap.android.maps.assets.MapAssets;
 import com.atakmap.android.test.helpers.helper_versions.HelperFactory;
 import com.atakmap.android.test.helpers.helper_versions.HelperFunctions;
 
+import java.util.concurrent.Callable;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
@@ -33,6 +35,11 @@ public class HelloWorldRobot {
 
     public HelloWorldRobot openToolFromOverflow() {
         HELPER.pressButtonInOverflow("Hello World Tool");
+        return this;
+    }
+
+    public HelloWorldRobot pressISSButton() {
+        onView(withId(R.id.issLocation)).perform(scrollTo(), click());
         return this;
     }
 
@@ -65,6 +72,16 @@ public class HelloWorldRobot {
         Marker marker = HELPER.getMarkerOfType("a-f-A");
         assertNotNull("Could not find aircraft marker", marker);
         assertEquals("Marker name does not match", marker.getTitle(), name);
+        return this;
+    }
+
+    public HelloWorldRobot verifyISSExists() {
+        HELPER.nullWait(new Callable<Marker>() {
+            @Override
+            public Marker call() {
+                return HELPER.getMarkerOfUid("iss-unique-identifier");
+            }
+        }, 3000);
         return this;
     }
 
