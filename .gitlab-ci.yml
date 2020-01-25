@@ -24,7 +24,7 @@ before_script:
   - curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash
   - apt-get install git-lfs
   #- stage the sdk
-  - git clone --depth 1 https://milsdk_builder:3ydao3HGquPdh2ybxKQk@git.takmaps.com/sdks/atak-civ.git
+  - git clone --depth 1 https://civsdk_builder:_NxPo8NmvzvgNRxaNzH-@git.takmaps.com/sdks/atak-civ.git
 
   # TODO - investigate why lfs pull is failing with 
   # git lfs pull cannot add to the index - missing --add option? fixed
