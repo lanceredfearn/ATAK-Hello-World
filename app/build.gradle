@@ -33,7 +33,6 @@ allprojects {
             url "https://jitpack.io"
         }
         jcenter()
-
     }
 }
 
@@ -210,7 +209,7 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 26
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86"
         }
@@ -252,6 +251,12 @@ android {
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".INTL"]
         }
 
+    }
+
+    if(file("$project.projectDir/../espresso/testSetup.gradle").exists()) {
+         apply from: '../espresso/testSetup.gradle'
+    } else { 
+         println("espresso test harness not found")
     }
 
 
