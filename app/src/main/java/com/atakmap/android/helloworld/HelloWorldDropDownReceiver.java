@@ -74,7 +74,7 @@ import android.graphics.Bitmap;
 
 import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.android.drawing.mapItems.DrawingRectangle;
-import com.atakmap.android.importfiles.sort.ImportMissionPackageSort;
+import com.atakmap.android.importfiles.sort.ImportMissionPackageSort.ImportMissionV1PackageSort;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -965,7 +965,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                             for (File f : listing) {
                                 Log.d(TAG, "found: " + f);
 
-                                ImportMissionPackageSort importer = new ImportMissionPackageSort(
+                                ImportMissionV1PackageSort importer = new ImportMissionV1PackageSort(
                                         getMapView().getContext(),
                                         true, true,
                                         false);
