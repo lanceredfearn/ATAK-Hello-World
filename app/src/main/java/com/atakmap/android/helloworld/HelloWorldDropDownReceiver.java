@@ -375,6 +375,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         printNetworks();
 
+
+        // If you are using a custom layout you need to make use of the PluginLayoutInflator to clear
+        // out the layout cache so that the plugin can be properly unloaded and reloaded.
         helloView = PluginLayoutInflater.inflate(pluginContext,
                 R.layout.hello_world_layout, null);
         // Add "Hello World" contact
