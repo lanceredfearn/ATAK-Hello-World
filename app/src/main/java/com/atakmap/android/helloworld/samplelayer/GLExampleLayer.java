@@ -42,13 +42,7 @@ public class GLExampleLayer extends GLAbstractLayer {
 
     /*************************************************************************/
 
-    // XXX - consider number of frames as property on the ExampleLayer
-
-    /** The number of frames that may be displayed on the map at once */
-    private final static int NUM_FRAMES = 1;
-
     private Data frame;
-
     private ExampleLayer subject;
 
     public GLExampleLayer(MapRenderer surface, ExampleLayer subject) {
@@ -61,7 +55,7 @@ public class GLExampleLayer extends GLAbstractLayer {
         super.init();
 
         this.frame = new Data();
-        setData(subject.frameRGB, subject.frameWidth, subject.frameHeight,
+        setData(subject.layerARGB, subject.layerWidth, subject.layerHeight,
                 subject.upperLeft, subject.upperRight, subject.lowerRight,
                 subject.lowerLeft);
     }
@@ -88,15 +82,14 @@ public class GLExampleLayer extends GLAbstractLayer {
         super.release();
     }
 
-    public void setData(int[] rgb, final int width, final int height,
+
+    public void setData(int[] argb, final int width, final int height,
             GeoPoint upperLeft,
             GeoPoint upperRight, GeoPoint lowerRight, GeoPoint lowerLeft) {
 
-        // create copies of the objects we plan to offload to the GL thread
-        // we are using RGB565 to cut down on bandwidth; ARGB8888 will produce
-        // better quality if needed
+        // this example makes use of Bitmap, but does not need to.
 
-        final Bitmap bitmap = Bitmap.createBitmap(rgb, width, height,
+        final Bitmap bitmap = Bitmap.createBitmap(argb, width, height,
                 Bitmap.Config.ARGB_8888);
         final GeoPoint ul = new GeoPoint(upperLeft);
         final GeoPoint ur = new GeoPoint(upperRight);
@@ -108,7 +101,9 @@ public class GLExampleLayer extends GLAbstractLayer {
         this.renderContext.queueEvent(new Runnable() {
             public void run() {
                 try {
-                    videoFrameImpl(bitmap, width, height, ul, ur, lr, ll);
+                    if (frame != null)
+                        frame.update(bitmap, width, height, ul, ur,
+                                lr, ll);
                 } finally {
                     // cleanup the bitmap
                     bitmap.recycle();
@@ -117,28 +112,15 @@ public class GLExampleLayer extends GLAbstractLayer {
         });
     }
 
-    public void videoFrameImpl(Bitmap bitmap, int width, int height,
-            GeoPoint upperLeft,
-            GeoPoint upperRight, GeoPoint lowerRight, GeoPoint lowerLeft) {
-
-        // guard against 'release' occuring before event queue has been fully
-        // processed
-        if (this.frame == null)
-            return;
-
-        this.frame.update(bitmap, width, height, upperLeft, upperRight,
-                lowerRight, lowerLeft);
-    }
-
     /**************************************************************************/
 
     private static class Data {
-        public GLTexture texture;
-        public DoubleBuffer points;
-        public FloatBuffer vertexCoordinates;
-        public ByteBuffer textureCoordinates;
+        GLTexture texture;
+        DoubleBuffer points;
+        FloatBuffer vertexCoordinates;
+        ByteBuffer textureCoordinates;
 
-        public Data() {
+        Data() {
             this.texture = null;
             this.points = ByteBuffer.allocateDirect(8 * 2 * 4)
                     .order(ByteOrder.nativeOrder()).asDoubleBuffer();
@@ -157,7 +139,7 @@ public class GLExampleLayer extends GLAbstractLayer {
         //       experiment to determine the best utilization of resources
         //       versus performance
 
-        public void update(Bitmap frame, final int width, final int height,
+        void update(Bitmap frame, final int width, final int height,
                 final GeoPoint ul, final GeoPoint ur, final GeoPoint lr,
                 final GeoPoint ll) {
             // if the bitmap data exceeds the bounds of the texture, allocate a

@@ -21,9 +21,9 @@ public class ExampleLayer extends AbstractLayer {
 
     public static final String TAG = "ExampleLayer";
 
-    int[] frameRGB;
-    int frameWidth;
-    int frameHeight;
+    int[] layerARGB;
+    int layerWidth;
+    int layerHeight;
 
     GeoPoint upperLeft;
     GeoPoint upperRight;
@@ -31,15 +31,13 @@ public class ExampleLayer extends AbstractLayer {
     GeoPoint lowerLeft;
 
     private final Context pluginContext;
-    private final String uri;
     private final MetaShape metaShape;
 
     public ExampleLayer(Context plugin, final String name, final String uri) {
         super(name);
 
         this.pluginContext = plugin;
-        this.uri = uri;
-
+        
         this.upperLeft = GeoPoint.createMutable();
         this.upperRight = GeoPoint.createMutable();
         this.lowerRight = GeoPoint.createMutable();
@@ -51,14 +49,14 @@ public class ExampleLayer extends AbstractLayer {
         lowerRight.set(40, -40);
         lowerLeft.set(40, -50);
 
-        frameWidth = bitmap.getWidth();
-        frameHeight = bitmap.getHeight();
+        layerWidth = bitmap.getWidth();
+        layerHeight = bitmap.getHeight();
         Log.d(TAG,
-                "decode file: " + uri + " " + frameWidth + " " + frameHeight);
-        frameRGB = new int[frameHeight * frameWidth];
+                "decode file: " + uri + " " + layerWidth + " " + layerHeight);
+        layerARGB = new int[layerHeight * layerWidth];
 
-        bitmap.getPixels(frameRGB, 0, frameWidth, 0, 0, frameWidth,
-                frameHeight);
+        bitmap.getPixels(layerARGB, 0, layerWidth, 0, 0, layerWidth,
+                layerHeight);
 
         metaShape = new MetaShape(UUID.randomUUID().toString()) {
             @Override
