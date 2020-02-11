@@ -47,27 +47,20 @@ public class GLExampleLayer extends GLAbstractLayer {
     /** The number of frames that may be displayed on the map at once */
     private final static int NUM_FRAMES = 1;
 
-    /** circular buffer of video frames */
-    private GLVideoFrame frames;
-    /** the next frame number */
-    private int frameNum;
+    private Data frame;
 
     private ExampleLayer subject;
 
     public GLExampleLayer(MapRenderer surface, ExampleLayer subject) {
         super(surface, subject);
         this.subject = subject;
-        System.out.println("shb: construct");
     }
 
     @Override
     protected void init() {
-        System.out.println("shb: init");
-
         super.init();
 
-        this.frames = new GLVideoFrame();
-        this.frameNum = 0;
+        this.frame = new Data();
         setData(subject.frameRGB, subject.frameWidth, subject.frameHeight,
                 subject.upperLeft, subject.upperRight, subject.lowerRight,
                 subject.lowerLeft);
@@ -75,20 +68,12 @@ public class GLExampleLayer extends GLAbstractLayer {
 
     @Override
     protected void drawImpl(GLMapView view) {
-        GLVideoFrame frame;
 
-        frame = this.frames;
         // transform the frame's corner coordinates to GL x,y
         view.forward(frame.points, frame.vertexCoordinates);
 
-        // XXX - consider applying alpha to the frames based on time
-        //       received -- custom draw method should be internally
-        //       implemented on this class if desired.
-
-        // draw the frame
 
         if (frame.texture == null) {
-            System.out.println("shb: null texture");
             return;
         }
         frame.texture.draw(4, GLES20FixedPipeline.GL_FLOAT,
@@ -98,8 +83,8 @@ public class GLExampleLayer extends GLAbstractLayer {
     @Override
     public void release() {
         // release all frame textures
-        this.frames.texture.release();
-        this.frames = null;
+        this.frame.texture.release();
+        this.frame = null;
         super.release();
     }
 
@@ -138,22 +123,22 @@ public class GLExampleLayer extends GLAbstractLayer {
 
         // guard against 'release' occuring before event queue has been fully
         // processed
-        if (this.frames == null)
+        if (this.frame == null)
             return;
 
-        this.frames.update(bitmap, width, height, upperLeft, upperRight,
+        this.frame.update(bitmap, width, height, upperLeft, upperRight,
                 lowerRight, lowerLeft);
     }
 
     /**************************************************************************/
 
-    private static class GLVideoFrame {
+    private static class Data {
         public GLTexture texture;
         public DoubleBuffer points;
         public FloatBuffer vertexCoordinates;
         public ByteBuffer textureCoordinates;
 
-        public GLVideoFrame() {
+        public Data() {
             this.texture = null;
             this.points = ByteBuffer.allocateDirect(8 * 2 * 4)
                     .order(ByteOrder.nativeOrder()).asDoubleBuffer();
