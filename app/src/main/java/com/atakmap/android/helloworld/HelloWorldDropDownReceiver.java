@@ -2233,7 +2233,25 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             final MapItem mi = getMapView().getMapItem("iss-unique-identifier");
             if (mi != null) {
                 if (mi instanceof Marker) {
-                    ((Marker) mi).setPoint(new GeoPoint(lat, lon));
+                    Marker marker = (Marker)mi;
+
+                    GeoPoint newPoint = new GeoPoint(lat, lon);
+                    GeoPoint lastPoint = ((Marker) mi).getPoint();
+                    long currTime = SystemClock.elapsedRealtime();
+
+                    double dist = lastPoint.distanceTo(newPoint);
+                    double dir = lastPoint.bearingTo(newPoint);
+
+                    double delta = currTime -
+                             mi.getMetaLong("iss.lastUpdateTime", 0);
+
+                    double speed = dist / (delta / 1000f);
+
+                    marker.setTrack(dir, speed);
+
+                    marker.setPoint(newPoint);
+                    mi.setMetaLong("iss.lastUpdateTime", SystemClock.elapsedRealtime());
+
                 }
             } else {
                 PlacePointTool.MarkerCreator mc = new PlacePointTool.MarkerCreator(
@@ -2244,6 +2262,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 mc.showCotDetails(false);
                 mc.setNeverPersist(true);
                 Marker m = mc.placePoint();
+                // don't forget to turn on the arrow so that we know where the ISS is going
+                m.setStyle(Marker.STYLE_ROTATE_HEADING_MASK);
                 //m.setMetaBoolean("editable", false);
                 m.setMetaBoolean("movable", false);
                 m.setMetaString("how", "m-g");
