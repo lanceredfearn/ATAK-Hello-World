@@ -1255,7 +1255,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // show a drop down without any extras passed in.
         ActionBroadcastData abd = new ActionBroadcastData(
                 "com.ford.tool.showtoast",
-                new ArrayList<>());
+                new ArrayList<ActionBroadcastExtraStringData>());
 
         List<ActionClickData> acdList = new ArrayList<>();
         acdList.add(new ActionClickData(abd, "click"));
