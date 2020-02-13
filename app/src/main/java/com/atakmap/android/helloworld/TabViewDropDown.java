@@ -40,7 +40,7 @@ public class TabViewDropDown extends DropDownReceiver implements
 
         _view = LayoutInflater.from(_plugin).inflate(R.layout.tab_swipe_view,
                 mapView, false);
-        _title = (TextView) _view.findViewById(R.id.tab_title);
+        _title = _view.findViewById(R.id.tab_title);
         _tabDots = new View[] {
                 _view.findViewById(R.id.tab_left_dot),
                 _view.findViewById(R.id.tab_middle_dot),
@@ -54,7 +54,7 @@ public class TabViewDropDown extends DropDownReceiver implements
 
         TestPagerAdapter adapter = new TestPagerAdapter(((FragmentActivity)
                 mapView.getContext()).getSupportFragmentManager(), fragments);
-        _viewPager = (ViewPager) _view.findViewById(R.id.tab_pager);
+        _viewPager = _view.findViewById(R.id.tab_pager);
         _viewPager.setAdapter(adapter);
         _viewPager.setOnPageChangeListener(this);
     }
@@ -106,8 +106,8 @@ public class TabViewDropDown extends DropDownReceiver implements
                                  Bundle savedInstanceState) {
             View v = LayoutInflater.from(_plugin).inflate(
                     R.layout.fragment_foo, container, false);
-            TextView tv = (TextView) v.findViewById(R.id.textView1);
-            Button btn = (Button) v.findViewById(R.id.button1);
+            TextView tv = v.findViewById(R.id.textView1);
+            Button btn = v.findViewById(R.id.button1);
 
             tv.setText("Tab #" + _tabNum);
             btn.setText("Button #" + _tabNum);

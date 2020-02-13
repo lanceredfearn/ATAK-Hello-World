@@ -3,7 +3,6 @@ package com.atakmap.android.helloworld.plugin;
 
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.tools.ActionBarReceiver;
-import com.atakmap.android.tools.AtakLayerDrawableUtil;
 import com.atakmap.android.tools.BadgeDrawable;
 
 
@@ -32,7 +31,7 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
     public static final String TAG = "HelloWorldTool";
 
     private final Context context;
-    private LayerDrawable _icon;
+    private final LayerDrawable _icon;
 
 
     public HelloWorldTool(final Context context) {
@@ -71,7 +70,7 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
 
 
 
-    private BroadcastReceiver br = new BroadcastReceiver() {
+    private final BroadcastReceiver br = new BroadcastReceiver() {
         private int count = 0;
         @Override
         public void onReceive(Context c, Intent intent) {

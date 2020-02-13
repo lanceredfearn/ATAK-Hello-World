@@ -26,8 +26,8 @@ import java.util.UUID;
  */
 public class SpeechBloodHound extends SpeechActivity {
     private final String TAG = "SPEECH_BLOODHOUND";
-    private String[] routeArray;
-    private String[] callsignArray;
+    private final String[] routeArray;
+    private final String[] callsignArray;
 
     /**
      * Constructor.

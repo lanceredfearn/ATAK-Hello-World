@@ -10,8 +10,8 @@ import com.atakmap.android.maps.MapView;
  *                        -broadcast that target to some receiver
  */
 abstract class SpeechActivity {
-  private  MapView view;
-  private Context pluginContext;
+  private final MapView view;
+  private final Context pluginContext;
 
   SpeechActivity(MapView view, Context pluginContext) {
         this.view = view;

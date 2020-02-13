@@ -59,14 +59,14 @@ public class GLSpecialMarker extends GLPointMapItem2 implements GLMapBatchable2 
 
     private final MapItem subject;
 
-    GLMarker2 markerRenderer;
+    final GLMarker2 markerRenderer;
 
     public GLSpecialMarker(MapRenderer surface, PointMapItem subject) {
         super(surface, subject, GLMapView.RENDER_PASS_SPRITES);
         markerRenderer = new GLMarker2(surface, (Marker)subject); //, GLMapView.RENDER_PASS_SPRITES);
         markerRenderer.startObserving();
 
-        this.subject = (MapItem) subject;
+        this.subject = subject;
     }
 
     /**************************************************************************/

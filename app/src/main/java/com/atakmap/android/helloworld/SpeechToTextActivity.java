@@ -41,7 +41,7 @@ public class SpeechToTextActivity extends Activity {
     private static final String DIGIT_VALIDATOR = "com.atackmap.android.helloworld.DIGIT_VALIDATOR";
     private static final String MARKER_VALIDATOR = "com.atackmap.android.helloworld.MARKER_VALIDATOR";
 
-    private HashMap<String, String> mgrsData = new HashMap<>();
+    private final HashMap<String, String> mgrsData = new HashMap<>();
     private TextView txtSpeechInput;
     private TextView txtNorthing;
     private TextView txtEasting;

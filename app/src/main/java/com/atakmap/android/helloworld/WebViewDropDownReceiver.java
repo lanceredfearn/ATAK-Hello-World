@@ -9,7 +9,6 @@ import com.atakmap.android.dropdown.DropDownReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.LinearLayout;
 
@@ -18,10 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebChromeClient;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebViewClient;
-import android.webkit.WebResourceResponse;
 import android.graphics.Bitmap;
-
-import com.atakmap.coremap.filesystem.FileSystemUtils;
 
 import com.atakmap.coremap.log.Log;
 
@@ -31,12 +27,12 @@ public class WebViewDropDownReceiver extends DropDownReceiver implements
 
     public static final String TAG = "WebViewDropDownReceiver";
 
-    Context pluginContext;
-    Context appContext;
+    final Context pluginContext;
+    final Context appContext;
 
     private final WebView htmlViewer;
 
-    private LinearLayout ll;
+    private final LinearLayout ll;
 
     public WebViewDropDownReceiver(final MapView mapView,
             final Context context) {

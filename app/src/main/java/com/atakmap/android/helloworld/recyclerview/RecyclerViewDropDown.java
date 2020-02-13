@@ -40,7 +40,7 @@ public class RecyclerViewDropDown extends DropDownReceiver implements
 
         _view = LayoutInflater.from(_plugin).inflate(R.layout.recycler_view,
                 mapView, false);
-        _rView = (RecyclerView) _view.findViewById(R.id.rView);
+        _rView = _view.findViewById(R.id.rView);
         _adapter = new RecyclerViewAdapter(_mapView, _plugin);
         _rView.setAdapter(_adapter);
         _rView.setLayoutManager(new LinearLayoutManager(_plugin,

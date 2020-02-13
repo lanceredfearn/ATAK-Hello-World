@@ -31,7 +31,7 @@ import java.util.concurrent.Callable;
  * testing of common code helper functions.
  */
 public class MapTest extends ATAKTestClass {
-    private Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    private final Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
     // TODO: move these to ATAKTestClass if they're useful to generalize, but may need to be tailored a bit for each test class
     @BeforeClass

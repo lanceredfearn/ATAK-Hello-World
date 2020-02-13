@@ -4,9 +4,7 @@ package com.atakmap.android.helloworld;
 import android.content.Context;
 import android.content.Intent;
 
-import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
-import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
@@ -18,11 +16,8 @@ import com.atakmap.android.maps.graphics.GLMapItemFactory;
 import com.atakmap.android.maps.MapEventDispatcher;
 import com.atakmap.android.maps.MapEventDispatcher.MapEventDispatchListener;
 import com.atakmap.android.maps.MapEvent;
-import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
-import com.atakmap.android.menu.MapMenuWidget;
-import com.atakmap.android.menu.MenuMapComponent;
 import com.atakmap.android.munitions.DangerCloseReceiver;
 import com.atakmap.android.user.geocode.GeocodeManager;
 import com.atakmap.coremap.cot.event.CotDetail;
@@ -51,10 +46,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -66,10 +58,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * This is an example of a MapComponent within the ATAK 
@@ -317,7 +307,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
     }
 
-    private GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
+    private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
         @Override
         public String getUniqueIdentifier() {
             return "fake-geocoder";

@@ -6,7 +6,7 @@ import android.opengl.GLES20;
 import java.nio.IntBuffer;
 
 public class ShaderInfo {
-    public static String imageVertexShaderString = "attribute vec4 position;\n"
+    public static final String imageVertexShaderString = "attribute vec4 position;\n"
             +
             "varying vec2 textureCoordinate;\n" +
             "\n" +
@@ -25,7 +25,7 @@ public class ShaderInfo {
             // TEXTURE REQUIRES VERTICAL FLIP
             "  textureCoordinate.y = 1.0 - textureCoordinate.y;\n" +
             "}";
-    public static String imageFragmentShaderString = "precision mediump float;\n"
+    public static final String imageFragmentShaderString = "precision mediump float;\n"
             +
             "varying vec2 textureCoordinate;\n" +
             "uniform sampler2D s_texture;\n" +

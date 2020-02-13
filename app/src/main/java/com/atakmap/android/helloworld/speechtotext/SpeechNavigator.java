@@ -27,7 +27,7 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
 
     private String inputDestination;
     private String inputOrigin;
-    private boolean navFlag;
+    private final boolean navFlag;
 
     public SpeechNavigator(MapView mapview, String input, Boolean quickNav) {
          super(mapview,mapview.getContext());

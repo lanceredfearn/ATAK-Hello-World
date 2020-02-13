@@ -7,11 +7,9 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 
 import com.atakmap.android.gui.PanEditTextPreference;
-import com.atakmap.android.maps.MapView;
 import com.atakmap.android.preference.PluginPreferenceFragment;
 import com.atakmap.android.helloworld.plugin.R;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import com.atakmap.coremap.filesystem.FileSystemUtils;

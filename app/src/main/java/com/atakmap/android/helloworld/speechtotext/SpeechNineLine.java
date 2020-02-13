@@ -20,7 +20,7 @@ import com.atakmap.android.maps.MapView;
 public class SpeechNineLine extends SpeechActivity {
     private final String TAG = "SPEECH_NINE_LINE";
     private String target;
-    private MapGroup cotGroup;
+    private final MapGroup cotGroup;
     /**
      * Finds the described marker
      * @param input - the marker wanted

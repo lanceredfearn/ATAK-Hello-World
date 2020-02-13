@@ -70,7 +70,7 @@ public class SpeechToActivity extends Activity {
     private String[] cameraArray;
 
     private Intent returnIntent;
-    private Bundle activities = new Bundle();
+    private final Bundle activities = new Bundle();
 
 
     /**

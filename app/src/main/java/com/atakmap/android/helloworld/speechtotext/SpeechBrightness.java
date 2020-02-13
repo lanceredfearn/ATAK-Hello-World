@@ -15,12 +15,12 @@ import com.atakmap.android.maps.MapView;
  * Gets x then sends it to the brightness receiver to change the brightness
  */
  public class SpeechBrightness extends SpeechActivity {
-    private String[] highArray;
-    private String[] mediumArray;
-    private String[] lowArray;
+    private final String[] highArray;
+    private final String[] mediumArray;
+    private final String[] lowArray;
 
     private int value = -1;
-    private Intent returnIntent = new Intent();
+    private final Intent returnIntent = new Intent();
 
     public SpeechBrightness(MapView view, Context pluginContext, String input) {
         super(view, pluginContext);

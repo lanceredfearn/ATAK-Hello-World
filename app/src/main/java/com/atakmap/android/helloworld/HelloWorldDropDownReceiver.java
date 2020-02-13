@@ -34,9 +34,6 @@ import com.atakmap.android.dropdown.DropDownManager;
 import com.atakmap.android.routes.Route.RouteMethod;
 
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import com.atakmap.android.hierarchy.HierarchyListReceiver;
 import com.atakmap.android.toolbar.ToolManagerBroadcastReceiver;
 import com.atakmap.android.tools.ActionBarReceiver;
@@ -104,8 +101,6 @@ import com.atakmap.android.contact.Contacts;
 import com.atakmap.android.contact.Contact;
 import com.atakmap.android.contact.IndividualContact;
 
-import java.util.List;
-
 import android.os.SystemClock;
 
 import com.atakmap.coremap.maps.time.CoordinatedTime;
@@ -148,8 +143,6 @@ import com.atakmap.map.elevation.ElevationData;
 
 import com.atakmap.coremap.log.Log;
 
-import java.util.UUID;
-
 import android.app.Activity;
 
 import java.lang.*;
@@ -177,7 +170,7 @@ import android.hardware.SensorManager;
 public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         OnStateListener, SensorEventListener {
 
-    private NotificationManager nm;
+    private final NotificationManager nm;
 
     public static final String TAG = "HelloWorldDropDownReceiver";
 
@@ -191,9 +184,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private final Context pluginContext;
     private final Contact helloContact;
     private RouteEventListener routeEventListener = null;
-    private HelloWorldMapOverlay mapOverlay;
-    private RecyclerViewDropDown recyclerView;
-    private TabViewDropDown tabView;
+    private final HelloWorldMapOverlay mapOverlay;
+    private final RecyclerViewDropDown recyclerView;
+    private final TabViewDropDown tabView;
 
     // inspection map selector
     final InspectionMapItemSelectionTool imis;
@@ -204,8 +197,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     private ExampleLayer exampleLayer;
 
-    private CameraActivity.CameraDataListener cdl = new CameraActivity.CameraDataListener();
-    private CameraActivity.CameraDataReceiver cdr = new CameraActivity.CameraDataReceiver() {
+    private final CameraActivity.CameraDataListener cdl = new CameraActivity.CameraDataListener();
+    private final CameraActivity.CameraDataReceiver cdr = new CameraActivity.CameraDataReceiver() {
         public void onCameraDataReceived(Bitmap b) {
             Log.d(TAG, "==========img received======>" + b);
             b.recycle();
@@ -227,8 +220,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
      * and an activity intent. Other stuff is added on a case-by-case basis.
      * See SpeechToActivity for more details.
      */
-    private SpeechToActivity.SpeechDataListener sd1a = new SpeechToActivity.SpeechDataListener();
-    private SpeechToActivity.SpeechDataReceiver sdra = new SpeechToActivity.SpeechDataReceiver() {
+    private final SpeechToActivity.SpeechDataListener sd1a = new SpeechToActivity.SpeechDataListener();
+    private final SpeechToActivity.SpeechDataReceiver sdra = new SpeechToActivity.SpeechDataReceiver() {
         /**
          * This receives the activityInfoBundle from SpeechToActivity. The switch case decides what classes to call
          * @param activityInfoBundle - Bundle containing the activity intent, destination, origin, marker type and more.
@@ -293,10 +286,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         }
     };
 
-    private CotServiceRemote csr;
+    private final CotServiceRemote csr;
     private boolean connected = false;
 
-    CotServiceRemote.ConnectionListener cl = new CotServiceRemote.ConnectionListener() {
+    final CotServiceRemote.ConnectionListener cl = new CotServiceRemote.ConnectionListener() {
         @Override
         public void onCotServiceConnected(Bundle fullServiceState) {
             Log.d(TAG, "onCotServiceConnected: ");
@@ -311,8 +304,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     };
 
-    CotStreamListener csl;
-    CotServiceRemote.OutputsChangedListener _outputsChangedListener = new CotServiceRemote.OutputsChangedListener() {
+    final CotStreamListener csl;
+    final CotServiceRemote.OutputsChangedListener _outputsChangedListener = new CotServiceRemote.OutputsChangedListener() {
         @Override
         public void onCotOutputRemoved(Bundle descBundle) {
             Log.d(TAG, "stream removed");
@@ -501,7 +494,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         // The button bellow shows how one might go about
         // programatically changing the size of the drop down.
-        final Button smaller = (Button) helloView
+        final Button smaller = helloView
                 .findViewById(R.id.smallerButton);
         smaller.setOnClickListener(new OnClickListener() {
 
@@ -518,7 +511,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         // The button bellow shows how one might go about
         // programatically changing the size of the drop down.
-        final Button larger = (Button) helloView
+        final Button larger = helloView
                 .findViewById(R.id.largerButton);
         larger.setOnClickListener(new OnClickListener() {
 
@@ -532,7 +525,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // programatically flying through a list of points.
         // In this case they are synthetically generated.
         // They could just as easily be points on a route, etc.
-        final Button fly = (Button) helloView.findViewById(R.id.fly);
+        final Button fly = helloView.findViewById(R.id.fly);
         fly.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -546,7 +539,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                                     false);
                             try {
                                 Thread.sleep(1000);
-                            } catch (Exception e) {
+                            } catch (Exception ignored) {
                             }
                         }
                     }
@@ -562,7 +555,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // items on a map and replacing the menu on start,
         // and then listening for ITEM_ADDED for each
         // additional placement of a new item.
-        final Button wheel = (Button) helloView
+        final Button wheel = helloView
                 .findViewById(R.id.specialWheelMarker);
         wheel.setOnClickListener(new OnClickListener() {
             @Override
@@ -572,7 +565,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button addAnAircraft = (Button) helloView
+        final Button addAnAircraft = helloView
                 .findViewById(R.id.addAnAircraft);
         addAnAircraft.setOnClickListener(new OnClickListener() {
             @Override
@@ -583,7 +576,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         // The button bellow shows how one might go about
         // programmatically listing all routes on the map.
-        final Button listRoutes = (Button) helloView
+        final Button listRoutes = helloView
                 .findViewById(R.id.listRoutes);
         listRoutes.setOnClickListener(new OnClickListener() {
             @Override
@@ -595,7 +588,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 AlertDialog.Builder builderSingle = new AlertDialog.Builder(
                         mapView.getContext());
                 builderSingle.setTitle("Select a Route");
-                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                         pluginContext,
                         android.R.layout.select_dialog_singlechoice);
 
@@ -619,7 +612,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         // The button bellow shows how one might go about
         // setting up a custom map widget.
-        final Button showSearchIcon = (Button) helloView
+        final Button showSearchIcon = helloView
                 .findViewById(R.id.showSearchIcon);
         showSearchIcon.setOnClickListener(new OnClickListener() {
             @Override
@@ -656,7 +649,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // programatically add a route to the system. Adding
         // an array of points will be much faster than adding
         // them one at a time.
-        final Button addRoute = (Button) helloView.findViewById(R.id.addXRoute);
+        final Button addRoute = helloView.findViewById(R.id.addXRoute);
         addRoute.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -667,7 +660,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         Color.WHITE, "CP",
                         UUID.randomUUID().toString());
 
-                Marker m[] = new Marker[5];
+                Marker[] m = new Marker[5];
                 for (int i = 0; i < 5; ++i) {
                     GeoPoint x = new GeoPoint(
                             sp.get().getLatitude() + (i * .0001),
@@ -692,7 +685,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button reRoute = (Button) helloView.findViewById(R.id.reXRoute);
+        final Button reRoute = helloView.findViewById(R.id.reXRoute);
         reRoute.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -702,7 +695,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 }
 
                 GeoPointMetaData sp = getMapView().getPointWithElevation();
-                PointMapItem m[] = new PointMapItem[16];
+                PointMapItem[] m = new PointMapItem[16];
                 for (int i = 1; i < m.length; ++i) {
                     if (i % 2 == 0) {
                         GeoPoint x = new GeoPoint(sp.get().getLatitude()
@@ -728,7 +721,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button dropRoute = (Button) helloView
+        final Button dropRoute = helloView
                 .findViewById(R.id.dropRoute);
         dropRoute.setOnClickListener(new OnClickListener() {
             @Override
@@ -751,7 +744,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button emergency = (Button) helloView
+        final Button emergency = helloView
                 .findViewById(R.id.emergency);
         emergency.setOnClickListener(new OnClickListener() {
             @Override
@@ -761,7 +754,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button noemergency = (Button) helloView
+        final Button noemergency = helloView
                 .findViewById(R.id.no_emergency);
         noemergency.setOnClickListener(new OnClickListener() {
             @Override
@@ -771,7 +764,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button rbCircle = (Button) helloView.findViewById(R.id.rbcircle);
+        final Button rbCircle = helloView.findViewById(R.id.rbcircle);
         rbCircle.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -806,7 +799,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         });
 
-        final Button addRect = (Button) helloView
+        final Button addRect = helloView
                 .findViewById(R.id.addRectangle);
         addRect.setOnClickListener(new OnClickListener() {
             @Override
@@ -847,7 +840,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button externalGps = (Button) helloView
+        final Button externalGps = helloView
                 .findViewById(R.id.externalGps);
         externalGps.setOnClickListener(new OnClickListener() {
             @Override
@@ -861,7 +854,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button staleout = (Button) helloView
+        final Button staleout = helloView
                 .findViewById(R.id.staleoutMarker);
         staleout.setOnClickListener(new OnClickListener() {
             @Override
@@ -891,7 +884,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button surfaceAtCenter = (Button) helloView
+        final Button surfaceAtCenter = helloView
                 .findViewById(R.id.surfaceAtCenter);
         surfaceAtCenter.setOnClickListener(new OnClickListener() {
             @Override
@@ -927,7 +920,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         });
 
-        final Button fakeContentProvider = (Button) helloView
+        final Button fakeContentProvider = helloView
                 .findViewById(R.id.fakeContentProvider);
         fakeContentProvider.setOnClickListener(new OnClickListener() {
             @Override
@@ -937,7 +930,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button pluginNotification = (Button) helloView
+        final Button pluginNotification = helloView
                 .findViewById(R.id.pluginNotification);
         pluginNotification.setOnClickListener(new OnClickListener() {
             @Override
@@ -952,7 +945,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button addStream = (Button) helloView
+        final Button addStream = helloView
                 .findViewById(R.id.addStream);
         addStream.setOnClickListener(new OnClickListener() {
             @Override
@@ -1001,7 +994,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button removeStream = (Button) helloView
+        final Button removeStream = helloView
                 .findViewById(R.id.removeStream);
         removeStream.setOnClickListener(new OnClickListener() {
             @Override
@@ -1012,7 +1005,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button itemInspect = (Button) helloView
+        final Button itemInspect = helloView
                 .findViewById(R.id.itemInspect);
         itemInspect.setOnClickListener(new OnClickListener() {
             @Override
@@ -1034,7 +1027,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button cameraLauncher = (Button) helloView
+        final Button cameraLauncher = helloView
                 .findViewById(R.id.cameraLauncher);
         cameraLauncher.setOnClickListener(new OnClickListener() {
             @Override
@@ -1052,7 +1045,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button bumpControl = (Button) helloView
+        final Button bumpControl = helloView
                 .findViewById(R.id.bumpControl);
         bumpControl.setOnClickListener(new OnClickListener() {
             @Override
@@ -1098,7 +1091,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });*/
 
-        final Button speechToActivity = (Button) helloView
+        final Button speechToActivity = helloView
                 .findViewById(R.id.speechToActivity);
         speechToActivity.setOnClickListener(new OnClickListener() {
             @Override
@@ -1118,7 +1111,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button customType = (Button) helloView
+        final Button customType = helloView
                 .findViewById(R.id.customType);
         customType.setOnClickListener(new OnClickListener() {
             @Override
@@ -1150,7 +1143,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     public void run() {
                         try {
                             Thread.sleep(10000);
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                         m.setTextColor(0xFFFF0000);
                         Log.d(TAG, "text color set");
@@ -1162,7 +1155,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button customMenuDefault = (Button) helloView
+        final Button customMenuDefault = helloView
                 .findViewById(R.id.customMenuDefault);
         customMenuDefault.setOnClickListener(new OnClickListener() {
             @Override
@@ -1180,7 +1173,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button issLocation = (Button) helloView
+        final Button issLocation = helloView
                 .findViewById(R.id.issLocation);
         issLocation.setOnClickListener(new OnClickListener() {
             @Override
@@ -1216,7 +1209,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
          * an example of how to send Plugin Specific Notifications.   Please see the Plugin
          * Notification example.
          */
-        final Button notificationSpammer = (Button) helloView
+        final Button notificationSpammer = helloView
                 .findViewById(R.id.notificationSpammer);
         notificationSpammer.setOnClickListener(new OnClickListener() {
             @Override
@@ -1228,13 +1221,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     //int evtReceivedIcon = com.atakmap.app.R.drawable.ic_notify_drawing;
                     int evtReceivedIcon = com.atakmap.app.R.drawable.team_human;
                     String contentTitle = "Test Spammer: " + i;
-                    String tickerText = contentTitle;
-                    String contentText = contentTitle;
                     // remember this is just an example on how to crash the NW devices.
                     // not how to send custom plugin specific notification.
                     NotificationUtil.getInstance().postNotification(indx + i,
-                            evtReceivedIcon, contentTitle, tickerText,
-                            contentText, null, true);
+                            evtReceivedIcon, contentTitle, contentTitle,
+                            contentTitle, null, true);
 
                 }
 
@@ -1246,7 +1237,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button videoLauncher = (Button) helloView
+        final Button videoLauncher = helloView
                 .findViewById(R.id.videoLauncher);
         videoLauncher.setOnClickListener(new OnClickListener() {
             @Override
@@ -1264,7 +1255,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // show a drop down without any extras passed in.
         ActionBroadcastData abd = new ActionBroadcastData(
                 "com.ford.tool.showtoast",
-                new ArrayList<ActionBroadcastExtraStringData>());
+                new ArrayList<>());
 
         List<ActionClickData> acdList = new ArrayList<>();
         acdList.add(new ActionClickData(abd, "click"));
@@ -1277,7 +1268,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 new AtakBroadcast.DocumentedIntentFilter(
                         "com.ford.tool.showtoast"));
 
-        final Button addToolbarItem = (Button) helloView
+        final Button addToolbarItem = helloView
                 .findViewById(R.id.addToolbarItem);
         addToolbarItem.setOnClickListener(new OnClickListener() {
             @Override
@@ -1299,7 +1290,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button addCountToIcon = (Button) helloView.findViewById(R.id.addCountToIcon);
+        final Button addCountToIcon = helloView.findViewById(R.id.addCountToIcon);
         addCountToIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1309,7 +1300,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         });
 
 
-        final Button imageAttach = (Button) helloView
+        final Button imageAttach = helloView
                 .findViewById(R.id.imageAttach);
         imageAttach.setOnClickListener(new OnClickListener() {
             @Override
@@ -1334,7 +1325,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button webView = (Button) helloView
+        final Button webView = helloView
                 .findViewById(R.id.webView);
         webView.setOnClickListener(new OnClickListener() {
             @Override
@@ -1349,7 +1340,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button addLayer = (Button) helloView
+        final Button addLayer = helloView
                 .findViewById(R.id.addLayer);
         addLayer.setOnClickListener(new OnClickListener() {
             @Override
@@ -1391,7 +1382,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button btnHookNavigationEvents = (Button) helloView
+        final Button btnHookNavigationEvents = helloView
                 .findViewById(R.id.btnHookNavigationEvents);
         btnHookNavigationEvents.setText(
                 routeEventListener == null ? "Hook into navigation events"
@@ -1452,7 +1443,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final Button coordinateEntry = (Button) helloView
+        final Button coordinateEntry = helloView
                 .findViewById(R.id.coordinateEntry);
         coordinateEntry.setOnClickListener(new OnClickListener() {
             @Override
@@ -1505,10 +1496,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         });
 
         // blind cast
-        final LinearLayout secondRender = (LinearLayout) helloView
+        final LinearLayout secondRender = helloView
                 .findViewById(R.id.secondRender);
         final OffscreenMapCapture mc = new OffscreenMapCapture(secondRender);
-        final Button getimage = (Button) helloView
+        final Button getimage = helloView
                 .findViewById(R.id.getImage);
         getimage.setOnClickListener(new OnClickListener() {
             @Override
@@ -1599,11 +1590,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     }
 
-    BroadcastReceiver inspectionReceiver = new BroadcastReceiver() {
+    final BroadcastReceiver inspectionReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             AtakBroadcast.getInstance().unregisterReceiver(this);
-            final Button itemInspect = (Button) helloView
+            final Button itemInspect = helloView
                     .findViewById(R.id.itemInspect);
             itemInspect.setSelected(false);
 
@@ -1834,59 +1825,67 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "showing hello world drop down");
 
+        final String action = intent.getAction();
+        if (action == null)
+            return;
+
         // Show drop-down
-        if (intent.getAction().equals(SHOW_HELLO_WORLD)) {
-            showDropDown(helloView, HALF_WIDTH, FULL_HEIGHT,
-                    FULL_WIDTH, HALF_HEIGHT, false, this);
-            setAssociationKey("helloWorldPreference");
-            List<Contact> allContacts = Contacts.getInstance().getAllContacts();
-            for (Contact c : allContacts) {
-                if (c instanceof IndividualContact)
-                    Log.d(TAG, "Contact IP address: "
-                            + getIpAddress((IndividualContact) c));
+        switch (action) {
+            case SHOW_HELLO_WORLD:
+                showDropDown(helloView, HALF_WIDTH, FULL_HEIGHT,
+                        FULL_WIDTH, HALF_HEIGHT, false, this);
+                setAssociationKey("helloWorldPreference");
+                List<Contact> allContacts = Contacts.getInstance().getAllContacts();
+                for (Contact c : allContacts) {
+                    if (c instanceof IndividualContact)
+                        Log.d(TAG, "Contact IP address: "
+                                + getIpAddress((IndividualContact) c));
+                }
+
+                break;
+
+            // Chat message sent to Hello World contact
+            case CHAT_HELLO_WORLD:
+                Bundle cotMessage = intent.getBundleExtra(
+                        ChatManagerMapComponent.PLUGIN_SEND_MESSAGE_EXTRA);
+
+                String msg = cotMessage.getString("message");
+
+                if (!FileSystemUtils.isEmpty(msg)) {
+                    // Display toast to show the message was received
+                    toast(helloContact.getName() + " received: " + msg);
+                }
+                break;
+
+            // Sending CoT to Hello World contact
+            case SEND_HELLO_WORLD:
+                // Map item UID
+                String uid = intent.getStringExtra("targetUID");
+                MapItem mapItem = getMapView().getRootGroup().deepFindUID(uid);
+                if (mapItem != null) {
+                    // Display toast to show the CoT was received
+                    toast(helloContact.getName() + " received request to send: "
+                            + ATAKUtilities.getDisplayName(mapItem));
+                }
+                break;
+
+            // Toggle visibility of example layer
+            case LAYER_VISIBILITY: {
+                ExampleLayer l = mapOverlay.findLayer(intent
+                        .getStringExtra("uid"));
+                if (l != null)
+                    l.setVisible(!l.isVisible());
+                break;
             }
 
-        }
-
-        // Chat message sent to Hello World contact
-        else if (intent.getAction().equals(CHAT_HELLO_WORLD)) {
-            Bundle cotMessage = intent.getBundleExtra(
-                    ChatManagerMapComponent.PLUGIN_SEND_MESSAGE_EXTRA);
-
-            String msg = cotMessage.getString("message");
-
-            if (!FileSystemUtils.isEmpty(msg)) {
-                // Display toast to show the message was received
-                toast(helloContact.getName() + " received: " + msg);
+            // Delete example layer
+            case LAYER_DELETE: {
+                ExampleLayer l = mapOverlay.findLayer(intent
+                        .getStringExtra("uid"));
+                if (l != null)
+                    getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS, l);
+                break;
             }
-        }
-
-        // Sending CoT to Hello World contact
-        else if (intent.getAction().equals(SEND_HELLO_WORLD)) {
-            // Map item UID
-            String uid = intent.getStringExtra("targetUID");
-            MapItem mapItem = getMapView().getRootGroup().deepFindUID(uid);
-            if (mapItem != null) {
-                // Display toast to show the CoT was received
-                toast(helloContact.getName() + " received request to send: "
-                        + ATAKUtilities.getDisplayName(mapItem));
-            }
-        }
-
-        // Toggle visibility of example layer
-        else if (intent.getAction().equals(LAYER_VISIBILITY)) {
-            ExampleLayer l = mapOverlay.findLayer(intent
-                    .getStringExtra("uid"));
-            if (l != null)
-                l.setVisible(!l.isVisible());
-        }
-
-        // Delete example layer
-        else if (intent.getAction().equals(LAYER_DELETE)) {
-            ExampleLayer l = mapOverlay.findLayer(intent
-                    .getStringExtra("uid"));
-            if (l != null)
-                getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS, l);
         }
     }
 
@@ -1918,7 +1917,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         // make sure that if the Map Item inspector is running
         // turn off the map item inspector
-        final Button itemInspect = (Button) helloView
+        final Button itemInspect = helloView
                 .findViewById(R.id.itemInspect);
         boolean val = itemInspect.isSelected();
         if (val) {
@@ -1946,7 +1945,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         return routeComponent.getRouteMapReceiver();
     }
 
-    BroadcastReceiver fordReceiver = new BroadcastReceiver() {
+    final BroadcastReceiver fordReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(getMapView().getContext(),
@@ -2005,7 +2004,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 getMapView().getMapController().panTo(mgrsPoint, false);
                 try {
                     Thread.sleep(1000);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
 
             }
@@ -2206,23 +2205,31 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             jr.beginObject();
             while (jr.hasNext()) {
                 String name = jr.nextName();
-                if (name.equals("iss_position")) {
-                    jr.beginObject();
-                    while (jr.hasNext()) {
-                        String n = jr.nextName();
-                        if (n.equals("latitude")) {
-                            lat = jr.nextDouble();
-                        } else if (n.equals("longitude")) {
-                            lon = jr.nextDouble();
-                        } else if (n.equals("message")) {
-                            jr.skipValue();
+                switch (name) {
+                    case "iss_position":
+                        jr.beginObject();
+                        while (jr.hasNext()) {
+                            String n = jr.nextName();
+                            switch (n) {
+                                case "latitude":
+                                    lat = jr.nextDouble();
+                                    break;
+                                case "longitude":
+                                    lon = jr.nextDouble();
+                                    break;
+                                case "message":
+                                    jr.skipValue();
+                                    break;
+                            }
                         }
-                    }
-                    jr.endObject();
-                } else if (name.equals("timestamp")) {
-                    jr.skipValue();
-                } else if (name.equals("message")) {
-                    jr.skipValue();
+                        jr.endObject();
+                        break;
+                    case "timestamp":
+                        jr.skipValue();
+                        break;
+                    case "message":
+                        jr.skipValue();
+                        break;
                 }
             }
             jr.endObject();

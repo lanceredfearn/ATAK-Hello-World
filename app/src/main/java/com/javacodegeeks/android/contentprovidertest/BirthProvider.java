@@ -2,6 +2,8 @@
 package com.javacodegeeks.android.contentprovidertest;
 
 import java.util.HashMap;
+import java.util.Objects;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -114,7 +116,7 @@ public class BirthProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
-        if (sortOrder == null || sortOrder == "") {
+        if (sortOrder == null || Objects.equals(sortOrder, "")) {
             // No sorting-> sort on names by default
             sortOrder = NAME;
         }

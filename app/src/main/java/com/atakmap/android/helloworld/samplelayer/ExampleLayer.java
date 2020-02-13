@@ -21,14 +21,14 @@ public class ExampleLayer extends AbstractLayer {
 
     public static final String TAG = "ExampleLayer";
 
-    int[] layerARGB;
-    int layerWidth;
-    int layerHeight;
+    final int[] layerARGB;
+    final int layerWidth;
+    final int layerHeight;
 
-    GeoPoint upperLeft;
-    GeoPoint upperRight;
-    GeoPoint lowerRight;
-    GeoPoint lowerLeft;
+    final GeoPoint upperLeft;
+    final GeoPoint upperRight;
+    final GeoPoint lowerRight;
+    final GeoPoint lowerLeft;
 
     private final Context pluginContext;
     private final MetaShape metaShape;

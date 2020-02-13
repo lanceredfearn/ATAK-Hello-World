@@ -9,27 +9,22 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.opengles.GL10;
-import android.opengl.EGL14;
+
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.view.ViewGroup;
 
-import com.atakmap.coremap.filesystem.FileSystemUtils;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.map.opengl.GLMapView;
-import com.atakmap.math.MathUtils;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.util.List;
 
 public class OffscreenMapCapture {
 
-    final float squareVertices[] = {
+    final float[] squareVertices = {
             1.0f, 1.0f,
             -1.0f, 1.0f,
             1.0f, -1.0f,
@@ -37,16 +32,16 @@ public class OffscreenMapCapture {
     };
 
     GLSurfaceView glView = null;
-    int[] prevFrameBuffer = new int[1];
-    int colorRenderBuffer[] = new int[1];
-    int textureFrameBuffer[] = new int[1];
-    int textures[] = new int[1];
+    final int[] prevFrameBuffer = new int[1];
+    final int[] colorRenderBuffer = new int[1];
+    final int[] textureFrameBuffer = new int[1];
+    final int[] textures = new int[1];
     boolean isGettingAndSettingImages = false;
 
     FloatBuffer imageVertexBuffer = null;
 
     GLES20Renderer renderer = null;
-    Runnable stopGettingAndSettingImage = new Runnable() {
+    final Runnable stopGettingAndSettingImage = new Runnable() {
         public void run() {
             GLES20.glDeleteTextures(1, textures, 0);
             GLES20.glDeleteRenderbuffers(1, colorRenderBuffer, 0);
@@ -58,7 +53,7 @@ public class OffscreenMapCapture {
         }
     };
 
-    Runnable getAndSetImage = new Runnable() {
+    final Runnable getAndSetImage = new Runnable() {
         // for debugging purposes
         boolean glFlushErrors(String msg, boolean quiet) {
             boolean r = false;
@@ -239,8 +234,8 @@ public class OffscreenMapCapture {
                     float imgratio = viewSizeX / viewSizeY;
 
                     float tmpS, tmpSize;
-                    float plw = (float) (2.f * viewSizeX),
-                            plh = (float) (2.f * viewSizeY);
+                    float plw = 2.f * viewSizeX,
+                            plh = 2.f * viewSizeY;
 
                     if ((tmpS = plw / imgratio) < plh) {
                         /* size is bound by width */
@@ -251,10 +246,10 @@ public class OffscreenMapCapture {
                     }
 
                     float dw, dh;
-                    dw = (float) tmpSize * (imgratio);
-                    dh = (float) tmpSize;
-                    float fwidth = (float) (.5f * dw / viewSizeX),
-                            fheight = (float) (.5f * dh / viewSizeY);
+                    dw = tmpSize * (imgratio);
+                    dh = tmpSize;
+                    float fwidth = .5f * dw / viewSizeX,
+                            fheight = .5f * dh / viewSizeY;
                     int mXYScaleHandle = GLES20.glGetUniformLocation(prog,
                             "xyscale");
                     GLES20.glUniform2f(mXYScaleHandle, fwidth, fheight);
@@ -267,7 +262,7 @@ public class OffscreenMapCapture {
                     int mRotHandle = GLES20.glGetUniformLocation(prog, "rot");
                     float viewRot = (float) ((-Math.PI / 2.f)
                             + (rotation / 180.f) * Math.PI);
-                    GLES20.glUniform1f(mRotHandle, (float) viewRot);
+                    GLES20.glUniform1f(mRotHandle, viewRot);
                     int mNoAlphaHandle = GLES20.glGetUniformLocation(prog,
                             "no_alpha");
                     int mAlphaHandle = GLES20.glGetUniformLocation(prog,
@@ -304,7 +299,7 @@ public class OffscreenMapCapture {
                 }
             }
         }
-    };
+    }
 
     public OffscreenMapCapture(LinearLayout ll) {
 

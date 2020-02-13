@@ -22,10 +22,10 @@ import com.atakmap.android.maps.MapView;
  */
 public class SpeechItemRemover extends SpeechActivity {
     private final String TAG = "SPEECH_ITEM_REMOVER";
-    private String[] callsignArray;
-    private String[] drawingObjectArray;
-    private String[] routeArray;
-    private String[] wordNumberArray;
+    private final String[] callsignArray;
+    private final String[] drawingObjectArray;
+    private final String[] routeArray;
+    private final String[] wordNumberArray;
     private MapGroup mapGroup;
     private MapItem targetItem;
     private String target;

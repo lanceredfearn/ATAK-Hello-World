@@ -19,8 +19,8 @@ import java.util.UUID;
  */
 public class SpeechLinker extends SpeechActivity {
 
-    private PointMapItem[] items = new PointMapItem[2];
-    private String[] selfArray;
+    private final PointMapItem[] items = new PointMapItem[2];
+    private final String[] selfArray;
 
     public SpeechLinker(String input, MapView view, Context pluginContext) {
         super(view, pluginContext);

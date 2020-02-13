@@ -91,14 +91,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     private class ViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        ImageView icon;
-        TextView callsign, lastUpdate;
+        final ImageView icon;
+        final TextView callsign;
+        final TextView lastUpdate;
 
         public ViewHolder(View v) {
             super(v);
-            icon = (ImageView) v.findViewById(R.id.icon);
-            callsign = (TextView) v.findViewById(R.id.callsign);
-            lastUpdate = (TextView) v.findViewById(R.id.last_update);
+            icon = v.findViewById(R.id.icon);
+            callsign = v.findViewById(R.id.callsign);
+            lastUpdate = v.findViewById(R.id.last_update);
             v.setOnClickListener(this);
         }
 

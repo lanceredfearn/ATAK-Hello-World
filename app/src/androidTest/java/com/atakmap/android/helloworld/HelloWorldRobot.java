@@ -21,7 +21,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class HelloWorldRobot {
     private static final HelperFunctions HELPER = HelperFactory.getHelper();

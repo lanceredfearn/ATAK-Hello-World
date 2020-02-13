@@ -43,7 +43,7 @@ public class GLExampleLayer extends GLAbstractLayer {
     /*************************************************************************/
 
     private Data frame;
-    private ExampleLayer subject;
+    private final ExampleLayer subject;
 
     public GLExampleLayer(MapRenderer surface, ExampleLayer subject) {
         super(surface, subject);
@@ -116,9 +116,9 @@ public class GLExampleLayer extends GLAbstractLayer {
 
     private static class Data {
         GLTexture texture;
-        DoubleBuffer points;
-        FloatBuffer vertexCoordinates;
-        ByteBuffer textureCoordinates;
+        final DoubleBuffer points;
+        final FloatBuffer vertexCoordinates;
+        final ByteBuffer textureCoordinates;
 
         Data() {
             this.texture = null;

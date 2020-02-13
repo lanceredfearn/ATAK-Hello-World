@@ -6,8 +6,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-def PLUGIN_VERSION = "1.0";
-def ATAK_VERSION = "4.0.0";
+def PLUGIN_VERSION = "1.0"
+def ATAK_VERSION = "4.0.0"
 
 
  buildscript {
@@ -42,23 +42,23 @@ apply plugin: 'com.android.application'
 dependencies {
 
     if (new File("$project.projectDir/../../../ATAK/app/build/libs/main.jar").exists()) {
-        println("using the autobuilder version of main.jar");
+        println("using the autobuilder version of main.jar")
         compileOnly fileTree(dir: '../../../ATAK/app/build/libs', include: '*.jar')
     } else if (new File("$project.projectDir/../../../main.jar").exists()) {
-        println("using the sdk version of main.jar");
+        println("using the sdk version of main.jar")
         compileOnly fileTree(dir: '../../..', include: '*.jar')
     } else if (new File("sdk/main.jar").exists()) {
-        println("using the local version of main.jar");
+        println("using the local version of main.jar")
         compileOnly fileTree(dir: '../sdk/main.jar', include: '*.jar')
     } else if (project.rootProject.file("local.properties").exists()) {
         def props = new Properties()
         props.load(project.rootProject.file("local.properties").newDataInputStream())
         def sdkdir = props.getProperty("sdk.path").toString()
         if (sdkdir == null) {
-            println("error reading sdk.path from the local.properties file, this should point to the main.jar file");
+            println("error reading sdk.path from the local.properties file, this should point to the main.jar file")
         }
         if (new File(sdkdir).exists()) {
-           println("using the local version of ${sdkdir}");
+           println("using the local version of ${sdkdir}")
            compileOnly fileTree(dir: "${sdkdir}", include: '*.jar')
         }
     } else {
@@ -89,9 +89,9 @@ def getVersionName() {
             def describe = stdout.toString().trim()
             println("versionName[git]: $describe")
             return describe
-    } catch (Exception e) {
-       println("error occured, using revision of 1");
-       return 1;
+    } catch (Exception ignored) {
+       println("error occured, using revision of 1")
+       return 1
     }
 }
 
@@ -110,11 +110,11 @@ def getVersionCode() {
             def outputAsString = os.toString()
                 ext.revision = "$outputAsString".toInteger()
 
-                 println("version[git]: $revision");
+                 println("version[git]: $revision")
         }
-    } catch (Exception e) {
-       println("error occured, using revision of 1");
-       ext.revision = 1;
+    } catch (Exception ignored) {
+       println("error occured, using revision of 1")
+       ext.revision = 1
     }
 
     return revision
@@ -167,13 +167,13 @@ android {
         }
 
         release {
-            def f = new File("$project.projectDir/../../../ATAK/app/build/outputs/mapping/release/mapping.txt");
+            def f = new File("$project.projectDir/../../../ATAK/app/build/outputs/mapping/release/mapping.txt")
             if (f.exists()) {
                 System.setProperty("atak.proguard.mapping", "../../../ATAK/app/build/outputs/mapping/release/mapping.txt")
             } else {
-                println("WARNING: no mapping file exists, obfuscating just the plugin to work with the development core");
+                println("WARNING: no mapping file exists, obfuscating just the plugin to work with the development core")
                 file("$project.projectDir/build").mkdir()
-                file("$project.projectDir/build/blank-mapping.txt").text="";
+                file("$project.projectDir/build/blank-mapping.txt").text=""
                 System.setProperty("atak.proguard.mapping", "./build/blank-mapping.txt")
             }
 

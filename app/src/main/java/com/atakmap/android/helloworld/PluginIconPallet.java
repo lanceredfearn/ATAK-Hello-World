@@ -1,19 +1,18 @@
 
 package com.atakmap.android.helloworld;
 
-import com.atakmap.android.helloworld.plugin.HelloWorldLifecycle;
 import com.atakmap.android.helloworld.plugin.R;
 import android.support.v4.app.Fragment;
 import com.atakmap.android.user.icon.*;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.maps.MapItem;
-import com.atakmap.coremap.maps.coords.GeoPoint;
+
 import android.view.View;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.content.Context;
-import com.atakmap.android.maps.PointMapItem;
+
 import com.atakmap.coremap.maps.coords.GeoPointMetaData;
 
 public class PluginIconPallet implements IconPallet {
@@ -22,7 +21,7 @@ public class PluginIconPallet implements IconPallet {
     static Context pContext = null;
 
     public PluginIconPallet(Context pContext) {
-        this.pContext = pContext;
+        PluginIconPallet.pContext = pContext;
         this.fragment = new FooFragment();
     }
 
