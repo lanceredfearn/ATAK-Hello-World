@@ -122,5 +122,5 @@ testRelease:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - cp -R atak-civ/espresso sdk
+    - cp -R atak-civ/espresso .
     - ./gradlew -Pci --console=plain :app:testMilRelease
