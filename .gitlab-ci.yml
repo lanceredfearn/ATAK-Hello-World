@@ -93,6 +93,7 @@ assembleCivRelease:
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
+    - cp atak-civ/android_keystore sdk
     - ./gradlew -Pci --console=plain lintCivRelease assembleCivRelease
   artifacts:
     expire_in: 720h
@@ -106,6 +107,7 @@ assembleFveyRelease:
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
+    - cp atak-civ/android_keystore sdk
     - ./gradlew -Pci --console=plain lintFveyRelease assembleFveyRelease
   artifacts:
     expire_in: 720h
@@ -119,4 +121,6 @@ testRelease:
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
+    - cp atak-civ/android_keystore sdk
+    - cp -R atak-civ/espresso sdk
     - ./gradlew -Pci --console=plain :app:testMilRelease
