@@ -219,6 +219,7 @@ android {
 
     productFlavors {
         mil {
+            getIsDefault().set(true)
             dimension "application"
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".MIL"]
         }
