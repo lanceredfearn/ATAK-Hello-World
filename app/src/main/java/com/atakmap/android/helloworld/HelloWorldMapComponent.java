@@ -77,6 +77,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private HelloWorldMapOverlay mapOverlay;
     private View genericRadio;
     private JoystickView _joystickView;
+    private SpecialDetailHandler sdh; 
 
     public class JoystickView extends RelativeLayout {
 
@@ -139,12 +140,11 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         GLMapItemFactory.registerSpi(GLSpecialMarker.SPI);
 
-
         // Register capability to handle detail tags that TAK does not 
         // normally process.
         CotDetailManager.getInstance().registerHandler(
                 "__special",
-                new SpecialDetailHandler());
+                sdh = new SpecialDetailHandler());
 
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
         view.getMapOverlayManager().addOverlay(this.mapOverlay);
@@ -413,6 +413,8 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         ToolsPreferenceFragment.unregister("helloWorldPreference");
         RadioMapComponent.getInstance().unregisterControl(genericRadio);
         view.getMapOverlayManager().removeOverlay(mapOverlay);
+        CotDetailManager.getInstance().unregisterHandler(
+                sdh);
         super.onDestroyImpl(context, view);
 
         // Example call on how to end ATAK if the plugin is unloaded.
