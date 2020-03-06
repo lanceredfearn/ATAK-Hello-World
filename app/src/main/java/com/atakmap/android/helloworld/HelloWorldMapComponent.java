@@ -4,6 +4,7 @@ package com.atakmap.android.helloworld;
 import android.content.Context;
 import android.content.Intent;
 
+import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
@@ -20,8 +21,10 @@ import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.munitions.DangerCloseReceiver;
 import com.atakmap.android.user.geocode.GeocodeManager;
+import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.coremap.cot.event.CotDetail;
 
+import com.atakmap.coremap.cot.event.CotEvent;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.app.preferences.ToolsPreferenceFragment;
@@ -77,7 +80,9 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private HelloWorldMapOverlay mapOverlay;
     private View genericRadio;
     private JoystickView _joystickView;
-    private SpecialDetailHandler sdh; 
+    private SpecialDetailHandler sdh;
+    private CotDetailHandler aaaDetailHandler;
+
 
     public class JoystickView extends RelativeLayout {
 
@@ -145,6 +150,22 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         CotDetailManager.getInstance().registerHandler(
                 "__special",
                 sdh = new SpecialDetailHandler());
+
+        CotDetailManager.getInstance().registerHandler(aaaDetailHandler = new CotDetailHandler("__aaa") {
+            private final String TAG = "AAACotDetailHandler";
+
+            @Override
+            public CommsMapComponent.ImportResult toItemMetadata(MapItem item, CotEvent event, CotDetail detail) {
+                Log.d(TAG, "detail received: " + detail + " in:  " + event);
+                return CommsMapComponent.ImportResult.SUCCESS;
+            }
+
+            @Override
+            public boolean toCotDetail(MapItem item, CotEvent event, CotDetail root) {
+                Log.d(TAG, "converting to cot detail from: " + item.getUID());
+                return true;
+            }
+        });
 
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
         view.getMapOverlayManager().addOverlay(this.mapOverlay);
@@ -415,6 +436,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         view.getMapOverlayManager().removeOverlay(mapOverlay);
         CotDetailManager.getInstance().unregisterHandler(
                 sdh);
+        CotDetailManager.getInstance().unregisterHandler(aaaDetailHandler);
         super.onDestroyImpl(context, view);
 
         // Example call on how to end ATAK if the plugin is unloaded.
