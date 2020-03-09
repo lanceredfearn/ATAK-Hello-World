@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
+import com.atakmap.android.helloworld.routes.RouteExportMarshal;
+import com.atakmap.android.importexport.ExporterManager;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
@@ -131,6 +133,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         Log.d(TAG, "onStop");
     }
 
+    @Override
     public void onCreate(final Context context, Intent intent,
             final MapView view) {
 
@@ -326,6 +329,10 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 new com.atakmap.android.video.VideoViewLayer("test-layer", tv,
                         lp_tv));
 
+        ExporterManager.registerExporter(
+                context.getString(R.string.route_exporter_name),
+                com.atakmap.app.R.drawable.ic_route,
+                RouteExportMarshal.class);
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
@@ -437,6 +444,8 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         CotDetailManager.getInstance().unregisterHandler(
                 sdh);
         CotDetailManager.getInstance().unregisterHandler(aaaDetailHandler);
+        ExporterManager.unregisterExporter(
+                context.getString(R.string.route_exporter_name));
         super.onDestroyImpl(context, view);
 
         // Example call on how to end ATAK if the plugin is unloaded.

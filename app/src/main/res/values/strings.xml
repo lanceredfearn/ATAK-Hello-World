@@ -379,4 +379,7 @@
         <item>minimum</item>
         <item>min</item>
     </string-array>
+
+    <string name="route_exporter_name">Hello World Route Exporter</string>
+
 </resources>
