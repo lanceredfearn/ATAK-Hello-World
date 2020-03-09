@@ -39,11 +39,15 @@ public class RouteExportMarshal extends ExportMarshal {
         int exported = 0;
         for (Exportable e : exports) {
             // Only process list items with map items attached
-            if (!(e instanceof MapItemUser))
+            if (!(e instanceof MapItem) && !(e instanceof MapItemUser))
                 continue;
 
             // Make sure the map item is a route
-            MapItem mi = ((MapItemUser) e).getMapItem();
+            MapItem mi;
+            if (e instanceof MapItem)
+                mi = (MapItem) e;
+            else
+                mi = ((MapItemUser) e).getMapItem();
             if (!(mi instanceof Route))
                 continue;
 

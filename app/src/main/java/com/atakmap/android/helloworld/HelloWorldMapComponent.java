@@ -331,7 +331,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         ExporterManager.registerExporter(
                 context.getString(R.string.route_exporter_name),
-                com.atakmap.app.R.drawable.ic_route,
+                context.getDrawable(R.drawable.ic_route),
                 RouteExportMarshal.class);
     }
 
