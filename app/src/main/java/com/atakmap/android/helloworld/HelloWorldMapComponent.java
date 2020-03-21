@@ -4,8 +4,10 @@ package com.atakmap.android.helloworld;
 import android.content.Context;
 import android.content.Intent;
 
+import com.atakmap.android.contact.ContactLocationView;
 import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
+import com.atakmap.android.cotdetails.ExtendedInfoView;
 import com.atakmap.android.helloworld.routes.RouteExportMarshal;
 import com.atakmap.android.importexport.ExporterManager;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
@@ -14,6 +16,7 @@ import com.atakmap.android.ipc.DocumentedExtra;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.cot.UIDHandler;
 import com.atakmap.android.dropdown.DropDownMapComponent;
+import com.atakmap.android.maps.PointMapItem;
 import com.atakmap.android.maps.graphics.GLMapItemFactory;
 
 import com.atakmap.android.maps.MapEventDispatcher;
@@ -45,6 +48,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -84,6 +88,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private JoystickView _joystickView;
     private SpecialDetailHandler sdh;
     private CotDetailHandler aaaDetailHandler;
+    private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
 
 
     public class JoystickView extends RelativeLayout {
@@ -263,7 +268,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                                 "This is the sample preference for Hello World",
                                 "helloWorldPreference",
                                 context.getResources().getDrawable(
-                                        R.drawable.ic_launcher),
+                                        R.drawable.ic_launcher, null),
                                 new HelloWorldPreferenceFragment(context)));
 
         // example for how to register a radio with the radio map control.
@@ -272,6 +277,26 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         genericRadio = inflater.inflate(R.layout.radio_item_generic, null);
 
         RadioMapComponent.getInstance().registerControl(genericRadio);
+
+
+        ContactLocationView.register(extendedselfinfo =
+                new ContactLocationView.ExtendedSelfInfoFactory() {
+                    @Override
+                    public ExtendedInfoView createView() {
+                        return new ExtendedInfoView(view.getContext()) {
+                            @Override
+                            public void setMarker(PointMapItem m) {
+                                Log.d(TAG, "setting the marker: " + m.getMetaString("callsign", ""));
+                                TextView tv = new TextView(view.getContext());
+                                tv.setLayoutParams(new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                                this.addView(tv);
+                                tv.setText("Example: " + m.getMetaString("callsign", "unknown"));
+
+                            }
+                        };
+                    }
+                }
+        );
 
         // register a listener for when a the radial menu asks for a special 
         // drop down.  SpecialDetail is really a skeleton of a class that 
@@ -436,6 +461,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     @Override
     protected void onDestroyImpl(Context context, MapView view) {
         Log.d(TAG, "calling on destroy");
+        ContactLocationView.unregister(extendedselfinfo);
         GLMapItemFactory.unregisterSpi(GLSpecialMarker.SPI);
         this.dropDown.dispose();
         ToolsPreferenceFragment.unregister("helloWorldPreference");
