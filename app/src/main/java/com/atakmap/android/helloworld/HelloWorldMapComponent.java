@@ -4,13 +4,19 @@ package com.atakmap.android.helloworld;
 import android.content.Context;
 import android.content.Intent;
 
+import com.atakmap.android.contact.ContactLocationView;
+import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
+import com.atakmap.android.cotdetails.ExtendedInfoView;
+import com.atakmap.android.helloworld.routes.RouteExportMarshal;
+import com.atakmap.android.importexport.ExporterManager;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.cot.UIDHandler;
 import com.atakmap.android.dropdown.DropDownMapComponent;
+import com.atakmap.android.maps.PointMapItem;
 import com.atakmap.android.maps.graphics.GLMapItemFactory;
 
 import com.atakmap.android.maps.MapEventDispatcher;
@@ -20,8 +26,10 @@ import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.munitions.DangerCloseReceiver;
 import com.atakmap.android.user.geocode.GeocodeManager;
+import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.coremap.cot.event.CotDetail;
 
+import com.atakmap.coremap.cot.event.CotEvent;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.app.preferences.ToolsPreferenceFragment;
@@ -40,6 +48,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -77,6 +86,10 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private HelloWorldMapOverlay mapOverlay;
     private View genericRadio;
     private JoystickView _joystickView;
+    private SpecialDetailHandler sdh;
+    private CotDetailHandler aaaDetailHandler;
+    private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
+
 
     public class JoystickView extends RelativeLayout {
 
@@ -125,6 +138,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         Log.d(TAG, "onStop");
     }
 
+    @Override
     public void onCreate(final Context context, Intent intent,
             final MapView view) {
 
@@ -139,12 +153,27 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         GLMapItemFactory.registerSpi(GLSpecialMarker.SPI);
 
-
         // Register capability to handle detail tags that TAK does not 
         // normally process.
         CotDetailManager.getInstance().registerHandler(
                 "__special",
-                new SpecialDetailHandler());
+                sdh = new SpecialDetailHandler());
+
+        CotDetailManager.getInstance().registerHandler(aaaDetailHandler = new CotDetailHandler("__aaa") {
+            private final String TAG = "AAACotDetailHandler";
+
+            @Override
+            public CommsMapComponent.ImportResult toItemMetadata(MapItem item, CotEvent event, CotDetail detail) {
+                Log.d(TAG, "detail received: " + detail + " in:  " + event);
+                return CommsMapComponent.ImportResult.SUCCESS;
+            }
+
+            @Override
+            public boolean toCotDetail(MapItem item, CotEvent event, CotDetail root) {
+                Log.d(TAG, "converting to cot detail from: " + item.getUID());
+                return true;
+            }
+        });
 
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
         view.getMapOverlayManager().addOverlay(this.mapOverlay);
@@ -239,7 +268,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                                 "This is the sample preference for Hello World",
                                 "helloWorldPreference",
                                 context.getResources().getDrawable(
-                                        R.drawable.ic_launcher),
+                                        R.drawable.ic_launcher, null),
                                 new HelloWorldPreferenceFragment(context)));
 
         // example for how to register a radio with the radio map control.
@@ -248,6 +277,26 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         genericRadio = inflater.inflate(R.layout.radio_item_generic, null);
 
         RadioMapComponent.getInstance().registerControl(genericRadio);
+
+
+        ContactLocationView.register(extendedselfinfo =
+                new ContactLocationView.ExtendedSelfInfoFactory() {
+                    @Override
+                    public ExtendedInfoView createView() {
+                        return new ExtendedInfoView(view.getContext()) {
+                            @Override
+                            public void setMarker(PointMapItem m) {
+                                Log.d(TAG, "setting the marker: " + m.getMetaString("callsign", ""));
+                                TextView tv = new TextView(view.getContext());
+                                tv.setLayoutParams(new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                                this.addView(tv);
+                                tv.setText("Example: " + m.getMetaString("callsign", "unknown"));
+
+                            }
+                        };
+                    }
+                }
+        );
 
         // register a listener for when a the radial menu asks for a special 
         // drop down.  SpecialDetail is really a skeleton of a class that 
@@ -305,6 +354,10 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 new com.atakmap.android.video.VideoViewLayer("test-layer", tv,
                         lp_tv));
 
+        ExporterManager.registerExporter(
+                context.getString(R.string.route_exporter_name),
+                context.getDrawable(R.drawable.ic_route),
+                RouteExportMarshal.class);
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
@@ -408,11 +461,17 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     @Override
     protected void onDestroyImpl(Context context, MapView view) {
         Log.d(TAG, "calling on destroy");
+        ContactLocationView.unregister(extendedselfinfo);
         GLMapItemFactory.unregisterSpi(GLSpecialMarker.SPI);
         this.dropDown.dispose();
         ToolsPreferenceFragment.unregister("helloWorldPreference");
         RadioMapComponent.getInstance().unregisterControl(genericRadio);
         view.getMapOverlayManager().removeOverlay(mapOverlay);
+        CotDetailManager.getInstance().unregisterHandler(
+                sdh);
+        CotDetailManager.getInstance().unregisterHandler(aaaDetailHandler);
+        ExporterManager.unregisterExporter(
+                context.getString(R.string.route_exporter_name));
         super.onDestroyImpl(context, view);
 
         // Example call on how to end ATAK if the plugin is unloaded.

@@ -2064,6 +2064,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 .randomUUID().toString());
         Log.d(TAG, "creating a new unit marker for: " + m.getUID());
         m.setType("a-f-G-U-C-I");
+        // m.setMetaBoolean("disableCoordinateOverlay", true); // used if you don't want the coordinate overlay to appear
         m.setMetaBoolean("readiness", true);
         m.setMetaBoolean("archive", true);
         m.setMetaString("how", "h-g-i-g-o");

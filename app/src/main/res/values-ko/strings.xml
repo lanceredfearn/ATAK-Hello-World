@@ -189,4 +189,7 @@
     <string name="summary">Shows a quick test of launching the file browser</string>
 
     <string name="videoLauncher">Example of how to display a video with an overlay layer</string>
+
+    <string name="route_exporter_name">Hello World Route Exporter</string>
+
 </resources>
