@@ -607,6 +607,17 @@
             </LinearLayout>
 
 
+            <!-- For all usages of Spinners in plugins one must make 
+                 use of the PluginSpinner class supplied with the SDK -->
+            <com.atakmap.android.gui.PluginSpinner
+                android:id="@+id/spinner1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/country_arrays"
+                android:prompt="@string/country_prompt" />
+            
+
+
         </LinearLayout>
     </ScrollView>
 
