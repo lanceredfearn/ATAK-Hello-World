@@ -1132,7 +1132,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 Icon.Builder iBuilder = new Icon.Builder().setImageUri(0,
                         "android.resource://" + pluginContext.getPackageName()
                                 + "/" + R.drawable.abc);
+
+                //iBuilder = new Icon.Builder().setImageUri(0,
+                //        "file:///sdcard/custom_marker.png");
                 m.setIcon(iBuilder.build());
+
 
                 MapGroup _mapGroup = getMapView().getRootGroup()
                         .findMapGroup("Cursor on Target");
