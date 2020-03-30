@@ -607,6 +607,18 @@
             </LinearLayout>
 
 
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:text="Spinner Example"
+               android:textColor="@android:color/white"
+               android:textSize="18sp" />
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1dp"
+               android:background="@color/white" />
             <!-- For all usages of Spinners in plugins one must make 
                  use of the PluginSpinner class supplied with the SDK -->
             <com.atakmap.android.gui.PluginSpinner

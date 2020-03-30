@@ -56,6 +56,10 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
                 String imageUri = "android.resource://"
                         + mapView.getContext().getPackageName() + "/"
                         + com.atakmap.app.R.drawable.sync_search;
+
+                //imageUri = "file:///sdcard/custom_marker.png";
+
+
                 widget.setPoint((mapView.getWidth() / 2)
                         - (MapView.DENSITY * ICON_WIDTH / 2) + 72, 160f);
 
