@@ -186,6 +186,7 @@
     <string name="full_example_summary">Shows a quick example of how to reference both a title and a summary as a String resource</string>
     <string name="full_example_title">Full String Example</string>
     <string name="issLocation">Demonstrates how to plot the ISS location from a open source site</string>
+    <string name="sensorFOV">Demonstrates how to plot a sensor Field of View</string>
     <string name="summary">Shows a quick test of launching the file browser</string>
 
     <string name="videoLauncher">Example of how to display a video with an overlay layer</string>

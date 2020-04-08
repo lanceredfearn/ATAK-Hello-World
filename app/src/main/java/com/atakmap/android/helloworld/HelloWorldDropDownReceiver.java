@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.atakmap.android.cot.detail.SensorDetailHandler;
+import com.atakmap.android.maps.SensorFOV;
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
 import com.atak.plugins.impl.PluginLayoutInflater;
@@ -421,6 +423,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.issLocation:
                         toast(context.getString(R.string.issLocation));
+                        break;
+                    case R.id.sensorFOV:
+                        toast(context.getString(R.string.sensorFOV));
                         break;
                     case R.id.listRoutes:
                         toast(context.getString(R.string.listRoutes));
@@ -1204,6 +1209,15 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         });
 
+
+        final Button sensorFOV = helloView
+                .findViewById(R.id.sensorFOV);
+        sensorFOV.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createOrModifySensorFOV();
+            }
+        });
         nm = (NotificationManager) MapView.getMapView().getContext()
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -2061,6 +2075,53 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 this.getClass());
 
     }
+
+
+    public void createOrModifySensorFOV() {
+        final MapView mapView = getMapView();
+        final String cameraID = "sensor-fov-example-uid";
+        final GeoPointMetaData point = mapView.getCenterPoint();
+        final int color = 0xFFFF0000;
+
+        MapItem mi = mapView.getMapItem(cameraID);
+        if (mi == null) {
+            PlacePointTool.MarkerCreator markerCreator = new PlacePointTool.MarkerCreator(point);
+            markerCreator.setUid(cameraID);
+            //this settings automatically pops open to CotDetails page after dropping the marker
+            markerCreator.showCotDetails(false);
+            //this settings determines if a CoT persists or not.
+            markerCreator.setArchive(true);
+            //this is the type of the marker.  Could be set to a known 2525B value or custom
+            markerCreator.setType("b-m-p-s-p-loc");
+            //this shows under the marker
+            markerCreator.setCallsign("Sensor");
+            //this also determines if the marker persists or not??
+            markerCreator.setNeverPersist(false);
+            mi = markerCreator.placePoint();
+
+        }
+        // blind cast, ensure this is really a marker.
+        Marker camera1 = (Marker)mi;
+        camera1.setPoint(point);
+
+        mi = mapView.getMapItem(camera1.getUID()+"-fov");
+        if (mi instanceof SensorFOV) {
+            SensorFOV sFov = (SensorFOV)mi;
+            float r = ((0x00FF0000 & color) >> 16) / 256f;
+            float g = ((0x0000FF00 & color) >> 8) / 256f;
+            float b = ((0x000000FF & color) >> 0) / 256f;
+
+            sFov.setColor(color); // currently broken
+            sFov.setColor(r,g,b);
+            sFov.setMetrics((int)(90 * Math.random()), (int)(70 * Math.random()), 400);
+        } else { // use this case
+            float r = ((0x00FF0000 & color) >> 16) / 256f;
+            float g = ((0x0000FF00 & color) >> 8) / 256f;
+            float b = ((0x000000FF & color) >> 0) / 256f;
+            SensorDetailHandler.addFovToMap(camera1, 90, 70, 400, new float[]{r, g, b, 90}, true);
+        }
+    }
+
 
     public void createUnit() {
 

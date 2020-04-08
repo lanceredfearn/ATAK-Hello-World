@@ -42,6 +42,7 @@
     <!-- Text to speech-->
     <string name="bumpControl">Demonstrates how to use the accelerometer</string>
     <string name="issLocation">Demonstrates how to plot the ISS location from a open source site</string>
+    <string name="sensorFOV">Demonstrates how to plot a sensor Field of View</string>
     <string name="action_settings">Settings</string>
     <string name="speech_prompt_numeric_grid_zone">Please say the 2 digits of the Grid Zone&#8230;</string>
     <string name="speech_prompt_alpha_grid_zone">Please say the 1 letter of the Grid Zone&#8230;</string>
