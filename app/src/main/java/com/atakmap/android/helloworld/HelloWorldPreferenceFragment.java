@@ -3,19 +3,18 @@ package com.atakmap.android.helloworld;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-
-import com.atakmap.android.gui.PanEditTextPreference;
-import com.atakmap.android.preference.PluginPreferenceFragment;
-import com.atakmap.android.helloworld.plugin.R;
-import android.os.Bundle;
 import android.widget.Toast;
 
-import com.atakmap.coremap.filesystem.FileSystemUtils;
-import java.io.File;
-
 import com.atakmap.android.gui.ImportFileBrowserDialog;
+import com.atakmap.android.gui.PanEditTextPreference;
+import com.atakmap.android.helloworld.plugin.R;
+import com.atakmap.android.preference.PluginPreferenceFragment;
+import com.atakmap.coremap.filesystem.FileSystemUtils;
+
+import java.io.File;
 
 public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
 
@@ -50,9 +49,9 @@ public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
 
                         ImportFileBrowserDialog.show("Test File Browser",
                                 null,
-                                new String[] {
+                                new String[]{
                                         ".txt"
-                        },
+                                },
                                 new ImportFileBrowserDialog.DialogDismissed() {
                                     public void onFileSelected(
                                             final File file) {
@@ -70,11 +69,19 @@ public class HelloWorldPreferenceFragment extends PluginPreferenceFragment {
                     }
                 });
 
+        // launch nested pref screen on click
+        findPreference("nested_pref")
+                .setOnPreferenceClickListener(new OnPreferenceClickListener() {
+                    @Override
+                    public boolean onPreferenceClick(Preference p) {
+                        HelloWorldPreferenceFragment.this.showScreen(new HelloWorldSubPreferenceFragment(staticPluginContext));
+                        return true;
+                    }
+                });
     }
 
     @Override
     public String getSubTitle() {
         return getSubTitle("Tool Preferences", "Hello World Preferences");
     }
-
 }

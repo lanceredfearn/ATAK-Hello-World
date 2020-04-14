@@ -256,6 +256,9 @@ android {
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".INTL"]
         }
 
+        applicationVariants.all { variant ->
+            variant.resValue "string", "versionName", variant.versionName
+        }
     }
 
     if(file("$project.projectDir/../espresso/testSetup.gradle").exists()) {

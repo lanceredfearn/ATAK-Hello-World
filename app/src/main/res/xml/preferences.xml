@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:title="Test Preference Category (in Plugins they cannot have any members)"
-        android:key="key_for_category"/>
+        android:key="key_for_category"
+        android:title="Test Preference Category (in Plugins they cannot have any members)" />
 
 
     <com.atakmap.android.gui.PanEditTextPreference
-        android:key="key_for_helloworld"
-        android:title="Some Textual Preference"
         pluginIcon="@drawable/abc"
-        android:summary="Not sure what to say about it but if you want to use a summary defined in the strings.xml file you will needs to use the syntax @+string/ with the string identifier.   See the example bellow.   This unique syntax keeps issues from occuring where the string resource is looked up in the core application."
+        android:defaultValue="0"
         android:dialogTitle="Enter the time in jiffies"
-        android:numeric="integer"
         android:inputType="number"
-        android:defaultValue="0"/>
+        android:key="key_for_helloworld"
+        android:numeric="integer"
+        android:summary="Not sure what to say about it but if you want to use a summary defined in the strings.xml file you will needs to use the syntax @+string/ with the string identifier.   See the example bellow.   This unique syntax keeps issues from occuring where the string resource is looked up in the core application."
+        android:title="Some Textual Preference" />
 
     <com.atakmap.android.gui.PanPreference
-        android:title="Test File Browser"
         android:key="test_file_browser"
-        android:summary="@string/summary"/>
+        android:summary="@string/summary"
+        android:title="Test File Browser" />
 
 
     <com.atakmap.android.gui.PanPreference
-        android:title="@string/full_example_title"
         android:key="test2"
-        android:summary="@string/full_example_summary"/>
+        android:summary="@string/full_example_summary"
+        android:title="@string/full_example_title" />
+
+
+    <Preference
+        android:key="nested_pref"
+        android:summary="Open a nested preference fragment."
+        android:title="Sub Preferences" />
 
 </PreferenceScreen>
 
