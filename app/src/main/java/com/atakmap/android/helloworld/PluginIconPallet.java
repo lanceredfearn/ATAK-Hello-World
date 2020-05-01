@@ -2,7 +2,7 @@
 package com.atakmap.android.helloworld;
 
 import com.atakmap.android.helloworld.plugin.R;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import com.atakmap.android.user.icon.*;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.maps.MapItem;

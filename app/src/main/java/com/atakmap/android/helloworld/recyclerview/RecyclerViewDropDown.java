@@ -2,9 +2,9 @@ package com.atakmap.android.helloworld.recyclerview;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView.LayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 

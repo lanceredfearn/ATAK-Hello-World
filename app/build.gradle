@@ -21,7 +21,7 @@ def ATAK_VERSION = "4.1.0"
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
  }
 
@@ -71,9 +71,8 @@ dependencies {
     // Since the support-v4 libraries are completely supplied by 
     // the core, the recyclerview version needs to match and the 
     // support-v4 module needs to be excluded from the plugin 
-    implementation ('com.android.support:recyclerview-v7:26.0.2') { 
-        exclude module: 'support-v4'
-    }
+
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
 }
 
@@ -121,7 +120,7 @@ def getVersionCode() {
 }
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     buildToolsVersion "29.0.2"
 
    dexOptions {

@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 /**
  * RecyclerView override for use with ATAK
  */
-public class RecyclerView extends android.support.v7.widget.RecyclerView {
+public class RecyclerView extends androidx.recyclerview.widget.RecyclerView {
 
     private static final String TAG = "RecyclerView";
 
