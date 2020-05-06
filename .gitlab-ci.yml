@@ -82,7 +82,7 @@ assembleMilRelease:
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
     - find . -name main.jar
-    - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
+    - ./gradlew -Pci --console=plain lintMilRelease assembleMilDebug
   artifacts:
     expire_in: 720h
     paths:
