@@ -68,3 +68,6 @@ freeline_project_description.json
 # sdk stuff
 sdk/main.jar
 sdk/android_keystore
+
+#espresso
+espresso
