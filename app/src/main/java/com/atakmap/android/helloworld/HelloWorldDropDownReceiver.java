@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import android.os.Build;
+
 import com.atakmap.android.cot.detail.SensorDetailHandler;
 import com.atakmap.android.maps.SensorFOV;
 import com.atakmap.android.video.StreamManagementUtils;
@@ -1208,6 +1210,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
 
         });
+
+        // The current ISS plotting site uses cleartext http connection and offers no https ability.
+        // Since this is not allowed on Android 9 or higher, hide the capability until the web site 
+        // offers https
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+             issLocation.setVisibility(View.GONE);
+
 
 
         final Button sensorFOV = helloView
