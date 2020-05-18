@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.os.Build;
 
 import com.atakmap.android.cot.detail.SensorDetailHandler;
+import com.atakmap.android.helloworld.menu.MenuFactory;
 import com.atakmap.android.maps.SensorFOV;
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
@@ -1179,6 +1180,23 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     // based on a specific type
                     MapMenuReceiver.getInstance().registerMenu("a-f",
                             MapMenuReceiver.getInstance().lookupMenu("a-h"));
+                }
+                v.setSelected(!v.isSelected());
+            }
+        });
+
+        final MenuFactory menuFactory = new MenuFactory();
+        final Button customMenuFactory = helloView
+                .findViewById(R.id.customMenuFactory);
+        customMenuFactory.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.isSelected()) {
+                    MapMenuReceiver.getInstance()
+                            .unregisterMapMenuFactory(menuFactory);
+                } else {
+                    MapMenuReceiver.getInstance()
+                            .registerMapMenuFactory(menuFactory);
                 }
                 v.setSelected(!v.isSelected());
             }
