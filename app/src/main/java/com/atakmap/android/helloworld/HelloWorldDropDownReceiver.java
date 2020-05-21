@@ -193,6 +193,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private final RecyclerViewDropDown recyclerView;
     private final TabViewDropDown tabView;
 
+    // example menu factory
+    final MenuFactory menuFactory;
+
     // inspection map selector
     final InspectionMapItemSelectionTool imis;
 
@@ -1185,7 +1188,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
-        final MenuFactory menuFactory = new MenuFactory();
+        menuFactory = new MenuFactory(pluginContext);
         final Button customMenuFactory = helloView
                 .findViewById(R.id.customMenuFactory);
         customMenuFactory.setOnClickListener(new OnClickListener() {
@@ -1862,6 +1865,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         TextContainer.getTopInstance().closePrompt();
 
         imis.dispose();
+
+        // make sure we unregister, say when a new version is hot loaded ...
+        MapMenuReceiver.getInstance()
+                .unregisterMapMenuFactory(menuFactory);
     }
 
     /**************************** INHERITED METHODS *****************************/
