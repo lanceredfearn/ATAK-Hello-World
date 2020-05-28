@@ -1232,11 +1232,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         });
 
+
+        // ATAK 4.1 disables the cleartext block
         // The current ISS plotting site uses cleartext http connection and offers no https ability.
         // Since this is not allowed on Android 9 or higher, hide the capability until the web site 
         // offers https
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
-             issLocation.setVisibility(View.GONE);
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        //     issLocation.setVisibility(View.GONE);
 
 
 
