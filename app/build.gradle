@@ -68,11 +68,17 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: '*.jar')
 
-    // Since the support-v4 libraries are completely supplied by 
-    // the core, the recyclerview version needs to match and the 
-    // support-v4 module needs to be excluded from the plugin 
-
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // Recyclerview version depends on some androidx libraries which
+    // are supplied by core, so they should be excluded.  Otherwise
+    // bad things happen in the release builds after proguarding
+    implementation ('androidx.recyclerview:recyclerview:1.1.0') {
+        exclude module: 'collection'
+        exclude module: 'core'
+        exclude module: 'lifecycle'
+        exclude module: 'core-common'
+        exclude module: 'collection'
+        exclude module: 'customview'
+    }
 
 }
 
