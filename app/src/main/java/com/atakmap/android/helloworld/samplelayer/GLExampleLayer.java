@@ -77,7 +77,7 @@ public class GLExampleLayer extends GLAbstractLayer {
     @Override
     public void release() {
         // release all frame textures
-        if (this.frame.texture != null)
+        if (this.frame != null && this.frame.texture != null)
             this.frame.texture.release();
         this.frame = null;
         super.release();
