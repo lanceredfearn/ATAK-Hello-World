@@ -78,6 +78,7 @@ public class ExampleLayer extends AbstractLayer {
         metaShape.setType("hello_world_layer");
         metaShape.setMetaString("menu", PluginMenuParser.getMenu(
                 pluginContext, "menus/layer_menu.xml"));
+        bitmap.recycle();
     }
 
     public GeoBounds getBounds() {
