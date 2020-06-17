@@ -1429,6 +1429,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         HierarchyListReceiver.REFRESH_HIERARCHY));
 
                 addLayer.setSelected(!addLayer.isSelected());
+
             }
         });
 
@@ -1871,7 +1872,19 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // make sure we unregister, say when a new version is hot loaded ...
         MapMenuReceiver.getInstance()
                 .unregisterMapMenuFactory(menuFactory);
+
+        try {
+            if (exampleLayer != null) {
+                getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS,
+                        exampleLayer);
+            }
+            exampleLayer = null;
+        } catch (Exception e) {
+            Log.e(TAG, "error", e);
+        }
+
     }
+
 
     /**************************** INHERITED METHODS *****************************/
 
