@@ -14,7 +14,7 @@ public class HelloWorldSubPreferenceFragment extends PluginPreferenceFragment {
 
     /**
      * Only will be called after this has been instantiated with the 1-arg constructor.
-     * Fragments must has a zero arg constructor.
+     * Fragments must have a zero arg constructor.
      */
     public HelloWorldSubPreferenceFragment() {
         this(staticPluginContext);
