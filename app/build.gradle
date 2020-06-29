@@ -78,7 +78,6 @@ dependencies {
         exclude module: 'core-common'
         exclude module: 'collection'
         exclude module: 'customview'
-        exclude module: 'swiperefreshlayout'
     }
 
 }
