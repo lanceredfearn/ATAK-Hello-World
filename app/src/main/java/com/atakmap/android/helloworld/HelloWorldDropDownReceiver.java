@@ -511,11 +511,6 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             @Override
             public void onClick(View v) {
-                Intent i = new Intent("com.bbn.misc.action.START_PREVIEW");
-
-                i.setPackage("com.partech.djisvc");
-                MapView.getMapView().getContext().startService(i);
-
                 resize(THIRD_WIDTH, FULL_HEIGHT);
             }
         });
