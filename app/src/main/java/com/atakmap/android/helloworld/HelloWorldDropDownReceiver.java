@@ -945,8 +945,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         "com.atakmap.android.helloworld.notification.NotificationService");
                 startServiceIntent
                         .setPackage("com.atakmap.android.helloworld.plugin");
-                ComponentName name = getMapView().getContext().startService(
-                        startServiceIntent);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    getMapView().getContext().startForegroundService(
+                            startServiceIntent);
+                else
+                    getMapView().getContext().startService(
+                            startServiceIntent);
 
             }
         });

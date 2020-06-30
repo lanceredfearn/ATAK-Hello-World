@@ -2,8 +2,12 @@
 package com.atakmap.android.helloworld.notification;
 
 import com.atakmap.android.helloworld.plugin.R;
+
+import android.app.NotificationChannel;
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 
 import android.util.Log;
@@ -36,22 +40,51 @@ public class NotificationService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.d(TAG,
+
+
+
+            Log.d(TAG,
                 "getting ready to show the notification, can never use notification compat.");
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(
-                NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(
+                    NOTIFICATION_SERVICE);
 
-        Intent contentIntent = new Intent();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "com.atakmap.android.helloworld.def",
+                    "Helloworld Notifications",
+                    NotificationManager.IMPORTANCE_DEFAULT); // correct Constant
+            channel.setSound(null, null);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+
+        Intent atakFrontIntent = new Intent();
+
+        // Please note each package name will be different (civ, etc) otherwise this will cause an error
+        atakFrontIntent.setComponent(new ComponentName("com.atakmap.app", "com.atakmap.app.ATAKActivity"));
+        atakFrontIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        atakFrontIntent.putExtra("internalIntent", new Intent("com.atakmap.android.helloworld.SHOW_HELLO_WORLD"));
         PendingIntent appIntent = PendingIntent.getActivity(this, 0,
-                contentIntent, 0);
+                atakFrontIntent, 0);
 
-        Notification notification = new Notification(R.drawable.abc,
-                "Hello World!",
-                System.currentTimeMillis());
-        //notification.setLatestEventInfo(this, "1", "2", appIntent);
+        Notification.Builder nb;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            nb = new Notification.Builder(this, "com.atakmap.android.helloworld.def");
+        } else {
+            nb = new Notification.Builder(this);
+        }
 
-        notificationManager.notify(9999, notification);
+        nb.setContentTitle("Custom Notification").setContentText("Test Icon")
+                .setSmallIcon(R.drawable.abc)
+                .setContentIntent(appIntent);
+        nb.setOngoing(false);
+        nb.setAutoCancel(true);
+
+        notificationManager.notify( 9999, nb.build());
 
     }
 
