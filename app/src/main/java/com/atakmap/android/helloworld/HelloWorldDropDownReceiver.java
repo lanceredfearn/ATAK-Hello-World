@@ -1899,6 +1899,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // Show drop-down
         switch (action) {
             case SHOW_HELLO_WORLD:
+                if (!isClosed()) {
+                    Log.d(TAG, "the drop down is already open");
+                    return;
+                }
+                
                 showDropDown(helloView, HALF_WIDTH, FULL_HEIGHT,
                         FULL_WIDTH, HALF_HEIGHT, false, this);
                 setAssociationKey("helloWorldPreference");

@@ -1,6 +1,7 @@
 
 package com.atakmap.android.helloworld.notification;
 
+import com.atakmap.android.helloworld.plugin.BuildConfig;
 import com.atakmap.android.helloworld.plugin.R;
 
 import android.app.NotificationChannel;
@@ -63,10 +64,10 @@ public class NotificationService extends Service {
 
         Intent atakFrontIntent = new Intent();
 
-        // Please note each package name will be different (civ, etc) otherwise this will cause an error
-        atakFrontIntent.setComponent(new ComponentName("com.atakmap.app", "com.atakmap.app.ATAKActivity"));
+        atakFrontIntent.setComponent(new ComponentName(BuildConfig.ATAK_PACKAGE_NAME, "com.atakmap.app.ATAKActivity"));
         atakFrontIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
         atakFrontIntent.putExtra("internalIntent", new Intent("com.atakmap.android.helloworld.SHOW_HELLO_WORLD"));
         PendingIntent appIntent = PendingIntent.getActivity(this, 0,
                 atakFrontIntent, 0);
