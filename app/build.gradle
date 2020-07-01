@@ -80,6 +80,8 @@ dependencies {
         exclude module: 'customview'
     }
 
+    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+
 }
 
 // Attempt to get a suitable version name for the plugin based on
