@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.atakmap.android.bloodhound.BloodHoundButtonTool;
+import com.atakmap.android.bloodhound.BloodHoundTool;
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.android.helloworld.speechtotext.SpeechActivity;
 import com.atakmap.android.ipc.AtakBroadcast;
@@ -120,7 +120,7 @@ public class SpeechBloodHound extends SpeechActivity {
      */
     private void startActivity(String UID) {
         Intent returnIntent = new Intent();
-        returnIntent.setAction(BloodHoundButtonTool.BLOOD_HOUND);
+        returnIntent.setAction(BloodHoundTool.BLOOD_HOUND);
         returnIntent.putExtra("uid", UID);
         AtakBroadcast.getInstance().sendBroadcast(returnIntent);
     }
