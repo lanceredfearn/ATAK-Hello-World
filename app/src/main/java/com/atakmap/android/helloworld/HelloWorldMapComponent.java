@@ -10,9 +10,13 @@ import com.atakmap.android.cot.detail.CotDetailManager;
 import com.atakmap.android.cotdetails.ExtendedInfoView;
 import com.atakmap.android.helloworld.routes.RouteExportMarshal;
 import com.atakmap.android.importexport.ExporterManager;
+import com.atakmap.android.importexport.ImportExportMapComponent;
+import com.atakmap.android.importexport.ImportReceiver;
+import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
+import com.atakmap.android.layers.LayersMapComponent;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.cot.UIDHandler;
 import com.atakmap.android.dropdown.DropDownMapComponent;
@@ -64,6 +68,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,6 +142,40 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
             final MapView view) {
         Log.d(TAG, "onStop");
     }
+
+    /**
+     * Simple uncalled example for how to import a file.
+     */
+    private void importFileExample(final File file) {
+        /**
+         * Case 1 where the file type is known and in this example, the file is a map type.
+         */
+        Log.d(TAG, "testImport: " + file.toString());
+        Intent intent = new Intent(
+                ImportExportMapComponent.ACTION_IMPORT_DATA);
+        intent.putExtra(ImportReceiver.EXTRA_URI,
+                file.getAbsolutePath());
+        intent.putExtra(ImportReceiver.EXTRA_CONTENT, LayersMapComponent.IMPORTER_CONTENT_TYPE);
+        intent.putExtra(ImportReceiver.EXTRA_MIME_TYPE, LayersMapComponent.IMPORTER_DEFAULT_MIME_TYPE);
+
+        AtakBroadcast.getInstance().sendBroadcast(intent);
+        Log.d(TAG, "testImportDone: " + file.toString());
+
+
+        /**
+         * Case 2 where the file type is unknown and the file is just imported.
+         */
+        Log.d(TAG, "testImport: " + file.toString());
+        intent = new Intent(ImportExportMapComponent.USER_HANDLE_IMPORT_FILE_ACTION);
+        intent.putExtra("filepath", file.toString());
+        intent.putExtra("importInPlace", false); // copies it over to the general location if true
+        intent.putExtra( "promptOnMultipleMatch", true); //prompts the users if this could be multiple things
+        intent.putExtra("zoomToFile", false); // zoom to the outer extents of the file.
+        AtakBroadcast.getInstance().sendBroadcast(intent);
+        Log.d(TAG, "testImportDone: " + file.toString());
+
+    }
+
 
     @Override
     public void onCreate(final Context context, Intent intent,
