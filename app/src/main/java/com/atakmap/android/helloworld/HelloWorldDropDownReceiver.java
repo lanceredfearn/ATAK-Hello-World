@@ -779,7 +779,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 if (mi == null) {
 
                     PlacePointTool.MarkerCreator mc = new PlacePointTool.MarkerCreator(
-                            new GeoPoint(32, -72));
+                            new GeoPoint(32, -72. -100));
                     mc.setUid("detect-ae:3e:ee");
                     mc.setCallsign("detect 1");
                     mc.setType("a-h-G");
@@ -791,8 +791,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     m.setIcon(new Icon(
                             "base64:\\iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABHNCSVQICAgIfAhkiAAAAmJJREFUWIXNl79LG1EcwD93zSWN2oJ1ECQEDoyg2Ey1UHAJFUIFhyq0S0PAsX9Cl0KnQql_QDOeFETo0pLWQTMUDR10UIpVA-mQRRKjQ7locrnr0CTkmmt-3J3aL3yH-_Le-3zeu8e7d-AsQrW8lggBR7W8cokQcCSJYkkSxdJVSzTgG_F4dSMerzqREGzAk5IoBtZiMW9ElkWAVDarRxWlXNH1HDBbk3FdwBJeD7sS3Qq0hTuR6EagK7hdiU4CPcHtSLQTsAXvVeJfAo7gvUhYCbgC71bib4EW-IWm8WJ9nYWJCS40jU-Hh6YOwwMDPJ-aYimdbgx4y-fjoSxzd3i4o0Tz7CxnXtF1ltJpfp6dkSkWSezs0O_1NrJPkjjXNF6mUvwoFDjXND4eHHA_kWD3-BiAiCyLa7GYVxLFAJCk6cT0tINbxW2fj1eRiKlWUFUAYuEwj0IhDMPg8coKbzY3UebnTRJRRQlUdD1ZXwmxFzjAiaryZHW1kcu7uy1tBEFgbmyMz5mMqW61Ep6W3h3CL0ksjI83nseGhizbCYLATU_n4T382RCzFV1PRhWl4yr0SRJPJydNtforaI5vuRz3RkZMNavNWFfsWuJXuczbrS1T7Vk4DMCH_X2-5_NkT095t73N18XFtnCAG03jFIEvumHMvd_b658OBkV5cFAwDINytcqDQACfx4NhGORV1ZTR0VEKqooBnJRK3PH7eT0zw3Qw2BYO_-FB5KqE3aPYFQmnHyNHEm59jm1JuH0h6Unisq5kXUlc9qW0rYSTa7mdcPXHxLHEdcBNEtcFb5ZwBP8NALbcQk1BI7gAAAAASUVORK5CYII="));
 
-                    //createEllipse(m);
-                    createCircle(m);
+                    createEllipse(m);
+                    //createCircle(m);
 
                     // In order to persist a circle, the center marker must be
                     // persisted as opposed to the circle itself
@@ -1901,6 +1901,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             case SHOW_HELLO_WORLD:
                 if (!isClosed()) {
                     Log.d(TAG, "the drop down is already open");
+		    unhideDropDown();
                     return;
                 }
                 
