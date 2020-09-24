@@ -317,7 +317,9 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         RadioMapComponent.getInstance().registerControl(genericRadio);
 
-
+        // demonstrate how to customize the view for ATAK contacts.   In this case
+        // it will show a customized line of test when pulling up the contact 
+        // detail view.
         ContactLocationView.register(extendedselfinfo =
                 new ContactLocationView.ExtendedSelfInfoFactory() {
                     @Override
@@ -336,6 +338,13 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                     }
                 }
         );
+
+
+        // send out some customized information as part of the SA or PPLI message.
+        CotDetail cd = new CotDetail("temp");
+        cd.setAttribute("temp", Integer.toString(76));
+        CotMapComponent.getInstance().addAdditionalDetail(cd.getElementName(), cd);
+
 
         // register a listener for when a the radial menu asks for a special 
         // drop down.  SpecialDetail is really a skeleton of a class that 
