@@ -1,6 +1,7 @@
 
 package com.atakmap.android.helloworld;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
@@ -29,6 +30,8 @@ import com.atakmap.android.maps.MapEvent;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.munitions.DangerCloseReceiver;
+import com.atakmap.android.statesaver.StateSaverListener;
+import com.atakmap.android.statesaver.StateSaverPublisher;
 import com.atakmap.android.user.geocode.GeocodeManager;
 import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.coremap.cot.event.CotDetail;
@@ -406,6 +409,27 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 context.getString(R.string.route_exporter_name),
                 context.getDrawable(R.drawable.ic_route),
                 RouteExportMarshal.class);
+
+
+        // Code to listen for when a state saver is completely loaded or wait to perform some action
+        // after all of the markers are completely loaded.
+
+        final BroadcastReceiver ssLoadedReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // action for when the statesaver is completely loaded.
+            }
+        };
+        AtakBroadcast.getInstance().registerReceiver(ssLoadedReceiver,
+                new DocumentedIntentFilter(StateSaverPublisher.STATESAVER_COMPLETE_LOAD));
+        // because the plugin can be loaded after the above intent has been fired, there is a method
+        // to check to see if a load has already occured.
+
+        if (StateSaverPublisher.isFinished()) {
+            // no need to listen for the intent
+            AtakBroadcast.getInstance().unregisterReceiver(ssLoadedReceiver);
+            // action for when the statesaver is completely loaded
+        }
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
