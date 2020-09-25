@@ -18,7 +18,9 @@ import android.widget.TextView;
 import android.os.Build;
 
 import com.atakmap.android.cot.detail.SensorDetailHandler;
+import com.atakmap.android.drawing.mapItems.DrawingShape;
 import com.atakmap.android.helloworld.menu.MenuFactory;
+import com.atakmap.android.maps.MultiPolyline;
 import com.atakmap.android.maps.SensorFOV;
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
@@ -454,6 +456,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     case R.id.addRectangle:
                         toast(context.getString(R.string.addRectangle));
                         break;
+                    case R.id.drawShapes:
+                        toast(context.getString(R.string.drawShapes));
+                        break;
                     case R.id.rbcircle:
                         toast(context.getString(R.string.rbcircle));
                         break;
@@ -843,6 +848,15 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 CotMapComponent.getExternalDispatcher()
                         .dispatchToBroadcast(cotEvent);
 
+            }
+        });
+
+        final Button drawShapes = helloView
+                .findViewById(R.id.drawShapes);
+        drawShapes.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawShapes();
             }
         });
 
@@ -2238,6 +2252,55 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 Log.d(TAG, "stream " + stream.getString(CotPort.DESCRIPTION_KEY)
                         + ": " + stream.getString(CotPort.CONNECT_STRING_KEY));
         }
+    }
+
+
+    void drawShapes() {
+        MapView mapView = getMapView();
+        MapGroup group = mapView.getRootGroup().findMapGroup(
+                "Drawing Objects");
+        List<DrawingShape> dslist = new ArrayList<>();
+
+
+        DrawingShape ds = new DrawingShape(mapView, "ds-1");
+        ds.setStrokeColor(Color.RED);
+        ds.setPoints(new GeoPoint[] { new GeoPoint(0,0), new GeoPoint(1,1), new GeoPoint(2,1)});
+        ds.setHeight(100);
+        //group.addItem(ds);
+        dslist.add(ds);
+        // test to set closed after adding to a group
+        ds.setClosed(true);
+
+
+
+        ds = new DrawingShape(mapView, "ds-2");
+        ds.setPoints(new GeoPoint[] { new GeoPoint(0,0), new GeoPoint(-1,-1), new GeoPoint(-2,-1)});
+        ds.setHeight(200);
+        ds.setClosed(true);
+        ds.setStrokeColor(Color.BLUE);
+
+        //group.addItem(ds);
+        dslist.add(ds);
+
+        MultiPolyline mp = new MultiPolyline(mapView, group, dslist, "list-1");
+        group.addItem(mp);
+        mp.setMovable(false);
+        ds = new DrawingShape(mapView, "ds-3");
+        ds.setPoints(new GeoPoint[] { new GeoPoint(0,0), new GeoPoint(2,0), new GeoPoint(2,-1)});
+        ds.setClosed(true);
+        ds.setStrokeColor(Color.YELLOW);
+        ds.setHeight(300);
+
+        ds.setMovable(false);
+        group.addItem(ds);
+        ds = new DrawingShape(mapView, "ds-4");
+        ds.setPoints(new GeoPoint[] { new GeoPoint(0,0), new GeoPoint(-2,0), new GeoPoint(-2,1)});
+        ds.setStrokeColor(Color.GREEN);
+        group.addItem(ds);
+        ds.setHeight(400);
+        ds.setMovable(false);
+        ds.setClosed(true);
+
     }
 
     /**

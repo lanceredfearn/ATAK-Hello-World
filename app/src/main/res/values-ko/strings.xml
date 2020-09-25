@@ -23,6 +23,7 @@
     <string name="emergency">Create an emergency 911 alert</string>
     <string name="no_emergency">Remove the emergency 911 alert</string>
     <string name="addRectangle">Draw a rectangle on the map</string>
+    <string name="drawShapes">Draw a shape on the map</string>
     <string name="rbcircle">Draw a Range and Bearing circle on the map</string>
     <string name="externalGps">Simulate an attached GPS</string>
     <string name="surfaceAtCenter">Display the surface height at the center of the screen</string>

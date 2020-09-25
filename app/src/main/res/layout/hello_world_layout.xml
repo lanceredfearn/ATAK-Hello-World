@@ -360,6 +360,13 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="Add Rectangle" />
+            <Button
+                android:id="@+id/drawShapes"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Draw Shapes Example" />
 
             <TextView
                 android:id="@+id/gpsExamples"
