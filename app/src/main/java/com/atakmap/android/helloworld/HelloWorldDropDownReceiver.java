@@ -154,6 +154,8 @@ import android.app.Activity;
 
 import java.lang.*;
 import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -206,6 +208,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private Route r;
 
     private ExampleLayer exampleLayer;
+    private Map<Integer, ExampleMultiLayer> exampleMultiLayers = new HashMap<>();
 
     private final CameraActivity.CameraDataListener cdl = new CameraActivity.CameraDataListener();
     private final CameraActivity.CameraDataReceiver cdr = new CameraActivity.CameraDataReceiver() {
@@ -1447,6 +1450,73 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
+        GLLayerFactory.register(GLExampleMultiLayer.SPI);
+        final Button addMultiLayer = helloView
+                .findViewById(R.id.addMultiLayer);
+        addMultiLayer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fp = FileSystemUtils.getRoot().getPath() + "/multi.png";
+                File file = new File(fp);
+                if (!file.exists()) {
+                    toast("file: " + fp
+                            + " does not exist, please create it before trying this example");
+                    return;
+                }
+                synchronized (HelloWorldDropDownReceiver.this) {
+                    if ((exampleMultiLayers == null) || exampleMultiLayers.isEmpty()) {
+                        for (int index = 0; index < 3; index++) {
+                            int altitude = (index+1)*50;
+                            GeoPoint ul = GeoPoint.createMutable();
+                            GeoPoint ur = GeoPoint.createMutable();
+                            GeoPoint lr = GeoPoint.createMutable();
+                            GeoPoint ll = GeoPoint.createMutable();
+                            ur.set(50, -49.999, altitude);
+                            lr.set(49.999, -49.999, altitude);
+                            ll.set(49.999, -50, altitude);
+                            ul.set(50, -50, altitude);
+                            ExampleMultiLayer exampleMultiLayer = new ExampleMultiLayer(pluginContext,
+                                String.format("HelloWorld Test Multi Layer %4d", altitude), fp, ul, ur, lr, ll);
+                            if (exampleMultiLayer != null) {
+                                exampleMultiLayers.put(altitude, exampleMultiLayer);
+                            }
+                        }
+                    }
+                }
+
+                if (addMultiLayer.isSelected()) {
+                    // Remove the layer from the map
+                    if (!exampleMultiLayers.isEmpty()) {
+                        for (ExampleMultiLayer layer : exampleMultiLayers.values()) {
+                            // Remove the layer from the map
+                            getMapView().removeLayer(MapView.RenderStack.MAP_SURFACE_OVERLAYS,
+                                    layer);
+                        }
+                        exampleMultiLayers.clear();
+                    }
+                } else {
+                    // Add the layer to the map
+                    if (!exampleMultiLayers.isEmpty()) {
+                        for (ExampleMultiLayer layer : exampleMultiLayers.values()) {
+                            // Remove the layer from the map
+                            getMapView().addLayer(RenderStack.MAP_SURFACE_OVERLAYS,
+                                    layer);
+                            layer.setVisible(true);
+                        }
+                    }
+
+                    // Pan and zoom to the layer
+                    ATAKUtilities.scaleToFit(mapView, exampleMultiLayers.entrySet().iterator().next().getValue().getPoints(),
+                            mapView.getWidth(), mapView.getHeight());
+                }
+                // Refresh Overlay Manager
+                AtakBroadcast.getInstance().sendBroadcast(new Intent(
+                        HierarchyListReceiver.REFRESH_HIERARCHY));
+
+                addMultiLayer.setSelected(!addMultiLayer.isSelected());
+            }
+        });
+
         final Button btnHookNavigationEvents = helloView
                 .findViewById(R.id.btnHookNavigationEvents);
         btnHookNavigationEvents.setText(
@@ -1891,11 +1961,13 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             if (exampleLayer != null) {
                 getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS,
                         exampleLayer);
+                GLLayerFactory.unregister(GLExampleLayer.SPI);
             }
             exampleLayer = null;
         } catch (Exception e) {
             Log.e(TAG, "error", e);
         }
+        GLLayerFactory.unregister(GLExampleMultiLayer.SPI);
 
     }
 
@@ -1960,8 +2032,14 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             case LAYER_VISIBILITY: {
                 ExampleLayer l = mapOverlay.findLayer(intent
                         .getStringExtra("uid"));
-                if (l != null)
+                if (l != null) {
                     l.setVisible(!l.isVisible());
+                } else {
+                    ExampleMultiLayer ml = mapOverlay.findMultiLayer(intent
+                            .getStringExtra("uid"));
+                    if (ml != null)
+                        ml.setVisible(!ml.isVisible());
+                }
                 break;
             }
 
@@ -1969,8 +2047,14 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             case LAYER_DELETE: {
                 ExampleLayer l = mapOverlay.findLayer(intent
                         .getStringExtra("uid"));
-                if (l != null)
+                if (l != null) {
                     getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS, l);
+                } else {
+                    ExampleMultiLayer ml = mapOverlay.findMultiLayer(intent
+                            .getStringExtra("uid"));
+                    if (ml != null)
+                        getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS, ml);
+                }
                 break;
             }
         }

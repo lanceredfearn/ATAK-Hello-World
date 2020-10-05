@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.android.helloworld.samplelayer.ExampleLayer;
+import com.atakmap.android.helloworld.samplelayer.ExampleMultiLayer;
 import com.atakmap.android.hierarchy.HierarchyListFilter;
 import com.atakmap.android.hierarchy.HierarchyListItem;
 import com.atakmap.android.hierarchy.action.GoTo;
@@ -117,6 +118,30 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
         return null;
     }
 
+    private List<ExampleMultiLayer> getMultiLayers() {
+        List<ExampleMultiLayer> ret = new ArrayList<>();
+        List<Layer> layers = _mapView.getLayers(
+                RenderStack.MAP_SURFACE_OVERLAYS);
+        for (Layer l : layers) {
+            if (l instanceof ExampleMultiLayer) {
+                ExampleMultiLayer el = (ExampleMultiLayer) l;
+                MetaShape shape = el.getMetaShape();
+                if (shape.getGroup() == null)
+                    _group.addItem(shape);
+                ret.add(el);
+            }
+        }
+        return ret;
+    }
+
+    public ExampleMultiLayer findMultiLayer(String uid) {
+        for (ExampleMultiLayer l : getMultiLayers()) {
+            if (l.getMetaShape().getUID().equals(uid))
+                return l;
+        }
+        return null;
+    }
+
     public class HelloWorldListModel extends AbstractHierarchyListItem2
             implements Search, Visibility2, View.OnClickListener {
 
@@ -189,6 +214,12 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
                 if (this.filter.accept(item))
                     filtered.add(item);
             }
+            List<ExampleMultiLayer> multilayers = getMultiLayers();
+            for (ExampleMultiLayer ml : multilayers) {
+                LayerHierarchyListItem item = new LayerHierarchyListItem(ml);
+                if (this.filter.accept(item))
+                    filtered.add(item);
+            }
 
             // Sort
             sortItems(filtered);
@@ -246,14 +277,26 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
             implements Visibility, GoTo, MapItemUser {
 
         private final ExampleLayer _layer;
+        private final ExampleMultiLayer _multilayer;
 
         LayerHierarchyListItem(ExampleLayer layer) {
             _layer = layer;
+            _multilayer = null;
+        }
+        LayerHierarchyListItem(ExampleMultiLayer multilayer) {
+            _multilayer = multilayer;
+            _layer = null;
         }
 
         @Override
         public String getTitle() {
-            return _layer.getName();
+            if (_layer != null) {
+                return _layer.getName();
+            }
+            if (_multilayer != null) {
+                return _multilayer.getName();
+            }
+            return "";
         }
 
         @Override
@@ -270,7 +313,13 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
 
         @Override
         public Object getUserObject() {
-            return _layer;
+            if (_layer != null) {
+                return _layer;
+            }
+            if (_multilayer != null) {
+                return _multilayer;
+            }
+            return null;
         }
 
         @Override
@@ -294,33 +343,63 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
 
         @Override
         public boolean setVisible(boolean visible) {
-            if (visible != _layer.isVisible()) {
-                _layer.setVisible(visible);
-                return true;
+            if (_layer != null) {
+                if (visible != _layer.isVisible()) {
+                    _layer.setVisible(visible);
+                    return true;
+                }
+            }
+            if (_multilayer != null) {
+                if (visible != _multilayer.isVisible()) {
+                    _multilayer.setVisible(visible);
+                    return true;
+                }
             }
             return false;
         }
 
         @Override
         public boolean isVisible() {
-            return _layer.isVisible();
+            if (_layer != null) {
+                return _layer.isVisible();
+            }
+            if (_multilayer != null) {
+                return _multilayer.isVisible();
+            }
+            return false;
         }
 
         @Override
         public MapItem getMapItem() {
-            return _layer.getMetaShape();
+            if (_layer != null) {
+                return _layer.getMetaShape();
+            }
+            if (_multilayer != null) {
+                return _multilayer.getMetaShape();
+            }
+            return null;
         }
 
         @Override
         public boolean goTo(boolean select) {
-            ATAKUtilities.scaleToFit(_mapView, _layer
-                    .getPoints(),
-                    _mapView.getWidth(), _mapView.getHeight());
-            if (select) {
-                MenuLayoutWidget mw = MapMenuReceiver.getMenuWidget();
-                if (mw != null) {
-                    mw.openMenuOnItem(_layer.getMetaShape());
-                    return true;
+            if (_layer != null) {
+                ATAKUtilities.scaleToFit(_mapView, _layer.getPoints(), _mapView.getWidth(), _mapView.getHeight());
+                if (select) {
+                    MenuLayoutWidget mw = MapMenuReceiver.getMenuWidget();
+                    if (mw != null) {
+                        mw.openMenuOnItem(_layer.getMetaShape());
+                        return true;
+                    }
+                }
+            }
+            if (_multilayer != null) {
+                ATAKUtilities.scaleToFit(_mapView, _multilayer.getPoints(), _mapView.getWidth(), _mapView.getHeight());
+                if (select) {
+                    MenuLayoutWidget mw = MapMenuReceiver.getMenuWidget();
+                    if (mw != null) {
+                        mw.openMenuOnItem(_multilayer.getMetaShape());
+                        return true;
+                    }
                 }
             }
             return false;
@@ -358,6 +437,10 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
                 if (l.isVisible() && l.getBounds().contains(point))
                     return l.getMetaShape();
             }
+            for (ExampleMultiLayer l : getMultiLayers()) {
+                if (l.isVisible() && l.getBounds().contains(point))
+                    return l.getMetaShape();
+            }
             return null;
         }
 
@@ -370,6 +453,10 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
                 if (l.isVisible() && l.getBounds().contains(point))
                     ret.add(l.getMetaShape());
             }
+            for (ExampleMultiLayer l : getMultiLayers()) {
+                if (l.isVisible() && l.getBounds().contains(point))
+                    ret.add(l.getMetaShape());
+            }
             return ret;
         }
 
@@ -379,6 +466,10 @@ public class HelloWorldMapOverlay extends AbstractMapOverlay2 {
             SortedSet<MapItem> ret = new TreeSet<>(
                     MapItem.ZORDER_HITTEST_COMPARATOR);
             for (ExampleLayer l : getLayers()) {
+                if (l.isVisible() && l.getBounds().intersects(bounds))
+                    ret.add(l.getMetaShape());
+            }
+            for (ExampleMultiLayer l : getMultiLayers()) {
                 if (l.isVisible() && l.getBounds().intersects(bounds))
                     ret.add(l.getMetaShape());
             }
