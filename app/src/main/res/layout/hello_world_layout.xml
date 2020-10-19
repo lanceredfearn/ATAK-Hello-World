@@ -375,6 +375,13 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp"
                 android:text="Draw Shapes Example" />
+            <Button
+                android:id="@+id/groupAdd"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Add Shape to Custom Group" />
 
             <TextView
                 android:id="@+id/gpsExamples"

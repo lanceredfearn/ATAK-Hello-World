@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.atakmap.android.drawing.mapItems.DrawingShape;
+
 import com.atakmap.android.contact.ContactLocationView;
 import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
@@ -18,6 +20,8 @@ import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
 import com.atakmap.android.layers.LayersMapComponent;
+import com.atakmap.android.maps.DefaultMapGroup;
+import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.cot.UIDHandler;
 import com.atakmap.android.dropdown.DropDownMapComponent;
@@ -30,6 +34,7 @@ import com.atakmap.android.maps.MapEvent;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.munitions.DangerCloseReceiver;
+import com.atakmap.android.overlay.DefaultMapGroupOverlay;
 import com.atakmap.android.statesaver.StateSaverListener;
 import com.atakmap.android.statesaver.StateSaverPublisher;
 import com.atakmap.android.user.geocode.GeocodeManager;
@@ -48,6 +53,7 @@ import com.atakmap.coremap.maps.coords.GeoBounds;
 import com.atakmap.coremap.maps.coords.GeoPoint;
 import com.atakmap.net.DeviceProfileClient;
 
+import android.graphics.Color;
 import android.location.Address;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -77,6 +83,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * This is an example of a MapComponent within the ATAK 
@@ -217,8 +224,21 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
             }
         });
 
+        //HelloWorld MapOverlay added to Overlay Manager.
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
         view.getMapOverlayManager().addOverlay(this.mapOverlay);
+
+
+
+        //MapView.getMapView().getRootGroup().getChildGroupById(id).setVisible(true);
+
+        /*Intent new_cot_intent = new Intent();
+        new_cot_intent.setAction("com.atakmap.android.maps.COT_PLACED");
+        new_cot_intent.putExtra("uid", point.getUID());
+        AtakBroadcast.getInstance().sendBroadcast(
+                new_cot_intent);*/
+
+        // End of Overlay Menu Test ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         // In this example, a drop down receiver is the 
         // visual component within the ATAK system.  The 

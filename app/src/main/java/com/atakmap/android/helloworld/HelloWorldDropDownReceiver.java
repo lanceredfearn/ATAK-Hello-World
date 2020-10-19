@@ -20,8 +20,10 @@ import android.os.Build;
 import com.atakmap.android.cot.detail.SensorDetailHandler;
 import com.atakmap.android.drawing.mapItems.DrawingShape;
 import com.atakmap.android.helloworld.menu.MenuFactory;
+import com.atakmap.android.maps.DefaultMapGroup;
 import com.atakmap.android.maps.MultiPolyline;
 import com.atakmap.android.maps.SensorFOV;
+import com.atakmap.android.overlay.DefaultMapGroupOverlay;
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
 import com.atak.plugins.impl.PluginLayoutInflater;
@@ -462,6 +464,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     case R.id.drawShapes:
                         toast(context.getString(R.string.drawShapes));
                         break;
+                    case R.id.groupAdd:
+                        toast("Add a shape to a custom group called MyCustomGroup for rendering in the overlay manager");
+                        break;
                     case R.id.rbcircle:
                         toast(context.getString(R.string.rbcircle));
                         break;
@@ -860,6 +865,55 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             @Override
             public void onClick(View v) {
                 drawShapes();
+            }
+        });
+
+        final Button groupAdd = helloView.findViewById(R.id.groupAdd);
+        groupAdd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MapGroup dmg = new DefaultMapGroup("MyCustomGroup");
+                DefaultMapGroupOverlay dmo = new DefaultMapGroupOverlay(mapView, dmg);
+
+                mapView.getRootGroup().addGroup(dmg);
+                mapView.getMapOverlayManager().addOverlay(dmo);
+
+                //Start of Overlay Menu Test ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                //Create a shape
+                GeoPoint[] points = {(new GeoPoint(43.08321804, -77.67835268)),
+                        (new GeoPoint(43.09321804, -77.67835268)),
+                        (new GeoPoint(43.09321804, -77.67935268)),
+                        (new GeoPoint(43.08821804, -77.67895268)),
+                        (new GeoPoint(43.08321804, -77.67935268)),
+                        (new GeoPoint(43.08321804, -77.67835268))};
+                DrawingShape ds = new DrawingShape(mapView, UUID.randomUUID().toString());
+                ds.setPoints(points);
+                ds.setClickable(true);
+                ds.setMetaBoolean("editable", true);
+                ds.setClosed(true);
+                ds.setStrokeColor(Color.DKGRAY);
+                ds.setFillColor(Color.GREEN);
+                ds.setTitle("test polygon");
+                ds.setMetaBoolean("archive", false);
+
+                dmg.addItem(ds);
+
+                Marker point = new Marker(new GeoPoint(43.10321804, -77.67835268), UUID.randomUUID().toString());
+                point.setType("a-u-g");
+                point.setTitle("ovTest");
+                point.setMetaString("callsign", "ovTest");
+                point.setMetaString("title", "ovTest");
+
+                point.setMetaBoolean("readiness", true);
+                point.setMetaBoolean("archive", false);
+                point.setMetaBoolean("editable", true);
+                point.setMetaBoolean("movable", true);
+                point.setMetaBoolean("removable", true);
+                point.setMetaString("entry", "user");
+                point.setShowLabel(true);
+
+                dmg.addItem(point);
+
             }
         });
 
