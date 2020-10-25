@@ -873,7 +873,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             @Override
             public void onClick(View v) {
                 MapGroup dmg = new DefaultMapGroup("MyCustomGroup");
-                DefaultMapGroupOverlay dmo = new DefaultMapGroupOverlay(mapView, dmg);
+                DefaultMapGroupOverlay dmo = new DefaultMapGroupOverlay(mapView, dmg,
+                        "android.resource://" + pluginContext.getPackageName() + "/" + R.drawable.ic_launcher_badge);
 
                 mapView.getRootGroup().addGroup(dmg);
                 mapView.getMapOverlayManager().addOverlay(dmo);
