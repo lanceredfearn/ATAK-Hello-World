@@ -154,6 +154,7 @@ import com.atakmap.coremap.log.Log;
 
 import android.app.Activity;
 
+import java.io.FileOutputStream;
 import java.lang.*;
 import java.util.*;
 import java.util.Map;
@@ -1467,18 +1468,34 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         addLayer.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fp = FileSystemUtils.getRoot().getPath() + "/test.png";
-                File file = new File(fp);
-                if (!file.exists()) {
-                    toast("file: " + fp
+                File f = FileSystemUtils.getItem("tools/helloworld/logo.png");
+                f.getParentFile().mkdir();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(f);
+                    if (FileSystemUtils.assetExists(pluginContext,
+                            "logo.png")) {
+                        FileSystemUtils.copyFromAssets(pluginContext, "logo.png",
+                                fos);
+                    }
+                } catch (Exception e) {
+                    toast("file: " + f
                             + " does not exist, please create it before trying this example");
+                    Log.e(TAG, "error exracting: " + f);
                     return;
+
+                } finally {
+                    if (fos != null)
+                        try {
+                            fos.close();
+                        } catch (Exception ignored) {};
                 }
+
                 synchronized (HelloWorldDropDownReceiver.this) {
                     if (exampleLayer == null) {
                         GLLayerFactory.register(GLExampleLayer.SPI);
                         exampleLayer = new ExampleLayer(pluginContext,
-                                "HelloWorld Test Layer", fp);
+                                "HelloWorld Test Layer", f.getAbsolutePath());
                     }
                 }
 
@@ -2085,6 +2102,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             // Toggle visibility of example layer
             case LAYER_VISIBILITY: {
+                Log.d(TAG, "used the custom action to toggle layer visibility on: " + intent
+                        .getStringExtra("uid"));
                 ExampleLayer l = mapOverlay.findLayer(intent
                         .getStringExtra("uid"));
                 if (l != null) {
@@ -2100,6 +2119,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
             // Delete example layer
             case LAYER_DELETE: {
+                Log.d(TAG, "used the custom action to delete the layer on: " + intent
+                        .getStringExtra("uid"));
                 ExampleLayer l = mapOverlay.findLayer(intent
                         .getStringExtra("uid"));
                 if (l != null) {

@@ -42,6 +42,7 @@ import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.coremap.cot.event.CotDetail;
 
 import com.atakmap.coremap.cot.event.CotEvent;
+import com.atakmap.coremap.filesystem.FileSystemUtils;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.app.preferences.ToolsPreferenceFragment;
@@ -78,6 +79,7 @@ import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -223,6 +225,9 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 return true;
             }
         });
+
+
+
 
         //HelloWorld MapOverlay added to Overlay Manager.
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
