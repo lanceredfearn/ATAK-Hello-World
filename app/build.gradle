@@ -259,6 +259,10 @@ android {
         nor {
             dimension "application"
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".NOR"]
+        }
+        hun {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".HUN"]
             buildConfigField 'String', 'ATAK_PACKAGE_NAME', '"com.atakmap.app.fvey"'
         }
         gbr {
