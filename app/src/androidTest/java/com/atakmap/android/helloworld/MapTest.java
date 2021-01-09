@@ -59,7 +59,7 @@ public class MapTest extends ATAKTestClass {
 
     @Test
     public void useAppContext() throws Exception {
-        Assert.assertEquals("com.atakmap.app", appContext.getPackageName());
+        Assert.assertEquals("com.atakmap.app.civ", appContext.getPackageName());
     }
 
     @Test
