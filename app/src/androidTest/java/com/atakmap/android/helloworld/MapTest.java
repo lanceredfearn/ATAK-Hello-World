@@ -10,6 +10,7 @@ import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import com.atakmap.android.maps.MapView;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.maps.assets.MapAssets;
 import com.atakmap.android.test.helpers.ATAKTestClass;
@@ -107,6 +108,7 @@ public class MapTest extends ATAKTestClass {
         helper.pressButtonFromLayoutManager("Red X Tool");
         MapAssets assets = new MapAssets(appContext);
         //see assets\menus\redx_menu.xml for all the actions you can perform for red x radial
+        helper.pressMapLocation(MapView.getMapView().getCenterPoint().get());
         helper.pressMarkerNameOnMap("Red X");
         helper.pressRadialButton(helper.getMarkerOfName("Red X"), "dropfriendly", assets);
     }
