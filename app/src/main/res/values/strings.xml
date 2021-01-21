@@ -81,6 +81,19 @@
     <string name="cancel_btn">Cancel</string>
     <string name="Remove_item_warn">Are you sure you want to remove </string>
     <string name="Manual_mode">Please enter target manually</string>
+
+    <!-- Map layer download -->
+    <string name="download_map_layer_msg">Download map layer using a shape</string>
+    <string name="no_mobile_imagery_found">No mobile imagery found. Make sure you\'re switched to the "Mobile" tab.</string>
+    <string name="map_layer_download">Map Layer Download</string>
+    <string name="job_status_downloading">Downloading tiles…</string>
+    <string name="job_status_connecting">Connecting to server…</string>
+    <string name="map_layer_download_error">Map layer download error occurred.</string>
+    <string name="map_layer_download_complete">Map layer download has completed.</string>
+    <string name="download_tiles_progress">%s tiles</string>
+    <string name="download_layers_progress">%s layers</string>
+    <string name="download_time_left">Est. Time Left: %s</string>
+
     <!-- Arrays of words for SpeechToActivity-->
     <string-array name="drop_a_array">
         <item>dropped</item>
