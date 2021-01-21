@@ -19,6 +19,7 @@ import android.os.Build;
 
 import com.atakmap.android.cot.detail.SensorDetailHandler;
 import com.atakmap.android.drawing.mapItems.DrawingShape;
+import com.atakmap.android.helloworld.layers.LayerDownloadExample;
 import com.atakmap.android.helloworld.menu.MenuFactory;
 import com.atakmap.android.maps.DefaultMapGroup;
 import com.atakmap.android.maps.MultiPolyline;
@@ -212,6 +213,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     private ExampleLayer exampleLayer;
     private Map<Integer, ExampleMultiLayer> exampleMultiLayers = new HashMap<>();
+
+    private LayerDownloadExample layerDownloader;
 
     private final CameraActivity.CameraDataListener cdl = new CameraActivity.CameraDataListener();
     private final CameraActivity.CameraDataReceiver cdr = new CameraActivity.CameraDataReceiver() {
@@ -512,6 +515,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.btnHookNavigationEvents:
                         toast(context.getString(R.string.hookNavigation));
+                        break;
+                    case R.id.downloadMapLayer:
+                        toast(context.getString(R.string.download_map_layer_msg));
+                        break;
                 }
                 return true;
             }
@@ -1722,6 +1729,19 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
+        // Downloading a map layer
+        final Button downloadLayer = helloView.findViewById(
+                R.id.downloadMapLayer);
+        downloadLayer.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (layerDownloader != null)
+                    layerDownloader.dispose();
+                layerDownloader = new LayerDownloadExample(mapView, pluginContext);
+                layerDownloader.start();
+            }
+        });
+
         //implement onLongClickListener for buttons
         smaller.setOnLongClickListener(longClickListener);
         larger.setOnLongClickListener(longClickListener);
@@ -1751,7 +1771,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         //speechToText.setOnLongClickListener(longClickListener);
         btnHookNavigationEvents.setOnLongClickListener(longClickListener);
         issLocation.setOnLongClickListener(longClickListener);
-
+        downloadLayer.setOnLongClickListener(longClickListener);
 
     }
 

@@ -196,6 +196,17 @@
 
     <string name="country_prompt">Choose a country</string>
 
+    <string name="download_map_layer_msg">Download map layer using a shape</string>
+    <string name="no_mobile_imagery_found">No mobile imagery found. Make sure you\'re switched to the "Mobile" tab.</string>
+    <string name="map_layer_download">Map Layer Download</string>
+    <string name="job_status_downloading">Downloading tiles…</string>
+    <string name="job_status_connecting">Connecting to server…</string>
+    <string name="map_layer_download_error">Map layer download error occurred.</string>
+    <string name="map_layer_download_complete">Map layer download has completed.</string>
+    <string name="download_tiles_progress">%s tiles</string>
+    <string name="download_layers_progress">%s layers</string>
+    <string name="download_time_left">Est. Time Left: %s</string>
+
     <string-array name="country_arrays">
         <item>Malaysia</item>
         <item>United States</item>
