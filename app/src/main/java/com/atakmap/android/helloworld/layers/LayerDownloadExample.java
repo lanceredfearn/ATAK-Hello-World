@@ -30,7 +30,8 @@ import java.util.List;
  * Demonstrates workflow for selecting and downloading map tiles
  *
  * 1) Start the region selection tool
- * 2) Once the user selects a region, prompt user to set title
+ * 2) Once the user selects a region, the currently loaded layer will begin downloading
+ * 3) The user is shown download progress in a dialog until completion
  */
 public class LayerDownloadExample extends BroadcastReceiver
         implements LayerDownloader.Callback, DialogInterface.OnCancelListener {
