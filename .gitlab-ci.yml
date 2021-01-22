@@ -74,77 +74,45 @@ stages:
   - build
   - test
 
-assembleMilSdkRelease:
+assembleMilRelease:
   stage: build
   script:
     - pwd .
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - cp atak-civ/atak-gradle-takdev.jar sdk
     - find . -name main.jar
-    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintMilRelease assembleMilRelease
+    - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
   artifacts:
     expire_in: 720h
     paths:
-      - app/build/outputs/
+    - app/build/outputs/
 
-assembleMilOdkRelease:
-  stage: build
-  script:
-    - ./gradlew --console=plain -Pci -Ptakrepo.force=true -Ptakrepo.url=${ARTIFACTORY_URL_APK} -Ptakrepo.user=${ARTIFACTORY_USER} -Ptakrepo.password=${ARTIFACTORY_PASSWORD} assembleMilRelease
-  artifacts:
-    expire_in: 720h
-    paths:
-      - app/build/outputs/
-  when: manual
-
-assembleCivSdkRelease:
+assembleCivRelease:
   stage: build
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - cp atak-civ/atak-gradle-takdev.jar sdk
-    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintCivRelease assembleCivRelease
+    - ./gradlew -Pci --console=plain lintCivRelease assembleCivRelease
   artifacts:
     expire_in: 720h
     paths:
-      - app/build/outputs/
+    - app/build/outputs/
   when: manual
 
-assembleCivOdkRelease:
-  stage: build
-  script:
-    - ./gradlew --console=plain -Pci -Ptakrepo.force=true -Ptakrepo.url=${ARTIFACTORY_URL_APK} -Ptakrepo.user=${ARTIFACTORY_USER} -Ptakrepo.password=${ARTIFACTORY_PASSWORD} assembleCivRelease
-  artifacts:
-    expire_in: 720h
-    paths:
-      - app/build/outputs/
-  when: manual
 
-assembleFveySdkRelease:
+assembleFveyRelease:
   stage: build
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - cp atak-civ/atak-gradle-takdev.jar sdk
-    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintFveyRelease assembleFveyRelease
+    - ./gradlew -Pci --console=plain lintFveyRelease assembleFveyRelease
   artifacts:
     expire_in: 720h
     paths:
-      - app/build/outputs/
-  when: manual
-
-assembleFveyOdkRelease:
-  stage: build
-  script:
-    - ./gradlew --console=plain -Pci -Ptakrepo.force=true -Ptakrepo.url=${ARTIFACTORY_URL_APK} -Ptakrepo.user=${ARTIFACTORY_USER} -Ptakrepo.password=${ARTIFACTORY_PASSWORD} assembleFveyRelease
-  artifacts:
-    expire_in: 720h
-    paths:
-      - app/build/outputs/
+    - app/build/outputs/
   when: manual
 
 
@@ -155,6 +123,4 @@ testRelease:
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
     - cp -R atak-civ/espresso .
-    - cp atak-civ/atak-gradle-takdev.jar sdk
-    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar :app:testMilRelease
-
+    - ./gradlew -Pci --console=plain :app:testMilRelease
