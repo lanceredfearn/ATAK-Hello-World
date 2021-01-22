@@ -106,10 +106,9 @@ public class MapTest extends ATAKTestClass {
     @Test
     public void selectRadialMenuButton() throws Exception {
         helper.pressButtonFromLayoutManager("Red X Tool");
-        MapAssets assets = new MapAssets(appContext);
         //see assets\menus\redx_menu.xml for all the actions you can perform for red x radial
         helper.pressMapLocation(MapView.getMapView().getCenterPoint().get());
         helper.pressMarkerNameOnMap("Red X");
-        helper.pressRadialButton(helper.getMarkerOfName("Red X"), "dropfriendly", assets);
+        helper.pressRadialButton(helper.getMarkerOfName("Red X"), "asset://icons/target.png");
     }
 }

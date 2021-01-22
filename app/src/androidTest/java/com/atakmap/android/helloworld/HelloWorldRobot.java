@@ -85,8 +85,10 @@ public class HelloWorldRobot {
     }
 
     public HelloWorldRobot pressAircraftDetailsRadialMenuButton() {
-        MapAssets assets = new MapAssets(appContext);
-        HELPER.pressRadialButton(HELPER.getMarkerOfType("a-f-A"), "showdetails", assets);
+        HELPER.pressRadialButton(HELPER.getMarkerOfType("a-f-A"), "asset://icons/details.png");
+        try { 
+             Thread.sleep(3000);
+        } catch (Exception e) { }
         return this;
     }
 
