@@ -94,6 +94,11 @@
     <string name="download_layers_progress">%s layers</string>
     <string name="download_time_left">Est. Time Left: %s</string>
 
+    <!-- Map screenshot capture -->
+    <string name="map_screenshot_desc">Capture a screenshot of the map and save to a file</string>
+    <string name="map_screenshot_started">Capturing map screenshot…</string>
+    <string name="map_screenshot_finished">Finished capturing map screenshot to %s</string>
+
     <!-- Arrays of words for SpeechToActivity-->
     <string-array name="drop_a_array">
         <item>dropped</item>

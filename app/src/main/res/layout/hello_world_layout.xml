@@ -538,6 +538,14 @@
                 android:padding="6dp"
                 android:text="Web View" />
 
+            <Button
+                android:id="@+id/mapScreenshot"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Map Screenshot" />
+
             <TextView
                 android:id="@+id/speechToText_TV"
                 android:layout_width="match_parent"

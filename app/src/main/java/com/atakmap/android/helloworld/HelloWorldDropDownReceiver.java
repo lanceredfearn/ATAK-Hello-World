@@ -19,6 +19,7 @@ import android.os.Build;
 
 import com.atakmap.android.cot.detail.SensorDetailHandler;
 import com.atakmap.android.drawing.mapItems.DrawingShape;
+import com.atakmap.android.helloworld.image.MapScreenshotExample;
 import com.atakmap.android.helloworld.layers.LayerDownloadExample;
 import com.atakmap.android.helloworld.menu.MenuFactory;
 import com.atakmap.android.maps.DefaultMapGroup;
@@ -137,8 +138,6 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
 
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-
-import android.content.ComponentName;
 
 import android.content.DialogInterface;
 
@@ -518,6 +517,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.downloadMapLayer:
                         toast(context.getString(R.string.download_map_layer_msg));
+                        break;
+                    case R.id.mapScreenshot:
+                        toast(context.getString(R.string.map_screenshot_desc));
                         break;
                 }
                 return true;
@@ -1470,6 +1472,17 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
+        final Button mapScreenshot = helloView.findViewById(R.id.mapScreenshot);
+        mapScreenshot.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MapScreenshotExample(mapView, pluginContext).start();
+                Toast.makeText(context, pluginContext.getString(
+                        R.string.map_screenshot_started),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+
         final Button addLayer = helloView
                 .findViewById(R.id.addLayer);
         addLayer.setOnClickListener(new OnClickListener() {
@@ -1772,6 +1785,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         btnHookNavigationEvents.setOnLongClickListener(longClickListener);
         issLocation.setOnLongClickListener(longClickListener);
         downloadLayer.setOnLongClickListener(longClickListener);
+        mapScreenshot.setOnLongClickListener(longClickListener);
 
     }
 
