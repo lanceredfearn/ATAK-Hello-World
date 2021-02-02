@@ -10,9 +10,11 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.AlertDialog;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import android.os.Build;
@@ -26,6 +28,7 @@ import com.atakmap.android.maps.DefaultMapGroup;
 import com.atakmap.android.maps.MultiPolyline;
 import com.atakmap.android.maps.SensorFOV;
 import com.atakmap.android.overlay.DefaultMapGroupOverlay;
+import com.atakmap.android.util.SimpleItemSelectedListener;
 import com.atakmap.android.video.StreamManagementUtils;
 import com.atakmap.android.video.ConnectionEntry;
 import com.atak.plugins.impl.PluginLayoutInflater;
@@ -1754,6 +1757,22 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                 layerDownloader.start();
             }
         });
+
+        // Dark themed spinners need some text color correction
+        final Spinner spinner = helloView
+                .findViewById(R.id.spinner1);
+
+
+        spinner.setOnItemSelectedListener(new SimpleItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent,
+                                       View view,
+                                       int position, long id) {
+                if (view instanceof TextView)
+                    ((TextView) view).setTextColor(Color.WHITE);
+            }
+        });
+        spinner.setSelection(0);
 
         //implement onLongClickListener for buttons
         smaller.setOnLongClickListener(longClickListener);
