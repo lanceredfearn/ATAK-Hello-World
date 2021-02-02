@@ -218,6 +218,11 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     private LayerDownloadExample layerDownloader;
 
+    private double currWidth = HALF_WIDTH;
+    private double currHeight = HALF_HEIGHT;
+
+
+
     private final CameraActivity.CameraDataListener cdl = new CameraActivity.CameraDataListener();
     private final CameraActivity.CameraDataReceiver cdr = new CameraActivity.CameraDataReceiver() {
         public void onCameraDataReceived(Bitmap b) {
@@ -2201,6 +2206,28 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     }
 
     @Override
+    protected void onStateRequested(int state) {
+        if (state == DROPDOWN_STATE_FULLSCREEN) {
+            if (!isPortrait()) {
+                if (Double.compare(currWidth, HALF_WIDTH) == 0) {
+                    resize(FULL_WIDTH - HANDLE_THICKNESS_LANDSCAPE,
+                            FULL_HEIGHT);
+                }
+            } else {
+                if (Double.compare(currHeight, HALF_HEIGHT) == 0) {
+                    resize(FULL_WIDTH, FULL_HEIGHT - HANDLE_THICKNESS_PORTRAIT);
+                }
+            }
+        } else if (state == DROPDOWN_STATE_NORMAL) {
+            if (!isPortrait()) {
+                resize(HALF_WIDTH, FULL_HEIGHT);
+            } else {
+                resize(FULL_WIDTH, HALF_HEIGHT);
+            }
+        }
+    }
+
+    @Override
     public void onDropDownSelectionRemoved() {
     }
 
@@ -2210,7 +2237,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     @Override
     public void onDropDownSizeChanged(double width, double height) {
+        currWidth = width;
+        currHeight = height;
     }
+
 
     @Override
     public void onDropDownClose() {
