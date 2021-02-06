@@ -1,4 +1,138 @@
-<menu buttonRadius='65' buttonSpan='32.73' buttonWidth='60' buttonBg='bgs/button.xml'> 
-    <button onClick='remove.xml' prefValue='cas' icon='removeblue.png'/> 
-    <button onClick='remove.xml' prefValue='cff' icon='removeyellow.png'/> 
+<menu buttonRadius='65' buttonSpan='10' buttonWidth='60' buttonBg='bgs/button.xml'>
+    <button icon='removeyellow.png'
+        onClick='actions/floor_choose19.xml'
+        disabled="${F19}"/>
+        
+    <button icon='removeyellow.png'
+        onClick='actions/floor_choose18.xml'
+        disabled="true"/>
+        
+    <button icon='removeyellow.png'
+        onClick='actions/floor_choose17.xml'
+        disabled="true"/>
+        
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose16.xml'
+        disabled="true"/>
+        
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose15.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose14.xml'
+        disabled="true"/>
+
+    <button icon='removeyellow.png'
+        onClick='actions/floor_choose13.xml'
+        disabled="${F13}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose12.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose11.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_choose10.xml'
+        disabled="true"/>
+
+    <button icon='floor_9.png'
+        onClick='actions/floor_choose9.xml'
+        disabled="true"/>
+
+    <button icon='floor_8.png'
+        onClick='actions/floor_choose8.xml'
+        disabled="true"/>
+
+    <button icon='floor_7.png'
+        onClick='actions/floor_choose7.xml'
+        disabled="true"/>
+
+    <button icon='floor_6.png'
+        onClick='actions/floor_choose6.xml'
+        disabled="true"/>
+
+    <button icon='floor_5.png'
+        onClick='actions/floor_choose5.xml'
+        disabled="true"/>
+
+    <button icon='floor_4.png'
+        onClick='actions/floor_choose4.xml'
+        disabled="${F4}"/>
+
+    <button icon='floor_3.png'
+        onClick='actions/floor_choose3.xml'
+        disabled="${F3}"/>
+
+    <button icon='floor_2.png'
+        onClick='actions/floor_choose2.xml'
+        disabled="${F2}"/>
+
+    <button icon='floor_1.png'
+        onClick='actions/floor_choose1.xml'
+        disabled="${F1}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseM5.xml'
+        disabled="${M5}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseM4.xml'
+        disabled="${M4}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseM3.xml'
+        disabled="${M3}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseM2.xml'
+        disabled="${M2}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseM1.xml'
+        disabled="${M1}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseG5.xml'
+        disabled="${G5}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseG4.xml'
+        disabled="${G4}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseG3.xml'
+        disabled="${G3}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseG2.xml'
+        disabled="${G2}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseG1.xml'
+        disabled="${G1}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseB1.xml'
+        disabled="${B1}"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseB2.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseB3.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseB4.xml'
+        disabled="true"/>
+
+    <button icon='removeblue.png'
+        onClick='actions/floor_chooseB5.xml'
+        disabled="true"/>
 </menu>
+

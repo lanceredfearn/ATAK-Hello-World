@@ -33,6 +33,7 @@
     <string name="pluginNotification">Display an android notification</string>
     <string name="videoLauncher">Example of how to display a video with an overlay layer</string>
     <string name="notificationSpammer">Spam android notifications</string>
+    <string name="notificationWithOptions">Shows how to produce a notification with buttons</string>
     <string name="addToolbarItem">Sample of how to add / remove a toolbar item</string>
     <string name="cameraLauncher">Launch the camera</string>
     <string name="imageAttach">Create a marker with an attached image</string>

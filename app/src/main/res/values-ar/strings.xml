@@ -30,6 +30,7 @@
     <string name="fakeContentProvider">Connect to a fake content provider</string>
     <string name="pluginNotification">Display an android notification</string>
     <string name="notificationSpammer">Spam android notifications</string>
+    <string name="notificationWithOptions">Shows how to produce a notification with buttons</string>
     <string name="cameraLauncher">Launch the camera</string>
     <string name="imageAttach">Create a marker with an attached image</string>
     <string name="webView">Demonstrate how to launch a plugin with a web view.</string>

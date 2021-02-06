@@ -1,7 +1,9 @@
 
 package com.atakmap.android.helloworld;
 
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -394,6 +396,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
         printNetworks();
 
+        AtakBroadcast.DocumentedIntentFilter dif =
+                new AtakBroadcast.DocumentedIntentFilter("com.atakmap.android.helloworld.FAKE_PHONE_CALL");
+        AtakBroadcast.getInstance().registerReceiver(fakePhoneCallReceiver, dif);
 
         // If you are using a custom layout you need to make use of the PluginLayoutInflator to clear
         // out the layout cache so that the plugin can be properly unloaded and reloaded.
@@ -495,6 +500,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         break;
                     case R.id.notificationSpammer:
                         toast(context.getString(R.string.notificationSpammer));
+                        break;
+                    case R.id.notificationWithOptions:
+                        toast(context.getString(R.string.notificationWithOptions));
                         break;
                     case R.id.videoLauncher:
                         toast(context.getString(R.string.videoLauncher));
@@ -1377,6 +1385,52 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
+
+
+        final Button notificationWithOptions = helloView
+                .findViewById(R.id.notificationWithOptions);
+        notificationWithOptions.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent atakFrontIntent = new Intent();
+
+                atakFrontIntent.setComponent(new ComponentName("com.atakmap.app.civ",
+                        "com.atakmap.app.ATAKActivity"));
+                atakFrontIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+
+                Intent fakePhoneCall =  new Intent("com.atakmap.android.helloworld.FAKE_PHONE_CALL");
+                int id = fakePhoneCall.hashCode();
+
+                fakePhoneCall.putExtra("mytime", "my time: " + System.currentTimeMillis());
+                fakePhoneCall.putExtra("notificationId", id);
+                atakFrontIntent.putExtra("internalIntent", fakePhoneCall);
+                PendingIntent appIntent = PendingIntent.getActivity(mapView.getContext(), fakePhoneCall.hashCode(),
+                        atakFrontIntent, 0);
+
+                NotificationManager nm = (NotificationManager) mapView.getContext()
+                        .getSystemService(Context.NOTIFICATION_SERVICE);
+
+                Notification.Builder notificationBuilder;
+                if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                    notificationBuilder = new Notification.Builder(mapView.getContext());
+                } else {
+                    notificationBuilder = new Notification.Builder(mapView.getContext(), "com.atakmap.app.def");
+                }
+                String gid = java.util.UUID.randomUUID().toString();
+
+                notificationBuilder.setContentTitle("Test Notification")
+                        .setSmallIcon(com.atakmap.app.R.drawable.ic_atak_launcher)
+                        .setOngoing(false)
+                        .setGroup(gid)
+                        .addAction(com.atakmap.app.R.drawable.phone_icon, "Phone Call", appIntent);
+                Notification notification = notificationBuilder.build();
+                nm.notify(notification.hashCode(), notification);
+            }
+        });
+
         final Button videoLauncher = helloView
                 .findViewById(R.id.videoLauncher);
         videoLauncher.setOnClickListener(new OnClickListener() {
@@ -2077,6 +2131,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             issTimer = null;
         }
 
+        AtakBroadcast.getInstance().unregisterReceiver(fakePhoneCallReceiver);
+
         SensorManager sensorManager = (SensorManager) getMapView().getContext().getSystemService(Context.SENSOR_SERVICE);
         sensorManager.unregisterListener(HelloWorldDropDownReceiver.this);
         TextContainer.getTopInstance().closePrompt();
@@ -2740,4 +2796,27 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             Log.d(TAG, "accuracy for the accelerometer: " + accuracy);
         }
     }
+
+
+    BroadcastReceiver fakePhoneCallReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "intent: " + intent.getAction() + " " + intent.getStringExtra("mytime"));
+            getMapView().post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getMapView().getContext(),
+                            "intent: " + intent.getAction() + " " + intent.getStringExtra("mytime"),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            NotificationManager nm = (NotificationManager) getMapView().getContext()
+                    .getSystemService(Context.NOTIFICATION_SERVICE);
+            int id = intent.getIntExtra("notificationId", 0);
+            Log.d(TAG, "cancelling id: " + id);
+            if (id > 0) {
+                nm.cancel(id);
+            }
+        }
+    };
 }

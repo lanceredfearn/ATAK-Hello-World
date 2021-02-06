@@ -472,6 +472,14 @@
                 android:text="Notification Spammer" />
 
             <Button
+                android:id="@+id/notificationWithOptions"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Notification With Options" />
+
+            <Button
                 android:id="@+id/videoLauncher"
                 style="@style/darkButton"
                 android:layout_width="wrap_content"
