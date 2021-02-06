@@ -2800,7 +2800,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     BroadcastReceiver fakePhoneCallReceiver = new BroadcastReceiver() {
         @Override
-        public void onReceive(Context context, Intent intent) {
+        public void onReceive(final Context context, final Intent intent) {
             Log.d(TAG, "intent: " + intent.getAction() + " " + intent.getStringExtra("mytime"));
             getMapView().post(new Runnable() {
                 @Override
