@@ -52,6 +52,8 @@ import com.atakmap.android.cot.CotMapComponent;
 import com.atakmap.android.radiolibrary.RadioMapComponent;
 import com.atakmap.coremap.maps.coords.GeoBounds;
 import com.atakmap.coremap.maps.coords.GeoPoint;
+import com.atakmap.net.AtakAuthenticationCredentials;
+import com.atakmap.net.AtakAuthenticationDatabase;
 import com.atakmap.net.DeviceProfileClient;
 
 import android.graphics.Color;
@@ -455,6 +457,12 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
             AtakBroadcast.getInstance().unregisterReceiver(ssLoadedReceiver);
             // action for when the statesaver is completely loaded
         }
+
+
+
+        // example of how to save and retrieve credentials using the credential management system
+        // within core ATAK
+        saveAndRetrieveCredentials();
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
@@ -618,5 +626,30 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                     + ex.getMessage());
         }
         return xmlString;
+    }
+
+
+    /**
+     * This is a simple example on how to save, retrieve and delete credentials in ATAK using the
+     * credential management system.
+     */
+    private void saveAndRetrieveCredentials() {
+        AtakAuthenticationDatabase.saveCredentials("helloworld.plugin", "",
+                "username", "password", false);
+        // can also specify a host if needed
+        AtakAuthenticationCredentials aac =
+                AtakAuthenticationDatabase.getCredentials("helloworld.plugin", "");
+        if (aac != null) {
+            Log.d(TAG, "credentials: " + aac.username + " " + aac.password);
+        }
+        AtakAuthenticationDatabase.delete("helloworld.plugin", "");
+
+        aac = AtakAuthenticationDatabase.getCredentials("helloworld.plugin", "");
+        if (aac == null)
+            Log.d(TAG, "deleted credentials");
+        else
+            Log.d(TAG, "credentials: " + aac.username + " " + aac.password);
+
+
     }
 }
