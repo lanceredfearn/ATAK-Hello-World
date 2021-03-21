@@ -66,8 +66,10 @@ public class SpeechBloodHound extends SpeechActivity {
         int indexR = -1, indexC = -1;
         for (int i = 0; i < destArr.length; i++) {
             for (String s : routeArray) {
-                if (destArr[i].equalsIgnoreCase(s))
+                if (destArr[i].equalsIgnoreCase(s)) {
                     indexR = i;
+                    break;
+                }
             }
             for (String s : callsignArray) {
                 if (destArr[i].equalsIgnoreCase(s))

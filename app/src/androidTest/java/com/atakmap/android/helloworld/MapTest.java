@@ -13,7 +13,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.maps.Marker;
-import com.atakmap.android.maps.assets.MapAssets;
 import com.atakmap.android.test.helpers.ATAKTestClass;
 import com.atakmap.android.test.helpers.DrawableMatcher;
 import com.atakmap.app.R;

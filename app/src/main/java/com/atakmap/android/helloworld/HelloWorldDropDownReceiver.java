@@ -161,8 +161,6 @@ import android.app.Activity;
 import java.io.FileOutputStream;
 import java.lang.*;
 import java.util.*;
-import java.util.Map;
-import java.util.HashMap;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -215,7 +213,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
     private Route r;
 
     private ExampleLayer exampleLayer;
-    private Map<Integer, ExampleMultiLayer> exampleMultiLayers = new HashMap<>();
+    private final Map<Integer, ExampleMultiLayer> exampleMultiLayers = new HashMap<>();
 
     private LayerDownloadExample layerDownloader;
 
@@ -230,8 +228,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         }
     };
 
-    private SpeechToTextActivity.SpeechDataListener sd1 = new SpeechToTextActivity.SpeechDataListener();
-    private SpeechToTextActivity.SpeechDataReceiver sdr = new SpeechToTextActivity.SpeechDataReceiver() {
+    private final SpeechToTextActivity.SpeechDataListener sd1 = new SpeechToTextActivity.SpeechDataListener();
+    private final SpeechToTextActivity.SpeechDataReceiver sdr = new SpeechToTextActivity.SpeechDataReceiver() {
         public void onSpeechDataReceived(HashMap<String, String> s) {
             Log.d(TAG, "==========speech======>" + s);
             createSpeechMarker(s);
@@ -1508,7 +1506,7 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         // show a drop down without any extras passed in.
         ActionBroadcastData abd = new ActionBroadcastData(
                 "com.ford.tool.showtoast",
-                new ArrayList<ActionBroadcastExtraStringData>());
+                new ArrayList<>());
 
         List<ActionClickData> acdList = new ArrayList<>();
         acdList.add(new ActionClickData(abd, "click"));
@@ -1633,7 +1631,6 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                             fos.close();
                         } catch (Exception ignored) {
                         }
-                    ;
                 }
 
                 synchronized (HelloWorldDropDownReceiver.this) {

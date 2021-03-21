@@ -7,7 +7,6 @@ import android.util.Pair;
 import com.atakmap.coremap.maps.coords.GeoPoint;
 import com.atakmap.map.MapRenderer;
 import com.atakmap.map.layer.Layer;
-import com.atakmap.map.layer.opengl.GLAbstractLayer;
 import com.atakmap.map.layer.opengl.GLAbstractLayer2;
 import com.atakmap.map.layer.opengl.GLLayer2;
 import com.atakmap.map.layer.opengl.GLLayerSpi2;
@@ -121,7 +120,7 @@ public class GLExampleMultiLayer extends GLAbstractLayer2 {
 
     /**************************************************************************/
 
-    private class Data {
+    private static class Data {
         GLTexture texture;
         final DoubleBuffer points;
         final FloatBuffer vertexCoordinates;

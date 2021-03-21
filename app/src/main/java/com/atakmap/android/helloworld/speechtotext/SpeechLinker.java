@@ -51,12 +51,16 @@ public class SpeechLinker extends SpeechActivity {
         //First find the indexes of preposition 1 and 2
         for (int i = 0; i < inputArr.length; i++) {
             for (String s : prep1Array) {
-                if (inputArr[i].equalsIgnoreCase(s))
+                if (inputArr[i].equalsIgnoreCase(s)) {
                     indexPreposition1 = i;
+                    break;
+                }
             }
             for (String s : prep2Array) {
-                if (inputArr[i].equalsIgnoreCase(s))
+                if (inputArr[i].equalsIgnoreCase(s)) {
                     indexPreposition2 = i;
+                    break;
+                }
             }
         }
         //Now construct the names of the markers after the prepositions

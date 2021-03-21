@@ -49,8 +49,10 @@ public class SpeechNineLine extends SpeechActivity {
         //Get the index of "on" style word in input
         for (int i = 0; i < inputArr.length; i++) {
             for (String s : onArray) {
-                if (s.equalsIgnoreCase(inputArr[i]))
+                if (s.equalsIgnoreCase(inputArr[i])) {
                     indexOn = i;
+                    break;
+                }
             }
         }
         //Now build the words after "on" into the callsign

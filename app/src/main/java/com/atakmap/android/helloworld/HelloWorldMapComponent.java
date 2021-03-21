@@ -5,8 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.atakmap.android.drawing.mapItems.DrawingShape;
-
 import com.atakmap.android.contact.ContactLocationView;
 import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
@@ -20,8 +18,6 @@ import com.atakmap.android.ipc.AtakBroadcast.DocumentedIntentFilter;
 
 import com.atakmap.android.ipc.DocumentedExtra;
 import com.atakmap.android.layers.LayersMapComponent;
-import com.atakmap.android.maps.DefaultMapGroup;
-import com.atakmap.android.maps.MapGroup;
 import com.atakmap.android.maps.MapView;
 import com.atakmap.android.cot.UIDHandler;
 import com.atakmap.android.dropdown.DropDownMapComponent;
@@ -34,15 +30,12 @@ import com.atakmap.android.maps.MapEvent;
 import com.atakmap.android.maps.MapItem;
 import com.atakmap.android.maps.Marker;
 import com.atakmap.android.munitions.DangerCloseReceiver;
-import com.atakmap.android.overlay.DefaultMapGroupOverlay;
-import com.atakmap.android.statesaver.StateSaverListener;
 import com.atakmap.android.statesaver.StateSaverPublisher;
 import com.atakmap.android.user.geocode.GeocodeManager;
 import com.atakmap.comms.CommsMapComponent;
 import com.atakmap.coremap.cot.event.CotDetail;
 
 import com.atakmap.coremap.cot.event.CotEvent;
-import com.atakmap.coremap.filesystem.FileSystemUtils;
 import com.atakmap.coremap.log.Log;
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.app.preferences.ToolsPreferenceFragment;
@@ -56,7 +49,6 @@ import com.atakmap.net.AtakAuthenticationCredentials;
 import com.atakmap.net.AtakAuthenticationDatabase;
 import com.atakmap.net.DeviceProfileClient;
 
-import android.graphics.Color;
 import android.location.Address;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -64,7 +56,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
@@ -81,13 +72,11 @@ import org.w3c.dom.Element;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 
 /**
  * This is an example of a MapComponent within the ATAK 
@@ -109,7 +98,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private CotDetailHandler aaaDetailHandler;
     private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
 
-    public class JoystickView extends RelativeLayout {
+    public static class JoystickView extends RelativeLayout {
 
         public JoystickView(Context context, AttributeSet attrs) {
             super(context, attrs);
@@ -526,7 +515,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
     private SpiListener spiListener;
 
-    private class SpiListener implements MapEventDispatchListener,
+    private static class SpiListener implements MapEventDispatchListener,
             MapItem.OnVisibleChangedListener {
         private final MapView view;
 

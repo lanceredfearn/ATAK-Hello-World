@@ -7,7 +7,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.atakmap.android.helloworld.plugin.R;
 import com.atakmap.android.maps.Marker;
-import com.atakmap.android.maps.assets.MapAssets;
 import com.atakmap.android.test.helpers.helper_versions.HelperFactory;
 import com.atakmap.android.test.helpers.helper_versions.HelperFunctions;
 
@@ -92,7 +91,7 @@ public class HelloWorldRobot {
                 "asset://icons/details.png");
         try {
             Thread.sleep(3000);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         return this;
     }

@@ -60,7 +60,7 @@ public class HelloWorldWidget extends AbstractWidgetMapComponent implements
 
                 //imageUri = "file:///sdcard/custom_marker.png";
 
-                widget.setPoint((mapView.getWidth() / 2)
+                widget.setPoint((mapView.getWidth() / 2f)
                         - (MapView.DENSITY * ICON_WIDTH / 2) + 72, 160f);
 
                 Icon.Builder builder = new Icon.Builder();

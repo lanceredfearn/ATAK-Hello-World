@@ -2,7 +2,6 @@
 package com.atakmap.android.helloworld;
 
 import android.content.Context;
-import android.os.SystemClock;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
@@ -13,7 +12,6 @@ import com.atakmap.coremap.maps.coords.GeoPoint;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import com.atakmap.coremap.loader.NativeLoader;
 
 public class GeocoordTest extends ATAKTestClass {
     private final Context appContext = InstrumentationRegistry
