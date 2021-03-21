@@ -61,19 +61,19 @@ public class SpeechToTextActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.speech_to_text);
 
-        btnMGRS =  findViewById(R.id.speakMGRS_btn);
+        btnMGRS = findViewById(R.id.speakMGRS_btn);
         btnDropMarker = findViewById(R.id.dropMarker_btn);
         txtNorthing = findViewById(R.id.northing_txt);
         txtEasting = findViewById(R.id.easting_txt);
-        txtSquareID =  findViewById(R.id.squareID_txt);
-        txtNumericGrid =  findViewById(R.id.numericGrid_txt);
+        txtSquareID = findViewById(R.id.squareID_txt);
+        txtNumericGrid = findViewById(R.id.numericGrid_txt);
         txtAlphaGrid = findViewById(R.id.alphaGrid_txt);
         txtMarkerType = findViewById(R.id.marker_txt);
         txtMarker = findViewById(R.id.marker_type);
         // hide the action bar
         ActionBar bar = getActionBar();
         if (bar != null)
-           bar.hide();
+            bar.hide();
 
         btnMGRS.setOnClickListener(new View.OnClickListener() {
 
@@ -456,7 +456,8 @@ public class SpeechToTextActivity extends Activity {
                     Bundle extras = intent
                             .getExtras();
                     if (extras != null) {
-                        HashMap<String, String> s = (HashMap<String, String>) extras.get("mgrsData");
+                        HashMap<String, String> s = (HashMap<String, String>) extras
+                                .get("mgrsData");
                         if (s != null && sdr != null)
                             sdr.onSpeechDataReceived(s);
                     }

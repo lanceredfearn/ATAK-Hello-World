@@ -1,3 +1,4 @@
+
 package com.atakmap.android.helloworld.layers;
 
 import android.app.ProgressDialog;
@@ -62,16 +63,17 @@ public class LayerDownloadExample extends BroadcastReceiver
         _progDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         _progDialog.setCanceledOnTouchOutside(false);
         _progDialog.setOnCancelListener(this);
-        _progDialog.setMessage(_plugin.getString(R.string.job_status_connecting));
+        _progDialog
+                .setMessage(_plugin.getString(R.string.job_status_connecting));
         _progDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                 _plugin.getString(R.string.cancel_btn),
                 new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface d, int w) {
-                // Cancel button
-                _progDialog.cancel();
-            }
-        });
+                    @Override
+                    public void onClick(DialogInterface d, int w) {
+                        // Cancel button
+                        _progDialog.cancel();
+                    }
+                });
     }
 
     public void dispose() {
@@ -135,8 +137,8 @@ public class LayerDownloadExample extends BroadcastReceiver
         String title = "HelloWorld";
 
         // Get the current on-screen imagery within the shape bounds
-        List<ImageDatasetDescriptor> datasets =
-                RasterUtils.getCurrentImagery(_mapView, shape.getBounds(null));
+        List<ImageDatasetDescriptor> datasets = RasterUtils
+                .getCurrentImagery(_mapView, shape.getBounds(null));
 
         // Find the first available mobile imagery configuration
         ImageDatasetDescriptor mobac = null;
@@ -217,11 +219,18 @@ public class LayerDownloadExample extends BroadcastReceiver
 
         // Show status including the number of tiles downloaded, the number of
         // levels downloaded, and the estimated download time remaining
-        _progDialog.setMessage(_plugin.getString(R.string.job_status_downloading) + "\n"
-                + _plugin.getString(R.string.download_tiles_progress, status.tileStatus) + ", "
-                + _plugin.getString(R.string.download_layers_progress, status.layerStatus) + "\n"
-                + _plugin.getString(R.string.download_time_left,
-                MathUtils.GetTimeRemainingString(status.timeLeft)));
+        _progDialog.setMessage(
+                _plugin.getString(R.string.job_status_downloading) + "\n"
+                        + _plugin.getString(R.string.download_tiles_progress,
+                                status.tileStatus)
+                        + ", "
+                        + _plugin.getString(
+                                R.string.download_layers_progress,
+                                status.layerStatus)
+                        + "\n"
+                        + _plugin.getString(R.string.download_time_left,
+                                MathUtils.GetTimeRemainingString(
+                                        status.timeLeft)));
     }
 
     /**

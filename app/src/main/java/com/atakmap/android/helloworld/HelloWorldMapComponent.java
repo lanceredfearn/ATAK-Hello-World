@@ -109,7 +109,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private CotDetailHandler aaaDetailHandler;
     private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
 
-
     public class JoystickView extends RelativeLayout {
 
         public JoystickView(Context context, AttributeSet attrs) {
@@ -169,27 +168,28 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 ImportExportMapComponent.ACTION_IMPORT_DATA);
         intent.putExtra(ImportReceiver.EXTRA_URI,
                 file.getAbsolutePath());
-        intent.putExtra(ImportReceiver.EXTRA_CONTENT, LayersMapComponent.IMPORTER_CONTENT_TYPE);
-        intent.putExtra(ImportReceiver.EXTRA_MIME_TYPE, LayersMapComponent.IMPORTER_DEFAULT_MIME_TYPE);
+        intent.putExtra(ImportReceiver.EXTRA_CONTENT,
+                LayersMapComponent.IMPORTER_CONTENT_TYPE);
+        intent.putExtra(ImportReceiver.EXTRA_MIME_TYPE,
+                LayersMapComponent.IMPORTER_DEFAULT_MIME_TYPE);
 
         AtakBroadcast.getInstance().sendBroadcast(intent);
         Log.d(TAG, "testImportDone: " + file.toString());
-
 
         /**
          * Case 2 where the file type is unknown and the file is just imported.
          */
         Log.d(TAG, "testImport: " + file.toString());
-        intent = new Intent(ImportExportMapComponent.USER_HANDLE_IMPORT_FILE_ACTION);
+        intent = new Intent(
+                ImportExportMapComponent.USER_HANDLE_IMPORT_FILE_ACTION);
         intent.putExtra("filepath", file.toString());
         intent.putExtra("importInPlace", false); // copies it over to the general location if true
-        intent.putExtra( "promptOnMultipleMatch", true); //prompts the users if this could be multiple things
+        intent.putExtra("promptOnMultipleMatch", true); //prompts the users if this could be multiple things
         intent.putExtra("zoomToFile", false); // zoom to the outer extents of the file.
         AtakBroadcast.getInstance().sendBroadcast(intent);
         Log.d(TAG, "testImportDone: " + file.toString());
 
     }
-
 
     @Override
     public void onCreate(final Context context, Intent intent,
@@ -203,7 +203,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         super.onCreate(context, intent, view);
         pluginContext = context;
 
-
         GLMapItemFactory.registerSpi(GLSpecialMarker.SPI);
 
         // Register capability to handle detail tags that TAK does not 
@@ -212,30 +211,30 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 "__special",
                 sdh = new SpecialDetailHandler());
 
-        CotDetailManager.getInstance().registerHandler(aaaDetailHandler = new CotDetailHandler("__aaa") {
-            private final String TAG = "AAACotDetailHandler";
+        CotDetailManager.getInstance().registerHandler(
+                aaaDetailHandler = new CotDetailHandler("__aaa") {
+                    private final String TAG = "AAACotDetailHandler";
 
-            @Override
-            public CommsMapComponent.ImportResult toItemMetadata(MapItem item, CotEvent event, CotDetail detail) {
-                Log.d(TAG, "detail received: " + detail + " in:  " + event);
-                return CommsMapComponent.ImportResult.SUCCESS;
-            }
+                    @Override
+                    public CommsMapComponent.ImportResult toItemMetadata(
+                            MapItem item, CotEvent event, CotDetail detail) {
+                        Log.d(TAG, "detail received: " + detail + " in:  "
+                                + event);
+                        return CommsMapComponent.ImportResult.SUCCESS;
+                    }
 
-            @Override
-            public boolean toCotDetail(MapItem item, CotEvent event, CotDetail root) {
-                Log.d(TAG, "converting to cot detail from: " + item.getUID());
-                return true;
-            }
-        });
-
-
-
+                    @Override
+                    public boolean toCotDetail(MapItem item, CotEvent event,
+                            CotDetail root) {
+                        Log.d(TAG, "converting to cot detail from: "
+                                + item.getUID());
+                        return true;
+                    }
+                });
 
         //HelloWorld MapOverlay added to Overlay Manager.
         this.mapOverlay = new HelloWorldMapOverlay(view, pluginContext);
         view.getMapOverlayManager().addOverlay(this.mapOverlay);
-
-
 
         //MapView.getMapView().getRootGroup().getChildGroupById(id).setVisible(true);
 
@@ -254,8 +253,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         // is triggered.
         this.dropDown = new HelloWorldDropDownReceiver(view, context,
                 this.mapOverlay);
-
-
 
         // We use documented intent filters within the system
         // in order to automatically document all of the 
@@ -350,31 +347,33 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         // demonstrate how to customize the view for ATAK contacts.   In this case
         // it will show a customized line of test when pulling up the contact 
         // detail view.
-        ContactLocationView.register(extendedselfinfo =
-                new ContactLocationView.ExtendedSelfInfoFactory() {
+        ContactLocationView.register(
+                extendedselfinfo = new ContactLocationView.ExtendedSelfInfoFactory() {
                     @Override
                     public ExtendedInfoView createView() {
                         return new ExtendedInfoView(view.getContext()) {
                             @Override
                             public void setMarker(PointMapItem m) {
-                                Log.d(TAG, "setting the marker: " + m.getMetaString("callsign", ""));
+                                Log.d(TAG, "setting the marker: "
+                                        + m.getMetaString("callsign", ""));
                                 TextView tv = new TextView(view.getContext());
-                                tv.setLayoutParams(new LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+                                tv.setLayoutParams(new LayoutParams(
+                                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                                        LayoutParams.WRAP_CONTENT));
                                 this.addView(tv);
-                                tv.setText("Example: " + m.getMetaString("callsign", "unknown"));
+                                tv.setText("Example: " + m
+                                        .getMetaString("callsign", "unknown"));
 
                             }
                         };
                     }
-                }
-        );
-
+                });
 
         // send out some customized information as part of the SA or PPLI message.
         CotDetail cd = new CotDetail("temp");
         cd.setAttribute("temp", Integer.toString(76));
-        CotMapComponent.getInstance().addAdditionalDetail(cd.getElementName(), cd);
-
+        CotMapComponent.getInstance().addAdditionalDetail(cd.getElementName(),
+                cd);
 
         // register a listener for when a the radial menu asks for a special 
         // drop down.  SpecialDetail is really a skeleton of a class that 
@@ -437,7 +436,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
                 context.getDrawable(R.drawable.ic_route),
                 RouteExportMarshal.class);
 
-
         // Code to listen for when a state saver is completely loaded or wait to perform some action
         // after all of the markers are completely loaded.
 
@@ -448,7 +446,8 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
             }
         };
         AtakBroadcast.getInstance().registerReceiver(ssLoadedReceiver,
-                new DocumentedIntentFilter(StateSaverPublisher.STATESAVER_COMPLETE_LOAD));
+                new DocumentedIntentFilter(
+                        StateSaverPublisher.STATESAVER_COMPLETE_LOAD));
         // because the plugin can be loaded after the above intent has been fired, there is a method
         // to check to see if a load has already occured.
 
@@ -457,8 +456,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
             AtakBroadcast.getInstance().unregisterReceiver(ssLoadedReceiver);
             // action for when the statesaver is completely loaded
         }
-
-
 
         // example of how to save and retrieve credentials using the credential management system
         // within core ATAK
@@ -581,7 +578,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
         // Example call on how to end ATAK if the plugin is unloaded.
         // It would be important to possibly show the user a dialog etc.
-        
+
         //Intent intent = new Intent("com.atakmap.app.QUITAPP");
         //intent.putExtra("FORCE_QUIT", true);
         //AtakBroadcast.getInstance().sendBroadcast(intent);
@@ -628,7 +625,6 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         return xmlString;
     }
 
-
     /**
      * This is a simple example on how to save, retrieve and delete credentials in ATAK using the
      * credential management system.
@@ -637,19 +633,19 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         AtakAuthenticationDatabase.saveCredentials("helloworld.plugin", "",
                 "username", "password", false);
         // can also specify a host if needed
-        AtakAuthenticationCredentials aac =
-                AtakAuthenticationDatabase.getCredentials("helloworld.plugin", "");
+        AtakAuthenticationCredentials aac = AtakAuthenticationDatabase
+                .getCredentials("helloworld.plugin", "");
         if (aac != null) {
             Log.d(TAG, "credentials: " + aac.username + " " + aac.password);
         }
         AtakAuthenticationDatabase.delete("helloworld.plugin", "");
 
-        aac = AtakAuthenticationDatabase.getCredentials("helloworld.plugin", "");
+        aac = AtakAuthenticationDatabase.getCredentials("helloworld.plugin",
+                "");
         if (aac == null)
             Log.d(TAG, "deleted credentials");
         else
             Log.d(TAG, "credentials: " + aac.username + " " + aac.password);
-
 
     }
 }

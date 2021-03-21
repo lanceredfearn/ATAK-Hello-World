@@ -1,3 +1,4 @@
+
 package com.atakmap.android.helloworld.speechtotext;
 
 import android.content.Context;
@@ -24,7 +25,8 @@ public class SpeechLinker extends SpeechActivity {
 
     public SpeechLinker(String input, MapView view, Context pluginContext) {
         super(view, pluginContext);
-        selfArray = getPluginContext().getResources().getStringArray(R.array.self_array);
+        selfArray = getPluginContext().getResources()
+                .getStringArray(R.array.self_array);
         analyzeSpeech(input);
         startActivity();
 
@@ -39,8 +41,10 @@ public class SpeechLinker extends SpeechActivity {
      */
     @Override
     void analyzeSpeech(String input) {
-        String[] prep1Array = getPluginContext().getResources().getStringArray(R.array.link_preposition_position1);
-        String[] prep2Array = getPluginContext().getResources().getStringArray(R.array.link_preposition_position2);
+        String[] prep1Array = getPluginContext().getResources()
+                .getStringArray(R.array.link_preposition_position1);
+        String[] prep2Array = getPluginContext().getResources()
+                .getStringArray(R.array.link_preposition_position2);
         String[] titles = new String[2];
         int indexPreposition1 = -1, indexPreposition2 = -1;
         String[] inputArr = input.split(" ");
@@ -78,14 +82,19 @@ public class SpeechLinker extends SpeechActivity {
      */
     @Override
     void startActivity() {
-        if(items[0]!=null&&items[1]!=null){
-            if(items[0].equals(items[1]))
-                Toast.makeText(getView().getContext(), "Can't link an object to itself", Toast.LENGTH_SHORT).show();
-            else{
-                RangeAndBearingMapItem rab = RangeAndBearingMapItem.createOrUpdateRABLine(UUID.randomUUID().toString(), items[0], items[1], true);
+        if (items[0] != null && items[1] != null) {
+            if (items[0].equals(items[1]))
+                Toast.makeText(getView().getContext(),
+                        "Can't link an object to itself", Toast.LENGTH_SHORT)
+                        .show();
+            else {
+                RangeAndBearingMapItem rab = RangeAndBearingMapItem
+                        .createOrUpdateRABLine(UUID.randomUUID().toString(),
+                                items[0], items[1], true);
                 rab.setVisible(true);
-                final MapGroup _linkGroup = getView().getRootGroup().findMapGroup(
-                        "Range & Bearing");
+                final MapGroup _linkGroup = getView().getRootGroup()
+                        .findMapGroup(
+                                "Range & Bearing");
                 _linkGroup.addItem(rab);
             }
         }
@@ -99,21 +108,26 @@ public class SpeechLinker extends SpeechActivity {
      * @param titles - String array of the x and y terms in "Link x to y"
      */
     private void itemFinder(String[] titles) {
-        MapGroup cotGroup = getView().getRootGroup().findMapGroup("Cursor on Target");
+        MapGroup cotGroup = getView().getRootGroup()
+                .findMapGroup("Cursor on Target");
         for (int i = 0; i < items.length; i++) {
             for (String s : selfArray) {
                 if (titles[i].contentEquals(s))
                     items[i] = getView().getSelfMarker();
             }
             if (items[i] == null)
-                items[i] = (PointMapItem) cotGroup.deepFindItem("callsign", titles[i]);
+                items[i] = (PointMapItem) cotGroup.deepFindItem("callsign",
+                        titles[i]);
         }
         if (items[0] == null && items[1] == null)
-            Toast.makeText(getView().getContext(), "Items not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getView().getContext(), "Items not found",
+                    Toast.LENGTH_SHORT).show();
         else if (items[0] == null)
-            Toast.makeText(getView().getContext(), "Item 1 not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getView().getContext(), "Item 1 not found",
+                    Toast.LENGTH_SHORT).show();
         else if (items[1] == null)
-            Toast.makeText(getView().getContext(), "Item 2 not found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getView().getContext(), "Item 2 not found",
+                    Toast.LENGTH_SHORT).show();
 
     }
 }

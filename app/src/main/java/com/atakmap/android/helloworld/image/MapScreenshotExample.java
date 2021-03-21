@@ -1,3 +1,4 @@
+
 package com.atakmap.android.helloworld.image;
 
 import android.content.Context;
@@ -53,7 +54,7 @@ public class MapScreenshotExample implements ImageryCaptureTask.Callback {
                 _mapView.inverse(new PointF(0, 0)).get(), // Top-left corner
                 _mapView.inverse(new PointF(w, 0)).get(), // Top-right corner
                 _mapView.inverse(new PointF(w, h)).get(), // Bottom-right corner
-                _mapView.inverse(new PointF(0, h)).get()  // Bottom-left corner
+                _mapView.inverse(new PointF(0, h)).get() // Bottom-left corner
         };
 
         // Create a tile capture instance for capturing map imagery using the
@@ -105,7 +106,8 @@ public class MapScreenshotExample implements ImageryCaptureTask.Callback {
      * @param imageryFile The output file containing the imagery (TIFF format)
      */
     @Override
-    public void onFinishCapture(TileCapture tc, ImageryCaptureParams cp, File imageryFile) {
+    public void onFinishCapture(TileCapture tc, ImageryCaptureParams cp,
+            File imageryFile) {
 
         // Dispose the tile capture reader now that we no longer need it
         // This frees some memory used later on
@@ -132,7 +134,8 @@ public class MapScreenshotExample implements ImageryCaptureTask.Callback {
         canvas.postDraw(postDraw, null);
 
         // Save the finished image to a JPEG file
-        File jpegFile = new File(imageryFile.getParent(), "HelloWorld-Screenshot-Example.jpg");
+        File jpegFile = new File(imageryFile.getParent(),
+                "HelloWorld-Screenshot-Example.jpg");
         canvas.copyToFile(jpegFile, Bitmap.CompressFormat.JPEG, 100);
 
         // Delete the imagery buffer since we no longer need it

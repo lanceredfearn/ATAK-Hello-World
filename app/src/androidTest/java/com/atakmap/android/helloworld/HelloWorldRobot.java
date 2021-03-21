@@ -1,3 +1,4 @@
+
 package com.atakmap.android.helloworld;
 
 import android.content.Context;
@@ -58,12 +59,14 @@ public class HelloWorldRobot {
     }
 
     public HelloWorldRobot verifyEmergencyMarkerExists() {
-        assertNotNull("Could not find emergency marker", HELPER.getMarkerOfType("b-a-o-tbl"));
+        assertNotNull("Could not find emergency marker",
+                HELPER.getMarkerOfType("b-a-o-tbl"));
         return this;
     }
 
     public HelloWorldRobot verifyNoEmergencyMarkerExists() {
-        assertNull("Found an emergency marker", HELPER.getMarkerOfType("b-a-o-tbl"));
+        assertNull("Found an emergency marker",
+                HELPER.getMarkerOfType("b-a-o-tbl"));
         return this;
     }
 
@@ -85,19 +88,21 @@ public class HelloWorldRobot {
     }
 
     public HelloWorldRobot pressAircraftDetailsRadialMenuButton() {
-        HELPER.pressRadialButton(HELPER.getMarkerOfType("a-f-A"), "asset://icons/details.png");
-        try { 
-             Thread.sleep(3000);
-        } catch (Exception e) { }
+        HELPER.pressRadialButton(HELPER.getMarkerOfType("a-f-A"),
+                "asset://icons/details.png");
+        try {
+            Thread.sleep(3000);
+        } catch (Exception e) {
+        }
         return this;
     }
 
     public HelloWorldRobot verifyMarkerDetailsName(String name) {
         onView(withId(appContext.getResources().getIdentifier(
-                        "cotInfoNameEdit",
-                        "id",
-                        "com.atakmap.app")))
-                .check(matches(withText(name)));
+                "cotInfoNameEdit",
+                "id",
+                "com.atakmap.app")))
+                        .check(matches(withText(name)));
         return this;
     }
 }
