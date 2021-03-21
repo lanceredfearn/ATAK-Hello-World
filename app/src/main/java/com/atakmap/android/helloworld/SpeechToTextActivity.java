@@ -383,7 +383,8 @@ public class SpeechToTextActivity extends Activity {
                         }
                     }
                     if (currentIntent == NUMERIC_GRID_INTENT) {
-                        if (Integer.parseInt(s) >= 1 && Integer.parseInt(s) <= 60) {
+                        if (Integer.parseInt(s) >= 1
+                                && Integer.parseInt(s) <= 60) {
                             return s;
                         }
                     } else {
