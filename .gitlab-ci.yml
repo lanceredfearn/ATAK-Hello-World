@@ -81,8 +81,9 @@ assembleMilRelease:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
+    - cp atak-civ/atak-gradle-takdev.jar sdk
     - find . -name main.jar
-    - ./gradlew -Pci --console=plain lintMilRelease assembleMilRelease
+    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintMilRelease assembleMilRelease
   artifacts:
     expire_in: 720h
     paths:
@@ -94,7 +95,8 @@ assembleCivRelease:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - ./gradlew -Pci --console=plain lintCivRelease assembleCivRelease
+    - cp atak-civ/atak-gradle-takdev.jar sdk
+    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintCivRelease assembleCivRelease
   artifacts:
     expire_in: 720h
     paths:
@@ -108,7 +110,8 @@ assembleFveyRelease:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - ./gradlew -Pci --console=plain lintFveyRelease assembleFveyRelease
+    - cp atak-civ/atak-gradle-takdev.jar sdk
+    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintFveyRelease assembleFveyRelease
   artifacts:
     expire_in: 720h
     paths:
@@ -122,5 +125,6 @@ testRelease:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
+    - cp atak-civ/atak-gradle-takdev.jar sdk
     - cp -R atak-civ/espresso .
-    - ./gradlew -Pci --console=plain :app:testMilRelease
+    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar :app:testMilRelease
