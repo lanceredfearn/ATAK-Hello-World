@@ -6,65 +6,85 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-def PLUGIN_VERSION = "1.0"
-def ATAK_VERSION = "4.3.1"
+buildscript {
 
+    ext.PLUGIN_VERSION = "1.0"
+    ext.ATAK_VERSION = "4.3.1"
 
- buildscript {
+    def takdevVersion = '2.2.0'
+
+    def getValueFromPropertiesFile = { propFile, key ->
+        if(!propFile.isFile() || !propFile.canRead())
+            return null
+        def prop = new Properties()
+        def reader = propFile.newReader()
+        try {
+            prop.load(reader)
+        } finally {
+            reader.close()
+        }
+        return prop.get(key)
+    }
+
+    def getProperty = { name, defValue ->
+        def prop = project.properties[name] ?:
+                getValueFromPropertiesFile(project.rootProject.file('local.properties'), name)
+        return (null == prop) ? defValue : prop
+    }
+
+    def urlKey = 'takrepo.url'
+
+    ext.isDevKitEnabled = { ->
+        return getProperty(urlKey, null) != null
+    }
+
+    ext.takrepoUrl = getProperty(urlKey, 'http://localhost/')
+    ext.takrepoUser = getProperty('takrepo.user', 'invalid')
+    ext.takrepoPassword = getProperty('takrepo.password', 'invalid')
+    ext.takdevPlugin = getProperty('takdev.plugin', "${rootDir}/../../atak-gradle-takdev.jar")
+
     repositories {
         jcenter()
         google()
         mavenCentral()
+        mavenLocal()
         maven {
             url "https://jitpack.io"
         }
-
+        maven {
+            url = takrepoUrl
+            credentials {
+                username = takrepoUser
+                password = takrepoPassword
+            }
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.2'
+        if(isDevKitEnabled()) {
+            classpath "com.atakmap.gradle:atak-gradle-takdev:${takdevVersion}"
+        } else {
+            classpath files(takdevPlugin)
+        }
     }
- }
+}
 
 allprojects {
     repositories {
-        google() 
+        jcenter()
+        google()
         mavenCentral()
+        mavenLocal()
         maven {
             url "https://jitpack.io"
         }
-        jcenter()
     }
 }
 
 apply plugin: 'com.android.application'
-
+apply plugin: 'atak-takdev-plugin'
 
 dependencies {
-
-    if (new File("$project.projectDir/../../../ATAK/app/build/libs/main.jar").exists()) {
-        println("using the autobuilder version of main.jar")
-        compileOnly fileTree(dir: '../../../ATAK/app/build/libs', include: '*.jar')
-    } else if (new File("$project.projectDir/../../../main.jar").exists()) {
-        println("using the sdk version of main.jar")
-        compileOnly fileTree(dir: '../../..', include: '*.jar')
-    } else if (new File("sdk/main.jar").exists()) {
-        println("using the local version of main.jar")
-        compileOnly fileTree(dir: '../sdk/main.jar', include: '*.jar')
-    } else if (project.rootProject.file("local.properties").exists()) {
-        def props = new Properties()
-        props.load(project.rootProject.file("local.properties").newDataInputStream())
-        def sdkdir = props.getProperty("sdk.path").toString()
-        if (sdkdir == null) {
-            println("error reading sdk.path from the local.properties file, this should point to the main.jar file")
-        }
-        if (new File(sdkdir).exists()) {
-           println("using the local version of ${sdkdir}")
-           compileOnly fileTree(dir: "${sdkdir}", include: '*.jar')
-        }
-    } else {
-        println("WARNING: could not find the sdk")
-    }
-
 
     implementation fileTree(dir: 'libs', include: '*.jar')
 
@@ -142,51 +162,32 @@ android {
           abortOnError true
       }
 
-
     signingConfigs {
         debug {
-            if (new File("sdk/android_keystore").exists()) {
-                 storeFile file("../sdk/android_keystore")
-            } else { 
-                 storeFile file("../../../android_keystore")
-            }
+            storeFile file("${buildDir}/android_keystore")
             storePassword "tnttnt"
             keyAlias "wintec_mapping"
             keyPassword "tnttnt"
         }
-
         release {
-            if (new File("sdk/android_keystore").exists()) {
-                storeFile file("../sdk/android_keystore")
-            } else { 
-                storeFile file("../../../android_keystore")
-            }
+            storeFile file("${buildDir}/android_keystore")
             storePassword "tnttnt"
             keyAlias "wintec_mapping"
             keyPassword "tnttnt"
         }
     }
 
-
     buildTypes {
         debug {
             debuggable true
+            matchingFallbacks = ['sdk']
         }
 
         release {
-            def f = new File("$project.projectDir/../../../ATAK/app/build/outputs/mapping/release/mapping.txt")
-            if (f.exists()) {
-                System.setProperty("atak.proguard.mapping", "../../../ATAK/app/build/outputs/mapping/release/mapping.txt")
-            } else {
-                println("WARNING: no mapping file exists, obfuscating just the plugin to work with the development core")
-                file("$project.projectDir/build").mkdir()
-                file("$project.projectDir/build/blank-mapping.txt").text=""
-                System.setProperty("atak.proguard.mapping", "./build/blank-mapping.txt")
-            }
-
             minifyEnabled true
             proguardFile 'proguard-gradle.txt'
             signingConfig signingConfigs.release
+            matchingFallbacks = ['odk']
         }
     }
 
@@ -294,12 +295,4 @@ android {
             variant.resValue "string", "versionName", variant.versionName
         }
     }
-
-    if(file("$project.projectDir/../espresso/testSetup.gradle").exists()) {
-         apply from: '../espresso/testSetup.gradle'
-    } else { 
-         println("espresso test harness not found")
-    }
-
-
 }
