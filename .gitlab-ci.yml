@@ -2,6 +2,9 @@
 default:
   image: ${TAK_REGISTRY_HOST}/devsecops/android-builder-image:master
 
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
 before_script:
 
   - regex=".*maintenance-([0-9]+\.[0-9]).*";
@@ -17,8 +20,8 @@ before_script:
 stages:
   - build
   - test
-
-assembleMilRelease:
+  
+assembleMilSdkRelease:
   stage: build
   script:
     - pwd .
@@ -33,7 +36,17 @@ assembleMilRelease:
     paths:
     - app/build/outputs/
 
-assembleCivRelease:
+assembleMilOdkRelease:
+  stage: build
+  script:
+    - ./gradlew --console=plain -Pci -Ptakrepo.force=true -Ptakrepo.url=${ARTIFACTORY_URL_APK} -Ptakrepo.user=${ARTIFACTORY_USER} -Ptakrepo.password=${ARTIFACTORY_PASSWORD} assembleMilRelease
+  artifacts:
+    expire_in: 720h
+    paths:
+    - app/build/outputs/
+  when: manual
+  
+assembleCivSdkRelease:
   stage: build
   script:
     - mkdir sdk
@@ -47,28 +60,23 @@ assembleCivRelease:
     - app/build/outputs/
   when: manual
 
-
-assembleFveyRelease:
+assembleCivOdkRelease:
   stage: build
   script:
-    - mkdir sdk
-    - cp atak-civ/main.jar sdk
-    - cp atak-civ/android_keystore sdk
-    - cp atak-civ/atak-gradle-takdev.jar sdk
-    - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar lintFveyRelease assembleFveyRelease
+    - ./gradlew --console=plain -Pci -Ptakrepo.force=true -Ptakrepo.url=${ARTIFACTORY_URL_APK} -Ptakrepo.user=${ARTIFACTORY_USER} -Ptakrepo.password=${ARTIFACTORY_PASSWORD} assembleCivRelease
   artifacts:
     expire_in: 720h
     paths:
     - app/build/outputs/
   when: manual
-
-
+  
 testRelease:
   stage: test
   script:
     - mkdir sdk
     - cp atak-civ/main.jar sdk
     - cp atak-civ/android_keystore sdk
-    - cp atak-civ/atak-gradle-takdev.jar sdk
     - cp -R atak-civ/espresso .
+    - cp atak-civ/atak-gradle-takdev.jar sdk
     - ./gradlew -Pci --console=plain -Ptakdev.plugin=$PWD/sdk/atak-gradle-takdev.jar :app:testMilRelease
+
