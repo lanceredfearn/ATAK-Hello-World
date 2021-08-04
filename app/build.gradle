@@ -104,49 +104,6 @@ dependencies {
 
 }
 
-// Attempt to get a suitable version name for the plugin based on
-// either a git or svn repository
-def getVersionName() { 
-    try {
-            def stdout = new ByteArrayOutputStream()
-            exec {
-                commandLine 'git', 'rev-parse', '--short=8', 'HEAD'
-                standardOutput = stdout
-            }
-            def describe = stdout.toString().trim()
-            println("versionName[git]: $describe")
-            return describe
-    } catch (Exception ignored) {
-       println("error occured, using revision of 1")
-       return 1
-    }
-}
-
-
-// Attempt to get a suitable version code for the plugin based on
-// either a git or svn repository
-def getVersionCode() {
-    try {
-        new ByteArrayOutputStream().withStream { os ->
-                def result = exec {
-                    executable = 'git'
-                    args = ['show', '-s', '--format=%ct']
-                    standardOutput = os
-                    ignoreExitValue = true
-                }
-            def outputAsString = os.toString()
-                ext.revision = "$outputAsString".toInteger()
-
-                 println("version[git]: $revision")
-        }
-    } catch (Exception ignored) {
-       println("error occured, using revision of 1")
-       ext.revision = 1
-    }
-
-    return revision
-}
-
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
