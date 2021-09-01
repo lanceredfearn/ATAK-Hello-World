@@ -9,7 +9,9 @@ import com.atakmap.android.contact.ContactLocationView;
 import com.atakmap.android.cot.detail.CotDetailHandler;
 import com.atakmap.android.cot.detail.CotDetailManager;
 import com.atakmap.android.cotdetails.ExtendedInfoView;
+import com.atakmap.android.data.URIContentManager;
 import com.atakmap.android.helloworld.routes.RouteExportMarshal;
+import com.atakmap.android.helloworld.sender.HelloWorldContactSender;
 import com.atakmap.android.importexport.ExporterManager;
 import com.atakmap.android.importexport.ImportExportMapComponent;
 import com.atakmap.android.importexport.ImportReceiver;
@@ -97,6 +99,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private SpecialDetailHandler sdh;
     private CotDetailHandler aaaDetailHandler;
     private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
+    private HelloWorldContactSender contactSender;
 
     public static class JoystickView extends RelativeLayout {
 
@@ -449,6 +452,10 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         // example of how to save and retrieve credentials using the credential management system
         // within core ATAK
         saveAndRetrieveCredentials();
+
+        // Content sender example
+        URIContentManager.getInstance().registerSender(contactSender =
+                new HelloWorldContactSender(view, pluginContext));
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
@@ -563,6 +570,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         CotDetailManager.getInstance().unregisterHandler(aaaDetailHandler);
         ExporterManager.unregisterExporter(
                 context.getString(R.string.route_exporter_name));
+        URIContentManager.getInstance().unregisterSender(contactSender);
         super.onDestroyImpl(context, view);
 
         // Example call on how to end ATAK if the plugin is unloaded.
