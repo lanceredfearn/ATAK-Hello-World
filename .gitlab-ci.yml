@@ -15,7 +15,7 @@ before_script:
     fi
   - echo "SDK Branch $SDK_BRANCH_NAME"
 
-  - git clone --depth 1 -b $SDK_BRANCH_NAME https://civsdk_builder:_NxPo8NmvzvgNRxaNzH-@git.takmaps.com/sdks/atak-civ.git
+  - git clone --depth 1 -b $SDK_BRANCH_NAME https://civsdk_builder:_NxPo8NmvzvgNRxaNzH-@git.tak.gov/sdks/atak-civ.git
 
 stages:
   - build
