@@ -212,6 +212,10 @@ android {
         prt {
             dimension "application"
             manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".PRT"]
+        }
+        est {
+            dimension "application"
+            manifestPlaceholders = [atakApiVersion: "com.atakmap.app@" + ATAK_VERSION + ".EST"]
             buildConfigField 'String', 'ATAK_PACKAGE_NAME', '"com.atakmap.app.civ"'
         }
         nor {
