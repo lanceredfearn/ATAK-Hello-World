@@ -26,6 +26,11 @@ import android.app.PendingIntent;
  * This is because compilation for plugins weakly links against the ATAK classes and depends on 
  * them being found at runtime.
  * Compiling any other way will cause duplicative classes and the main plugin will not load properly.
+ *
+ *
+ *
+ * This is an example on how to use a Notification with a plugin supplied icon.    if an ATAK suplied
+ * resource / icon can be used, you can just use NotificationUtil.
  */
 
 public class NotificationService extends Service {
