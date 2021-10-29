@@ -27,6 +27,10 @@ import android.app.PendingIntent;
  * them being found at runtime.
  * Compiling any other way will cause duplicative classes and the main plugin will not load properly.
  *
+ * 
+ * This service is not bound by any permissions or exceptions from the ATAK application.    One such 
+ * example is with BatteryOptimization.  As an independent process, if battery optimization is desired
+ * then it would need to request it separately.
  *
  *
  * This is an example on how to use a Notification with a plugin supplied icon.    if an ATAK suplied
