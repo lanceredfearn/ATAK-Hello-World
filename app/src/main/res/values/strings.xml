@@ -4,6 +4,7 @@
     <string name="app_name">Hello World Tool</string>
     <string name="hello_world">Hello World</string>
     <!-- description -->
+     <string name="app_name">Plugin Notification Service</string>
     <string name="app_desc">Hello World Plugin that demonstrates all sorts of cool things for developers</string>
     <!-- Button Descriptions-->
     <string name="largerButton">Enlarge and move the dropdown</string>
