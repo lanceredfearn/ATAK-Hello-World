@@ -26,6 +26,7 @@ import com.atakmap.android.drawing.mapItems.DrawingShape;
 import com.atakmap.android.helloworld.image.MapScreenshotExample;
 import com.atakmap.android.helloworld.layers.LayerDownloadExample;
 import com.atakmap.android.helloworld.menu.MenuFactory;
+import com.atakmap.android.helloworld.view.ViewOverlayExample;
 import com.atakmap.android.maps.Association;
 import com.atakmap.android.maps.DefaultMapGroup;
 import com.atakmap.android.maps.MultiPolyline;
@@ -692,6 +693,15 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                         tabView.show();
                     }
                 });
+
+        View overlayViewBtn = helloView.findViewById(R.id.overlayViewBtn);
+        overlayViewBtn.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AtakBroadcast.getInstance().sendBroadcast(new Intent(
+                        ViewOverlayExample.TOGGLE_OVERLAY_VIEW));
+            }
+        });
 
         // The button bellow shows how one might go about
         // programatically add a route to the system. Adding
