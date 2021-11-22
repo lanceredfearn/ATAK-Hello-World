@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import com.atakmap.android.helloworld.HelloWorldMapComponent;
 import com.atakmap.android.helloworld.HelloWorldWidget;
 
+import com.atakmap.android.helloworld.view.ViewOverlayExample;
 import com.atakmap.android.maps.MapComponent;
 import com.atakmap.android.maps.MapView;
 
@@ -58,6 +59,7 @@ public class HelloWorldLifecycle implements Lifecycle {
         this.mapView = (MapView) arg1.getView();
         HelloWorldLifecycle.this.overlays.add(new HelloWorldMapComponent());
         HelloWorldLifecycle.this.overlays.add(new HelloWorldWidget());
+        this.overlays.add(new ViewOverlayExample());
 
         // create components
         Iterator<MapComponent> iter = HelloWorldLifecycle.this.overlays
