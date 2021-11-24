@@ -2,7 +2,7 @@
 package com.atakmap.android.helloworld;
 
 import android.content.Context;
-import android.preference.PreferenceManager;
+import com.atakmap.android.preference.AtakPreferences;
 
 import android.view.View;
 
@@ -65,7 +65,7 @@ public class MapTest extends ATAKTestClass {
     @Test
     public void placeMarker() throws Exception {
         // Short-term fix for first hint dialog, just disable that hint so the rest of the test works:
-        PreferenceManager.getDefaultSharedPreferences(appContext)
+        new AtakPreferences(appContext)
                 .edit()
                 .putBoolean("atak.hint.iconset", false)
                 .apply();

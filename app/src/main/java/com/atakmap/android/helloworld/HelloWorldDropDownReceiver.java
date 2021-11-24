@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.ClipboardManager;
-import android.preference.PreferenceManager;
+import com.atakmap.android.preference.AtakPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.AlertDialog;
@@ -1846,11 +1846,10 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                                     }
                                 });
                 CoordinateFormat _cFormat;
-                SharedPreferences sharedPrefs = PreferenceManager
-                        .getDefaultSharedPreferences(getMapView().getContext());
+                AtakPreferences sharedPrefs = new AtakPreferences(getMapView().getContext());
                 _cFormat = CoordinateFormat
                         .find(sharedPrefs
-                                .getString(
+                                .get(
                                         "coord_display_pref",
                                         getMapView().getContext()
                                                 .getString(
@@ -2749,11 +2748,9 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         contact.addConnector(new IpConnector(SEND_HELLO_WORLD));
 
         // Set default connector to plugin connector
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(
-                        getMapView().getContext());
-        prefs.edit().putString("contact.connector.default." + contact.getUID(),
-                PluginConnector.CONNECTOR_TYPE).apply();
+        AtakPreferences prefs = new AtakPreferences(getMapView().getContext());
+        prefs.set("contact.connector.default." + contact.getUID(),
+                PluginConnector.CONNECTOR_TYPE);
 
         // Add new contact to master contacts list
         Contacts.getInstance().addContact(contact);
