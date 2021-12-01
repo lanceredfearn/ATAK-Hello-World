@@ -9,6 +9,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.ClipboardManager;
 import com.atakmap.android.preference.AtakPreferences;
+
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.VectorDrawable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.app.AlertDialog;
@@ -94,6 +101,7 @@ import com.atakmap.android.importfiles.sort.ImportMissionPackageSort.ImportMissi
 import android.os.Bundle;
 import android.os.Environment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import com.atakmap.android.maps.MapEvent;
@@ -172,6 +180,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+
+import androidx.core.content.ContextCompat;
 
 /**
  * The DropDown Receiver should define the visual experience
@@ -464,6 +474,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
                     toast(context.getString(R.string.specialWheelMarker));
                 } else if (id == R.id.addAnAircraft) {
                     toast(context.getString(R.string.addAnAircraft));
+                } else if (id == R.id.svgMarker) {
+                    toast(context.getString(R.string.svgMarker));
                 } else if (id == R.id.staleoutMarker) {
                     toast(context.getString(R.string.staleoutMarker));
                 } else if (id == R.id.addStream) {
@@ -620,6 +632,38 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             @Override
             public void onClick(View v) {
                 createAircraftWithRotation();
+            }
+        });
+
+        final Button svgMarker = helloView
+                .findViewById(R.id.svgMarker);
+        svgMarker.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uid = UUID.randomUUID().toString();
+                GeoPoint location = getMapView().getCenterPoint().get();
+
+                Marker marker = new Marker(location, uid);
+                marker.setAlwaysShowText(true);
+                marker.setTitle("HelloWorld");
+                marker.setType("custom-type");
+                marker.setTouchable(true);
+
+                Bitmap icon = getBitmap(pluginContext,
+                        R.drawable.svg_example);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                icon.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] b = baos.toByteArray();
+                String encoded = "base64://" + android.util.Base64.encodeToString(b, android.util.Base64.NO_WRAP | Base64.URL_SAFE);
+
+
+                Icon.Builder markerIconBuilder = new Icon.Builder().
+                        setImageUri(0, encoded);
+
+                marker.setIcon(markerIconBuilder.build());
+
+                getMapView().getRootGroup().addItem(marker);
+
             }
         });
 
@@ -2919,4 +2963,28 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         }
     };
+
+
+    /**
+     * Note - this will become a API offering in 4.5.1 and beyond.
+     * @param context
+     * @param drawableId
+     * @return
+     */
+    private static Bitmap getBitmap(Context context, int drawableId) {
+        Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+        if (drawable instanceof BitmapDrawable) {
+            return BitmapFactory.decodeResource(context.getResources(), drawableId);
+        } else if (drawable instanceof VectorDrawable) {
+            VectorDrawable vectorDrawable = (VectorDrawable) drawable;
+            Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(),
+                    vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            vectorDrawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            vectorDrawable.draw(canvas);
+            return bitmap;
+        } else {
+            return null;
+        }
+    }
 }

@@ -170,6 +170,14 @@
                 android:text="Add an Aircraft" />
 
             <Button
+                android:id="@+id/svgMarker"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Marker with SVG Icon" />
+
+            <Button
                 android:id="@+id/addLayer"
                 style="@style/darkButton"
                 android:layout_width="wrap_content"
