@@ -2,15 +2,14 @@
 package com.atakmap.android.helloworld.plugin;
 
 import com.atakmap.android.ipc.AtakBroadcast;
-import com.atakmap.android.tools.ActionBarReceiver;
-import com.atakmap.android.tools.BadgeDrawable;
+import com.atakmap.android.navigation.NavButtonManager;
+import com.atakmap.android.navigation.models.NavButtonModel;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -30,17 +29,12 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
     public static final String TAG = "HelloWorldTool";
 
     private final Context context;
-    private final LayerDrawable _icon;
+    private final Drawable _icon;
 
     public HelloWorldTool(final Context context) {
         this.context = context;
 
-        // currently broken
-        //_icon = AtakLayerDrawableUtil.getInstance(context).getBadgeableIcon(
-        //        context.getDrawable(R.drawable.ic_launcher));
-
-        _icon = (LayerDrawable) context.getResources()
-                .getDrawable(R.drawable.ic_launcher_badge, context.getTheme());
+        _icon = context.getResources().getDrawable(R.drawable.ic_launcher);
 
         AtakBroadcast.getInstance().registerReceiver(br,
                 new AtakBroadcast.DocumentedIntentFilter(
@@ -48,36 +42,20 @@ public class HelloWorldTool extends Tool implements ToolDescriptor {
 
     }
 
-    private static void setBadgeCount(Context context, LayerDrawable icon,
-            int count) {
-        BadgeDrawable badge;
-
-        // Reuse drawable if possible
-        Drawable reuse = icon.findDrawableByLayerId(R.id.ic_badge);
-        if (reuse instanceof BadgeDrawable) {
-            badge = (BadgeDrawable) reuse;
-        } else {
-            badge = new BadgeDrawable(context);
-        }
-
-        badge.setCount(count);
-        icon.mutate();
-        icon.setDrawableByLayerId(R.id.ic_badge, badge);
-    }
-
     private final BroadcastReceiver br = new BroadcastReceiver() {
         private int count = 0;
 
         @Override
         public void onReceive(Context c, Intent intent) {
-            // currently broken
-            //AtakLayerDrawableUtil.getInstance(context).setBadgeCount(_icon, count++);
-
-            setBadgeCount(context, _icon, count++);
-
-            Log.d(TAG, "increment visual count to: " + count);
-            AtakBroadcast.getInstance().sendBroadcast(
-                    new Intent(ActionBarReceiver.REFRESH_ACTION_BAR));
+            // Get the button model used by this plugin
+            NavButtonModel mdl = NavButtonManager.getInstance()
+                    .getModelByPlugin(HelloWorldTool.this);
+            if (mdl != null) {
+                // Increment the badge count and refresh
+                mdl.setBadgeCount(++count);
+                NavButtonManager.getInstance().notifyModelChanged(mdl);
+                Log.d(TAG, "increment visual count to: " + count);
+            }
         }
     };
 
