@@ -66,9 +66,7 @@ public class MapTest extends ATAKTestClass {
     public void placeMarker() throws Exception {
         // Short-term fix for first hint dialog, just disable that hint so the rest of the test works:
         new AtakPreferences(appContext)
-                .edit()
-                .putBoolean("atak.hint.iconset", false)
-                .apply();
+                .set("atak.hint.iconset", false);
 
         // Open marker palette
         helper.pressButtonFromLayoutManager("Point Dropper");
