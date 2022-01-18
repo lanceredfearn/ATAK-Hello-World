@@ -194,6 +194,14 @@
                 android:text="Add Multi Layer" />
 
             <Button
+                android:id="@+id/addHeatMap"
+                style="@style/darkButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:text="Add Heat Map" />
+
+            <Button
                 android:id="@+id/staleoutMarker"
                 style="@style/darkButton"
                 android:layout_width="wrap_content"

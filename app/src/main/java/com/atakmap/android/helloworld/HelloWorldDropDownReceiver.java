@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.ClipboardManager;
+
+import com.atakmap.android.helloworld.heatmap.GLSimpleHeatMapLayer;
+import com.atakmap.android.helloworld.heatmap.SimpleHeatMapLayer;
 import com.atakmap.android.preference.AtakPreferences;
 
 import android.graphics.BitmapFactory;
@@ -67,6 +70,7 @@ import com.atakmap.android.tools.menu.ActionClickData;
 import com.atakmap.android.tools.menu.ActionMenuData;
 import com.atakmap.android.util.ATAKUtilities;
 import com.atakmap.android.util.AbstractMapItemSelectionTool;
+import com.atakmap.coremap.maps.coords.GeoBounds;
 import com.atakmap.coremap.maps.coords.GeoPointMetaData;
 import com.atakmap.map.CameraController;
 import com.atakmap.map.layer.opengl.GLLayerFactory;
@@ -227,6 +231,8 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
 
     private ExampleLayer exampleLayer;
     private final Map<Integer, ExampleMultiLayer> exampleMultiLayers = new HashMap<>();
+    private SimpleHeatMapLayer simpleHeatMapLayer;
+
 
     private LayerDownloadExample layerDownloader;
 
@@ -1799,6 +1805,42 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
             }
         });
 
+
+
+        final Button addHeatMap = helloView
+                .findViewById(R.id.addHeatMap);
+        addHeatMap.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                GeoBounds bounds = mapView.getBounds();
+
+                if (simpleHeatMapLayer == null) {
+                    GLLayerFactory.register(GLSimpleHeatMapLayer.SPI);
+                    simpleHeatMapLayer = new SimpleHeatMapLayer(pluginContext, "simple heat map",
+                            8, 8, bounds);
+                }
+
+                view.setSelected(!view.isSelected());
+
+                if (view.isSelected()) {
+
+                    simpleHeatMapLayer.setCorners(mapView.getBounds());
+                    simpleHeatMapLayer.setData(generateHeatMap());
+                    simpleHeatMapLayer.refresh();
+                    getMapView().addLayer(RenderStack.MAP_SURFACE_OVERLAYS,
+                            simpleHeatMapLayer);
+                    simpleHeatMapLayer.setVisible(true);
+
+                } else {
+                    getMapView().removeLayer(RenderStack.MAP_SURFACE_OVERLAYS,
+                            simpleHeatMapLayer);
+                    simpleHeatMapLayer.setVisible(false);
+                }
+            }
+        });
+
+
+
         final Button btnHookNavigationEvents = helloView
                 .findViewById(R.id.btnHookNavigationEvents);
         btnHookNavigationEvents.setText(
@@ -2986,5 +3028,25 @@ public class HelloWorldDropDownReceiver extends DropDownReceiver implements
         } else {
             return null;
         }
+    }
+
+
+    private int[] generateHeatMap() {
+        int[] data = new int[] {
+                1,1,2,0,0,0,0,0,
+                1,4,2,0,0,0,0,0,
+                2,2,0,0,0,0,0,0,
+                6,6,0,3,0,0,0,3,
+                6,6,5,3,1,3,3,3,
+                6,6,3,3,0,3,6,6,
+                3,3,3,0,0,0,6,5,
+                3,0,0,0,0,0,5,5,
+        };
+        for (int i = 0; i < data.length;++i) {
+            if (data[i] != 0)
+                data[i] = Color.BLACK / data[i];
+        }
+        return data;
+
     }
 }
