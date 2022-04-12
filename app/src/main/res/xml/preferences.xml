@@ -71,7 +71,7 @@
         android:title="Dependent Edit Text" />
 
 
-
+<com.atakmap.android.network.ui.CredentialsPreference android:title="Chat Credentials" credentialsType="xmpp_credentials" android:key="takchatCredentials" android:summary="Set the full username (e.g. user@server) and password used for XMPP chat"/>
 
 </PreferenceScreen>
 
