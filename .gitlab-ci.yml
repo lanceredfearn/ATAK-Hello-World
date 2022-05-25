@@ -1,6 +1,10 @@
-
 default:
   image: ${TAK_REGISTRY_HOST}/devsecops/android-builder-image:${ANDROID_BUILDER_TAG}
+
+include:
+  - project: 'devsecops/gitlab-ci-common'
+    ref: master
+    file: '/template/build_and_sign.yml'
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
@@ -15,7 +19,7 @@ before_script:
     fi
   - echo "SDK Branch $SDK_BRANCH_NAME"
 
-  - git clone --depth 1 -b $SDK_BRANCH_NAME https://civsdk_builder:_NxPo8NmvzvgNRxaNzH-@git.tak.gov/sdks/atak-civ.git
+  - git clone --depth 1 -b $SDK_BRANCH_NAME ${CI_SERVER_PROTOCOL}://gitlab-ci-token:${CI_JOB_TOKEN}@${CI_SERVER_HOST}/sdks/atak-civ.git
 
 stages:
   - build
@@ -69,7 +73,13 @@ assembleCivOdkRelease:
     paths:
     - app/build/outputs/
   when: manual
-  
+
+assembleProduction:
+  stage: build
+  extends: .build_and_sign
+  variables:
+    variants: "civ mil"
+
 testRelease:
   stage: test
   script:
