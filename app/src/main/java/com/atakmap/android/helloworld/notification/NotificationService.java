@@ -90,8 +90,11 @@ public class NotificationService extends Service {
                 .setContentIntent(appIntent);
         nb.setOngoing(false);
         nb.setAutoCancel(true);
+        Notification n;
+        notificationManager.notify(9999, n = nb.build());
 
-        notificationManager.notify(9999, nb.build());
+        startForeground(9991, n);
+        ;stopSelf();
 
     }
 
