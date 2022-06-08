@@ -23,7 +23,8 @@
 
         <service
             android:name="com.atakmap.android.helloworld.notification.NotificationService"
-            android:label="Plugin Notification Service">
+            android:label="Plugin Notification Service"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="com.atakmap.android.helloworld.notification.NotificationService"/>
