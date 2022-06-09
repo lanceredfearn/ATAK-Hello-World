@@ -99,6 +99,8 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
     private CotDetailHandler aaaDetailHandler;
     private ContactLocationView.ExtendedSelfInfoFactory extendedselfinfo;
     private HelloWorldContactSender contactSender;
+    private HelloWorldWidget helloWorldWidget;
+
 
     @Override
     public void onStart(final Context context, final MapView view) {
@@ -424,6 +426,9 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
         // Content sender example
         URIContentManager.getInstance().registerSender(contactSender =
                 new HelloWorldContactSender(view, pluginContext));
+
+        helloWorldWidget = new HelloWorldWidget();
+        helloWorldWidget.onCreate(context, intent, view);
     }
 
     private final GeocodeManager.Geocoder fakeGeoCoder = new GeocodeManager.Geocoder() {
@@ -526,6 +531,7 @@ public class HelloWorldMapComponent extends DropDownMapComponent {
 
     @Override
     protected void onDestroyImpl(Context context, MapView view) {
+        helloWorldWidget.onDestroyWidgets(context, view);
         Log.d(TAG, "calling on destroy");
         ContactLocationView.unregister(extendedselfinfo);
         GLMapItemFactory.unregisterSpi(GLSpecialMarker.SPI);
