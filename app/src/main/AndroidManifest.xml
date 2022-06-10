@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.atakmap.android.helloworld.plugin">
 
-    <!-- allows for the app to run in the foreground -->
+    <!-- allows for the app to run the notification service -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application 
