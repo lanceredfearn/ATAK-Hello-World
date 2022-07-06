@@ -10,7 +10,7 @@ import com.atak.plugins.impl.AbstractPluginTool;
 import com.atakmap.android.ipc.AtakBroadcast;
 import com.atakmap.android.navigation.NavButtonManager;
 import com.atakmap.android.navigation.models.NavButtonModel;
-import com.atakmap.util.Disposable;
+import gov.tak.api.util.Disposable;
 
 public class HelloWorldTool extends AbstractPluginTool implements Disposable {
 
